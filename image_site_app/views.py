@@ -4,6 +4,6 @@ def index(request):
     user = request.user
 
     if user.is_authenticated():
-        return HttpResponse(user.email)
+        return HttpResponse('Current user: ' + user.username)
     else:
         return HttpResponse('No logged in user')
