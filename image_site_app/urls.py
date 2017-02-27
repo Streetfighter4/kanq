@@ -14,4 +14,5 @@ urlpatterns = [
         form_class=UserCreationForm,
         success_url='/'
     ), name='signup'),
+    url(r'^oauth/', include('allaccess.urls'))
 ]
