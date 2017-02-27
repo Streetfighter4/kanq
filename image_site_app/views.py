@@ -1,9 +1,6 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def index(request):
-    user = request.user
-
-    if user.is_authenticated():
-        return HttpResponse('Current user: ' + user.username)
-    else:
-        return HttpResponse('No logged in user')
+    return render(request, "index.html", {
+        'user': request.user
+    })
