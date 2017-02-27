@@ -1,7 +1,9 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 
-from django.utils import timezone
-
 def index(request):
-    return HttpResponse(timezone.localtime(timezone.now()))
+    user = request.user
+
+    if user.is_authenticated():
+        return HttpResponse(user.email)
+    else:
+        return HttpResponse('No logged in user')
