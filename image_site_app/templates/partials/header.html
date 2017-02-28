@@ -5,10 +5,10 @@
                 <li class="inline-nav-item"><a id="index-nav" href="{% url 'index' %}">Home</a></li>
 
                 {% if not request.user.is_authenticated %}
-                    <li class="inline-nav-item"><a id="login-nav" href="{% url 'login' %}">Login</a></li>
-                    <li class="inline-nav-item"><a id="signup-nav" href="{% url 'signup' %}">Signup</a></li>
+                    <li class="inline-nav-item"><a id="login-nav" href="{% url 'account_login' %}">Login</a></li>
+                    <li class="inline-nav-item"><a id="signup-nav" href="{% url 'account_signup' %}">Signup</a></li>
                 {% else %}
-                    <li class="inline-nav-item"><a id="logout-nav" href="{% url 'logout' %}">Logout</a></li>
+                    <li class="inline-nav-item"><a id="logout-nav" href="{% url 'account_logout' %}">Logout</a></li>
                 {% endif %}
             </ul>
         </div>
