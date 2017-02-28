@@ -50,6 +50,8 @@ INSTALLED_APPS = [
 SITE_ID = 1
 SOCIALACCOUNT_AUTO_SIGNUP = False
 
+ACCOUNT_SIGNUP_FORM_CLASS = 'image_site_app.forms.SignupForm'
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
