@@ -37,8 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     'image_site_app',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook'
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,8 +64,7 @@ ROOT_URLCONF = 'image_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,10 +72,20 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'django.template.context_processors.request'
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # Default backend
+    'django.contrib.auth.backends.ModelBackend',
+
+    # allauth backend
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
 
 WSGI_APPLICATION = 'image_site.wsgi.application'
 
