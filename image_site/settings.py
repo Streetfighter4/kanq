@@ -48,6 +48,9 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
+SOCIALACCOUNT_AUTO_SIGNUP = False
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
