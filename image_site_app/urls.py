@@ -14,7 +14,4 @@ urlpatterns = [
         form_class=UserCreationForm,
         success_url='/'
     ), name='signup'),
-    url(r'^oauth/login/(?P<provider>facebook)/$', views.FacebookRedirect.as_view(), name='facebook_redirect'),
-    url(r'^oauth/callback/(?P<provider>facebook)/$', views.FacebookCallback.as_view(), name='facebook_callback'),
-    url(r'^oauth/', include('allaccess.urls')),
 ]
