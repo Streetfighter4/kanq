@@ -40,19 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'kanq_app',
-
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-
-    'bootstrap3',
 ]
-
-SITE_ID = 1
-SOCIALACCOUNT_AUTO_SIGNUP = False
-
-ACCOUNT_SIGNUP_FORM_CLASS = 'kanq_app.forms.SignupForm'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -85,14 +73,6 @@ TEMPLATES = [
         },
     },
 ]
-
-AUTHENTICATION_BACKENDS = (
-    # Default backend
-    'django.contrib.auth.backends.ModelBackend',
-
-    # allauth backend
-    'allauth.account.auth_backends.AuthenticationBackend'
-)
 
 WSGI_APPLICATION = 'kanq.wsgi.application'
 
@@ -127,8 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'index'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
