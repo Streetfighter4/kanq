@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from kanq_app import views
+from kanq_app.views import home
 
 urlpatterns = [
-    url(r'^$', views.home.home_page, name='home'),
+    url(r'^$', home.home_page, name='home'),
 ]
