@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from kanq_app.models import Image
-from kanq_app.serializers import ImageSerializer
+from api.models import Image
+from api.serializers import ImageSerializer
 
 
 class ImageList(APIView):

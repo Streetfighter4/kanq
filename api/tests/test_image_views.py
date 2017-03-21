@@ -1,11 +1,11 @@
 from django.test import TestCase
 from django.urls import resolve
+from kanq_app.models.image import Image
+from kanq_app.serializers import ImageSerializer
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
 
-from kanq_app.serializers import ImageSerializer
-from kanq_app.views.images import ImageList
-from kanq_app.models.image import Image
+from api.views.images import ImageList
 
 
 class ImageListViewTest(TestCase):

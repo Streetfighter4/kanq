@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'kanq_app',
+    'api',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
