@@ -5,7 +5,7 @@ from api.serializers import ImageSerializer
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
 
-from api.views.images import ImageList
+from api.views.posts import ImageList
 
 
 class ImageListViewTest(TestCase):
