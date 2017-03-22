@@ -13,4 +13,4 @@ class ImageSerializer(ModelSerializer):
 class PostSerializer(ModelSerializer):
     class Meta:
         model = Post
-        # fields = ('id', 'uri', 'createdAt')
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags')

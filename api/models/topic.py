@@ -8,3 +8,6 @@ class Topic(models.Model):
     start = models.DateField()
     end = models.DateField()
     tags = models.ManyToManyField(Tag)
+
+    def __str__(self):
+        return self.name
