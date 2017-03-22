@@ -1,8 +1,8 @@
 from django.db import models
 
-from api.models.comment import Comment
-from api.models.post import Post
-from api.models.user import User
+from .comment import Comment
+from .post import Post
+from .user import User
 
 
 class Rating(models.Model):
