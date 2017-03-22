@@ -1,5 +1,9 @@
 from django.db import models
 
+from api.models.comment import Comment
+from api.models.post import Post
+from api.models.user import User
+
 
 class Rating(models.Model):
     type = models.CharField(max_length=32)
