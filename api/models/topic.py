@@ -4,7 +4,8 @@ from .tag import Tag
 
 
 class Topic(models.Model):
-    name = models.TextField(max_length=500, blank=False)
+    name = models.CharField(max_length=500, blank=False)
+    desription = models.TextField(max_length=150)
     start = models.DateTimeField(blank=False)
     end = models.DateTimeField(blank=False)
     tags = models.ManyToManyField(Tag)
