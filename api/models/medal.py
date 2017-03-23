@@ -9,4 +9,4 @@ class Medal(models.Model):
     post = models.OneToOneField(Post, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.post.title + " " + self.rank
+        return "%s %s" % (self.post.title, self.rank)
