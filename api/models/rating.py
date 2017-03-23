@@ -17,4 +17,4 @@ class Rating(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s %s" % (self.post, self.value)
+        return self.post + " " + self.value
