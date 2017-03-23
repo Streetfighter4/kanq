@@ -18,8 +18,8 @@ router.register(r'topics', topics.TopicViewSet)
 router.register(r'tags', tags.TagViewSet)
 router.register(r'ratings', ratings.RatingViewSet)
 router.register(r'users', users.UserViewSet)
-router.register(r'comments', users.UserViewSet)
-router.register(r'medals', users.UserViewSet)
+router.register(r'comments', comments.CommentViewSet)
+router.register(r'medals', medals.MedalViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

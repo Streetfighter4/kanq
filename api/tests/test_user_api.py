@@ -9,6 +9,7 @@ class UserApiTest(TestCase):
     def setUp(self):
         self.jsonUser = {
             'email': 'test@test.com',
+            'username': 'testtest',
             'first_name': 'Tester',
             'last_name': 'Testov',
             'password': 'test123',

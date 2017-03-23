@@ -1,3 +1,4 @@
+from pip._vendor.requests.api import post
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
@@ -9,6 +10,12 @@ from api.models import Rating
 from api.models import Tag
 from api.models import Topic
 from api.models import User
+
+
+class RecursiveField(serializers.Serializer):
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
 
 
 class ImageSerializer(ModelSerializer):
@@ -33,10 +40,21 @@ class UserSerializer(ModelSerializer):
 class PostSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
+    image = ImageSerializer()
 
     class Meta:
         model = Post
         fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags')
+
+
+class PostDetailSerializer(ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
+    creator = UserSerializer(read_only=True)
+    # TODO: figure out a way to get only top level comments
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments')
 
 
 class TopicSerializer(ModelSerializer):
@@ -60,6 +78,8 @@ class RatingSerializer(ModelSerializer):
 
 
 class CommentSerializer(ModelSerializer):
+    children = RecursiveField(many=True, read_only=True)
+
     class Meta:
         model = Comment
         fields = ('id', 'content', 'post', 'user', 'parent', 'children')
