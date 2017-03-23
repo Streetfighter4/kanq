@@ -5,12 +5,12 @@ from api.serializers import ImageSerializer
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
 
-from api.views.posts import ImageList
+from api.views.images import ImageViewSet
 
 
 class ImageListViewTest(TestCase):
     def setUp(self):
-        self.view = ImageList.as_view()
+        self.view = ImageViewSet.as_view()
         self.factory = APIRequestFactory()
         self.correct_data = {'uri': '/some/path/to/image.png'}
         self.error_data = {'random': 'random^2'}
