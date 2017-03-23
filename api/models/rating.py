@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from .comment import Comment
@@ -6,8 +7,14 @@ from .user import User
 
 
 class Rating(models.Model):
-    type = models.CharField(max_length=32, blank=False)
-    value = models.BigIntegerField(blank=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=False)
+    type = models.CharField(max_length=32)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    value = models.SmallIntegerField(default=0, validators=[
+        MinValueValidator(-1),
+        MaxValueValidator(1),
+    ])
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.post + " " + self.value
