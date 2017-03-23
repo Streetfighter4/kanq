@@ -12,7 +12,3 @@ class RatingViewSet(viewsets.GenericViewSet,
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
 
-
-# class RatingUpdate(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Rating.objects.all()
-#     serializer_class = RatingSerializer
