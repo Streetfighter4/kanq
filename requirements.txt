@@ -1,3 +1,4 @@
 Django==1.11b1
 djangorestframework==3.6.2
 pytz==2016.10
+factory-boy==2.8.1
