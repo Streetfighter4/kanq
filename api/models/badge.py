@@ -3,7 +3,8 @@ from django.db import models
 from .user import User
 from .post import Post
 
-class Badge():
+
+class Badge(models.Model):
     price = models.FloatField()
-    users = models.ForeignKey(User)
-    posts = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
