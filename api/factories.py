@@ -1,9 +1,15 @@
+import random
 from datetime import datetime, timedelta
+
 import factory
 import pytz
 from factory import DjangoModelFactory
+from factory import fuzzy
 
-from api.models import User, Post, Image, Tag, Topic
+from api.models import Comment
+from api.models import Medal
+from api.models import Rating
+from api.models import User, Post, Image, Tag, Topic, Badge
 
 
 class TagFactory(DjangoModelFactory):
@@ -70,3 +76,38 @@ class PostFactory(DjangoModelFactory):
             for tag in extracted:
                 self.tags.add(tag)
 
+
+class BadgeFactory(DjangoModelFactory):
+    class Meta:
+        model = Badge
+
+    price = fuzzy.FuzzyDecimal(10, 20, 2)
+    user = factory.SubFactory(UserFactory)
+    post = factory.SubFactory(PostFactory)
+
+class CommentFactory(DjangoModelFactory):
+    class Meta:
+        model = Comment
+
+    content = factory.Faker('text')
+    createdAt = datetime.now(pytz.utc)
+    post = factory.SubFactory(PostFactory)
+    user = factory.SubFactory(UserFactory)
+    parent = None
+
+class MedalFactory(DjangoModelFactory):
+    class Meta:
+        model = Medal
+
+    rank = factory.fuzzy.FuzzyInteger(1, 3)
+    post = factory.SubFactory(PostFactory)
+
+class RatingFactory(DjangoModelFactory):
+    class Meta:
+        model = Rating
+
+    type = factory.Faker('word')
+    user = factory.SubFactory(UserFactory)
+    value = factory.fuzzy.FuzzyChoice([-1, 1])
+    post = factory.SubFactory(PostFactory)
+    comment = factory.SubFactory(CommentFactory)
