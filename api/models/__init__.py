@@ -1,3 +1,4 @@
+from .badge import Badge
 from .comment import Comment
 from .image import Image
 from .medal import Medal

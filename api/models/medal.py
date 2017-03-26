@@ -1,7 +1,6 @@
 from django.db import models
 
 from .post import Post
-from .user import User
 
 
 class Medal(models.Model):
