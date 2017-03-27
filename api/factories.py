@@ -85,6 +85,7 @@ class BadgeFactory(DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     post = factory.SubFactory(PostFactory)
 
+
 class CommentFactory(DjangoModelFactory):
     class Meta:
         model = Comment
@@ -93,7 +94,14 @@ class CommentFactory(DjangoModelFactory):
     createdAt = datetime.now(pytz.utc)
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
-    parent = None
+
+    # Subfactory needs to be added like that, because otherwise
+    # it can't reference itself
+    parent = factory.SubFactory('api.factories.CommentFactory')
+
+    # Tell the recursion to go only up to 3 levels deep
+    parent__parent__parent = None
+
 
 class MedalFactory(DjangoModelFactory):
     class Meta:
@@ -101,6 +109,7 @@ class MedalFactory(DjangoModelFactory):
 
     rank = factory.fuzzy.FuzzyInteger(1, 3)
     post = factory.SubFactory(PostFactory)
+
 
 class RatingFactory(DjangoModelFactory):
     class Meta:
