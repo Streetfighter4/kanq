@@ -84,10 +84,14 @@ class PostFactory(DjangoModelFactory):
 
 
 class BadgeFactory(DjangoModelFactory):
+    MIN_PRICE = 10.00
+    MAX_PRICE = 20.00
+    PRICE_PRECISION = 2
+
     class Meta:
         model = Badge
 
-    price = fuzzy.FuzzyDecimal(10, 20, 2)
+    price = fuzzy.FuzzyDecimal(MIN_PRICE, MAX_PRICE, PRICE_PRECISION)
     user = factory.SubFactory(UserFactory)
     post = factory.SubFactory(PostFactory)
 
@@ -109,10 +113,13 @@ class CommentFactory(DjangoModelFactory):
 
 
 class MedalFactory(DjangoModelFactory):
+    MIN_RANK = 1
+    MAX_RANK = 3
+
     class Meta:
         model = Medal
 
-    rank = factory.fuzzy.FuzzyInteger(1, 3)
+    rank = factory.fuzzy.FuzzyInteger(MIN_RANK, MAX_RANK)
     post = factory.SubFactory(PostFactory)
 
 
@@ -122,6 +129,6 @@ class RatingFactory(DjangoModelFactory):
 
     type = factory.Faker('word')
     user = factory.SubFactory(UserFactory)
-    value = factory.fuzzy.FuzzyChoice([-1, 1])
+    value = factory.fuzzy.FuzzyChoice([Rating.LIKE_VALUE, Rating.DISLIKE_VALUE])
     post = factory.SubFactory(PostFactory)
     comment = factory.SubFactory(CommentFactory)
