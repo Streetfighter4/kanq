@@ -22,7 +22,7 @@ class RecursiveField(serializers.Serializer):
 class ImageSerializer(ModelSerializer):
     class Meta:
         model = Image
-        fields = ('id', 'createdAt', 'uri')
+        fields = ('id', 'created_at', 'uri')
         extra_kwargs = {'uri': {'read_only': True}}
 
 
