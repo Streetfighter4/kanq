@@ -22,12 +22,11 @@ class UserApiTest(TestCase):
         response = self.create_view(request)
         self.assertNotIn('password', response)
 
-    # This test doesn't work
-    # def test_password_saves_as_hash(self):
-    #     request = self.factory.post('/api/users/', self.jsonUser, format='json')
-    #     response = self.create_view(request)
-    #     new_user = User.objects.get(pk=response.data['id'])
-    #
-    #     self.assertNotEqual(self.jsonUser['password'], new_user.password)
-    #     self.assertTrue(new_user.check_password(self.jsonUser['password']))
+    def test_password_saves_as_hash(self):
+        request = self.factory.post('/api/users/', self.jsonUser, format='json')
+        response = self.create_view(request)
+        new_user = User.objects.get(pk=response.data['id'])
+
+        self.assertNotEqual(self.jsonUser['password'], new_user.password)
+        self.assertTrue(new_user.check_password(self.jsonUser['password']))
 
