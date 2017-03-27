@@ -1,4 +1,3 @@
-import random
 from datetime import datetime, timedelta
 
 import factory
@@ -61,7 +60,6 @@ class ImageFactory(DjangoModelFactory):
     class Meta:
         model = Image
 
-    createdAt = datetime.now(pytz.utc)
     uri = factory.Faker('file_name', category='image')
 
 
@@ -71,7 +69,6 @@ class PostFactory(DjangoModelFactory):
 
     description = factory.Faker('text')
     title = factory.Faker('sentence')
-    createdAt = datetime.now(pytz.utc)
     creator = factory.SubFactory(UserFactory)
     topic = factory.SubFactory(TopicFactory)
     image = factory.SubFactory(ImageFactory)
@@ -100,7 +97,6 @@ class CommentFactory(DjangoModelFactory):
         model = Comment
 
     content = factory.Faker('text')
-    createdAt = datetime.now(pytz.utc)
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
 
