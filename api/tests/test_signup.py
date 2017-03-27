@@ -2,8 +2,9 @@ from django.test import TestCase
 from api.views.signup import signup
 from rest_framework.test import APIRequestFactory
 
-from api import factories
+from api import factories, serializers
 from api.models import User
+from api.serializers import UserSerializer
 
 
 class SignupTest(TestCase):
@@ -25,12 +26,16 @@ class SignupTest(TestCase):
             username='ivan.ivanov'
         )
         correct_user.password_confirmation = self.PASSWORD
+        serializer = UserSerializer(correct_user)
+        print(serializer.data)
 
-        request = self.factory.post('/api/signup/', correct_user, format='json')
+        request = self.factory.post('/api/signup/', UserSerializer(correct_user).data, format='json')
         response = signup(request)
 
         user = response.data
-        self.assertEqual(correct_user['username'], user.username)
-        self.assertEqual(correct_user['email'], user.email)
-        self.assertEqual(correct_user['first_name'], user.first_name)
-        self.assertEqual(correct_user['last_name'], user.last_name)
+        print(self.PASSWORD)
+        print(user)
+        self.assertEqual(user['username'], correct_user.username)
+        self.assertEqual(user['email'], correct_user.email)
+        self.assertEqual(user['first_name'], correct_user.first_name)
+        self.assertEqual(user['last_name'], correct_user.last_name)
