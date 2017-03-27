@@ -14,24 +14,26 @@ class PostViewSet(viewsets.ModelViewSet):
 
         return PostSerializer
 
-
-    @list_route()
-    def top(self, request): #Filter topic by query param
+    def create(self, request, *args, **kwargs):  # Upload image to server if needed and create post
+        print(request.data['topic'])
         pass
 
     @list_route()
-    def trending(self, request): #Filter topic by query param
+    def top(self, request):  # Filter topic by query param
         pass
 
     @list_route()
-    def new(self, request): #Filter topic by query param
+    def trending(self, request):  # Filter topic by query param
         pass
 
     @list_route()
-    def feed(self): # get feed for a given user
+    def new(self, request):  # Filter topic by query param
+        pass
+
+    @list_route()
+    def feed(self):  # Get feed for a given user
         pass
 
     @detail_route(methods=['put'])
-    def rate(self, request, pk=None): # update user's rating of a post
+    def rate(self, request, pk=None):  # Update user's rating of a post
         pass
-
