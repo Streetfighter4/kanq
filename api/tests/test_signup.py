@@ -21,20 +21,20 @@ class SignupTest(TestCase):
         correct_user = User(
             first_name='Ivan',
             last_name='Ivanov',
-            password=self.PASSWORD,
+            # password=self.PASSWORD,
             email='test@test.com',
             username='ivan.ivanov'
         )
-        correct_user.password_confirmation = self.PASSWORD
+        # correct_user.password_confirmation = self.PASSWORD
         serializer = UserSerializer(correct_user)
-        print(serializer.data)
+        request_data = serializer.data
+        request_data['password'] = self.PASSWORD
+        request_data['password_confirmation'] = self.PASSWORD
 
-        request = self.factory.post('/api/signup/', UserSerializer(correct_user).data, format='json')
+        request = self.factory.post('/api/signup/', request_data, format='json')
         response = signup(request)
 
         user = response.data
-        print(self.PASSWORD)
-        print(user)
         self.assertEqual(user['username'], correct_user.username)
         self.assertEqual(user['email'], correct_user.email)
         self.assertEqual(user['first_name'], correct_user.first_name)
