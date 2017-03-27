@@ -1,4 +1,3 @@
-import random
 from datetime import datetime, timedelta
 
 import factory
@@ -28,6 +27,15 @@ class UserFactory(DjangoModelFactory):
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
 
+    @factory.post_generation
+    def following(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for f in extracted:
+                self.following.add(f)
+
 
 class TopicFactory(DjangoModelFactory):
     class Meta:
@@ -52,7 +60,6 @@ class ImageFactory(DjangoModelFactory):
     class Meta:
         model = Image
 
-    createdAt = datetime.now(pytz.utc)
     uri = factory.Faker('file_name', category='image')
 
 
@@ -62,7 +69,6 @@ class PostFactory(DjangoModelFactory):
 
     description = factory.Faker('text')
     title = factory.Faker('sentence')
-    createdAt = datetime.now(pytz.utc)
     creator = factory.SubFactory(UserFactory)
     topic = factory.SubFactory(TopicFactory)
     image = factory.SubFactory(ImageFactory)
@@ -78,10 +84,14 @@ class PostFactory(DjangoModelFactory):
 
 
 class BadgeFactory(DjangoModelFactory):
+    MIN_PRICE = 10.00
+    MAX_PRICE = 20.00
+    PRICE_PRECISION = 2
+
     class Meta:
         model = Badge
 
-    price = fuzzy.FuzzyDecimal(10, 20, 2)
+    price = fuzzy.FuzzyDecimal(MIN_PRICE, MAX_PRICE, PRICE_PRECISION)
     user = factory.SubFactory(UserFactory)
     post = factory.SubFactory(PostFactory)
 
@@ -91,7 +101,6 @@ class CommentFactory(DjangoModelFactory):
         model = Comment
 
     content = factory.Faker('text')
-    createdAt = datetime.now(pytz.utc)
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
 
@@ -104,10 +113,13 @@ class CommentFactory(DjangoModelFactory):
 
 
 class MedalFactory(DjangoModelFactory):
+    MIN_RANK = 1
+    MAX_RANK = 3
+
     class Meta:
         model = Medal
 
-    rank = factory.fuzzy.FuzzyInteger(1, 3)
+    rank = factory.fuzzy.FuzzyInteger(MIN_RANK, MAX_RANK)
     post = factory.SubFactory(PostFactory)
 
 
@@ -117,6 +129,6 @@ class RatingFactory(DjangoModelFactory):
 
     type = factory.Faker('word')
     user = factory.SubFactory(UserFactory)
-    value = factory.fuzzy.FuzzyChoice([-1, 1])
+    value = factory.fuzzy.FuzzyChoice([Rating.LIKE_VALUE, Rating.DISLIKE_VALUE])
     post = factory.SubFactory(PostFactory)
     comment = factory.SubFactory(CommentFactory)
