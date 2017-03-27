@@ -28,6 +28,15 @@ class UserFactory(DjangoModelFactory):
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
 
+    @factory.post_generation
+    def following(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for f in extracted:
+                self.following.add(f)
+
 
 class TopicFactory(DjangoModelFactory):
     class Meta:
