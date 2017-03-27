@@ -10,7 +10,7 @@ from api.models import User
 def signup(request):
     serialized = UserSerializer(data=request.data)
     if serialized.is_valid():
-        new_user = User.objects.create_user(**serialized.validated_data)
+        new_user = serialized.save()
         return Response(new_user, status=status.HTTP_201_CREATED)
     else:
-        return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
