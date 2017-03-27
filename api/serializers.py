@@ -25,16 +25,15 @@ class ImageSerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
-    password_confirmation = serializers.CharField(allow_blank=True, write_only=True)
-
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'is_active', 'password', 'password_confirmation')
+        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'is_active', 'password')
         extra_kwargs = {'password': {'write_only': True}, 'is_active': {'read_only': True}}
 
     def create(self, validated_data):
         # Exclude password_confirmation from user creation
-        del validated_data['password_confirmation']
+        if 'password_confirmation' in validated_data:
+            del validated_data['password_confirmation']
 
         user = User.objects.create(**validated_data)
         user.set_password(validated_data.get('password'))
