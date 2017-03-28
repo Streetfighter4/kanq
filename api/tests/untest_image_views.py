@@ -32,7 +32,7 @@ class ImageListViewTest(TestCase):
         response = self.view(request)
         self.assertEqual(response.data['uri'], self.correct_data['uri'])
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Image.objects.latest('createdAt').uri, self.correct_data['uri'])
+        self.assertEqual(Image.objects.latest('created_at').uri, self.correct_data['uri'])
 
     def test_view_returns_error_with_incorrect_data(self):
         request = self.factory.post('/api/images/', self.error_data, format='json')
