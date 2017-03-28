@@ -2,7 +2,7 @@ from pip._vendor.requests.api import post
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
-from api.models import Comment
+from api.models import Comment, Badge
 from api.models import Image
 from api.models import Medal
 from api.models import Post
@@ -12,6 +12,7 @@ from api.models import Topic
 from api.models import User
 
 
+# noinspection PyAbstractClass
 class RecursiveField(serializers.Serializer):
     def to_representation(self, value):
         serializer = self.parent.parent.__class__(value, context=self.context)
@@ -21,7 +22,8 @@ class RecursiveField(serializers.Serializer):
 class ImageSerializer(ModelSerializer):
     class Meta:
         model = Image
-        fields = ('id', 'uri', 'createdAt')
+        fields = ('id', 'created_at', 'uri')
+        extra_kwargs = {'uri': {'read_only': True}}
 
 
 class UserSerializer(ModelSerializer):
@@ -44,7 +46,7 @@ class UserSerializer(ModelSerializer):
 class PostSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
-    image = ImageSerializer()
+    image = ImageSerializer(read_only=True)
 
     class Meta:
         model = Post
@@ -93,3 +95,10 @@ class MedalSerializer(ModelSerializer):
     class Meta:
         model = Medal
         fields = ('id', 'rank', 'post')
+
+
+class BadgeSerializer(ModelSerializer):
+    class Meta:
+        model = Badge
+        fields = ('id', 'price', 'user', 'post')
+

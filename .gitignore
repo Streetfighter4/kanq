@@ -125,3 +125,6 @@ fabric.properties
 
 # SQLite
 *.sqlite3
+
+#MySQL
+mysql.cnf
