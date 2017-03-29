@@ -30,15 +30,14 @@ class SignupTest(TestCase):
         self.assertEqual(new_user.first_name, self.user.first_name)
         self.assertEqual(new_user.last_name, self.user.last_name)
 
-    def test_signup_returns_errors_on_missing_required_fields(self):
+    def test_signup_returns_errors_on_invalid_input(self):
+        # This test checks if the API returns an error
+        # if the input data is invalid. Required fields
+        # are used only as an example
         request = self.factory.post('/api/signup/', {}, format='json')
         response = signup(request)
 
         data = response.data
-        print(data)
         self.assertEqual(response.status_code, 400)
         self.assertTrue(self.REQUIRED_FIELD_ERROR in data['username'])
         self.assertTrue(self.REQUIRED_FIELD_ERROR in data['password'])
-        self.assertTrue(self.REQUIRED_FIELD_ERROR in data['email'])
-        self.assertTrue(self.REQUIRED_FIELD_ERROR in data['first_name'])
-        self.assertTrue(self.REQUIRED_FIELD_ERROR in data['last_name'])
