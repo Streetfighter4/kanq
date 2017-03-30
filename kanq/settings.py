@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -82,8 +83,11 @@ TEMPLATES = [
     },
 ]
 
-SOCIAL_AUTH_FACEBOOK_KEY = '<KEY>'
-SOCIAL_AUTH_FACEBOOK_SECRET = '<SECRET>'
+
+print(os.environ)
+
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('KANQ_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('KANQ_FACEBOOK_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'fields': 'id, name, email, age_range'
