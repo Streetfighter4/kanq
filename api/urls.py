@@ -24,4 +24,5 @@ router.register(r'badges', badges.BadgeViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r'^oauth/', include('rest_framework_social_oauth2.urls')),
 ]
