@@ -73,7 +73,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
 
@@ -84,14 +83,17 @@ TEMPLATES = [
 ]
 
 
-print(os.environ)
-
+# Facebook auth settings
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('KANQ_FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('KANQ_FACEBOOK_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'fields': 'id, name, email, age_range'
 }
+
+# Deviant art auth settings
+SOCIAL_AUTH_DEVIANT_ART_KEY = os.environ.get('KANQ_DEVIANT_ART_KEY')
+SOCIAL_AUTH_DEVIANT_ART_SECRET = os.environ.get('KANQ_DEVIANT_ART_SECRET')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -103,6 +105,7 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
    'rest_framework_social_oauth2.backends.DjangoOAuth2',
    'social_core.backends.facebook.FacebookOAuth2',
+   'api.models.deviant_art_backend.DeviantArtOauth2',
    'django.contrib.auth.backends.ModelBackend',
 )
 
