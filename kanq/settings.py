@@ -82,6 +82,13 @@ TEMPLATES = [
     },
 ]
 
+SOCIAL_AUTH_FACEBOOK_KEY = '<KEY>'
+SOCIAL_AUTH_FACEBOOK_SECRET = '<SECRET>'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'fields': 'id, name, email, age_range'
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
@@ -91,6 +98,7 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+   'social_core.backends.facebook.FacebookOAuth2',
    'django.contrib.auth.backends.ModelBackend',
 )
 
