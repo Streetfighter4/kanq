@@ -1,5 +1,6 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-
+from .rating import Rating
 from .image import Image
 from .topic import Topic
 from .tag import Tag
@@ -14,6 +15,7 @@ class Post(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag)
+    ratings = GenericRelation(Rating)
 
     def __str__(self):
         return self.title
