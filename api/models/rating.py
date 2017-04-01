@@ -1,23 +1,23 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.core.validators import MinValueValidator, MaxValueValidator
+from enum import Enum
 from .user import User
 
 
 class Rating(models.Model):
-    DISLIKE_VALUE = -1
-    LIKE_VALUE = 1
+    RATING_CHOICES = (
+        (-1, 'DISLIKE_VALUE'),
+        (1, 'LIKE_VALUE'),
+        (0, 'DEFAULT_VALUE')
+    )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    value = models.SmallIntegerField(default=0, validators=[
-        MinValueValidator(DISLIKE_VALUE),
-        MaxValueValidator(LIKE_VALUE),
-    ])
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating_user')
+    value = models.CharField(max_length=1, choices=RATING_CHOICES)
 
     def __str__(self):
         return self.user + " " + self.value
