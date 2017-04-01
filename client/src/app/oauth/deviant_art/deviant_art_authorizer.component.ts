@@ -1,8 +1,7 @@
-import {OAuthAuthorizer} from '../oauth_authorizer';
-import {Settings} from '../../settings';
+import {Component} from '@angular/core';
 
-export class DeviantArtAuthorizerComponent extends OAuthAuthorizer {
-  getAuthorizationFullUrl(): string {
-    return Settings.DEVIANT_ART_AUTHORIZATION_FULL_URL;
-  }
+@Component({
+  template: ''
+})
+export class DeviantArtAuthorizerComponent {
 }
