@@ -25,5 +25,5 @@ class PostApiTest(TestCase):
         request = self.factory.get("api/posts/%d" % self.post.id)
         response = self.detail_view(request, pk=self.post.id)
 
-        self.assertIn('comment_post', response.data)
+        self.assertIn('comments', response.data)
 
