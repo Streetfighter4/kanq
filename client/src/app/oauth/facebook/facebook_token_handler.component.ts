@@ -39,7 +39,6 @@ export class FacebookTokenHandlerComponent implements OnInit {
 
   private handleError(error: Response) {
     console.log('An error occured', error);
-    console.log(error.json().access_token);
   }
 
   ngOnInit(): void {

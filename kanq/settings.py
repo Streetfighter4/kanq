@@ -98,10 +98,6 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'fields': 'id, name, email, age_range'
 }
 
-# Deviant art auth settings
-SOCIAL_AUTH_DEVIANT_ART_KEY = os.environ.get('KANQ_DEVIANT_ART_KEY')
-SOCIAL_AUTH_DEVIANT_ART_SECRET = os.environ.get('KANQ_DEVIANT_ART_SECRET')
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
@@ -112,7 +108,6 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
    'rest_framework_social_oauth2.backends.DjangoOAuth2',
    'social_core.backends.facebook.FacebookOAuth2',
-   'api.models.deviant_art_backend.DeviantArtOauth2',
    'django.contrib.auth.backends.ModelBackend',
 )
 
