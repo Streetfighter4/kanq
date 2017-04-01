@@ -56,7 +56,7 @@ class PostDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments')
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comment_post')
 
 
 class TopicSerializer(ModelSerializer):
