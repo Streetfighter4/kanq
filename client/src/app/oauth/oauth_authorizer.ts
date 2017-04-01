@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Settings} from '../settings';
 
 @Component({
   template: ''
 })
-export abstract class OauthAuthorizer extends OnInit {
+export abstract class OAuthAuthorizer extends OnInit {
   abstract getAuthorizationFullUrl(): string;
 
   ngOnInit(): void {

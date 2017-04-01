@@ -1,10 +1,10 @@
-import {OauthTokenHandler} from '../oatuh_token_handler';
+import {OAuthTokenHandler} from '../oauth_token_handler';
 import {Component} from '@angular/core';
 import {Settings} from '../../settings';
 @Component({
   template: ''
 })
-export class FacebookTokenHandlerComponent extends OauthTokenHandler {
+export class FacebookTokenHandlerComponent extends OAuthTokenHandler {
   getAccessTokenUrl(): string {
     return Settings.FACEBOOK_ACCESS_TOKEN_URL;
   }

@@ -1,7 +1,7 @@
-import {OauthTokenHandler} from '../oatuh_token_handler';
+import {OAuthTokenHandler} from '../oauth_token_handler';
 import {Settings} from '../../settings';
 
-export class DeviantArtTokenHandlerComponent extends OauthTokenHandler {
+export class DeviantArtTokenHandlerComponent extends OAuthTokenHandler {
   getAccessTokenUrl(): string {
     return Settings.DEVIANT_ART_ACCESS_TOKEN_URL;
   }

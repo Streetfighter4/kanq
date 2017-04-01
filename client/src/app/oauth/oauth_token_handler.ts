@@ -10,7 +10,7 @@ import {Settings} from '../settings';
 @Component({
   template: ''
 })
-export abstract class OauthTokenHandler implements OnInit {
+export abstract class OAuthTokenHandler implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private http: Http) {}
 
