@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'api',
 ]
 
@@ -75,6 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'kanq.wsgi.application'
+ALLOWED_HOSTS = ['37.157.138.76']
 
 
 # Database
@@ -131,7 +133,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views as token_views
 
 from api.views import posts, badges
 from api.views import images
@@ -24,4 +25,5 @@ router.register(r'badges', badges.BadgeViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r'^auth/', token_views.obtain_auth_token, name='auth')
 ]
