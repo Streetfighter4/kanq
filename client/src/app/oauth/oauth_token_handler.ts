@@ -58,7 +58,6 @@ export abstract class OAuthTokenHandler implements OnInit {
           '&code=' + code +
           '&grant_type=' + this.getGrantType();
 
-      window.location.href = url;
       this.http.get(url)
         .toPromise()
         .then(this.handleOauthToken.bind(this))
