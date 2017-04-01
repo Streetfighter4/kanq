@@ -134,6 +134,10 @@ else:
             },
         }
     }
+    SOCIAL_AUTH_UID_LENGTH = 223  # Taken from official social auth docs
+    ACCOUNT_EMAIL_MAX_LENGTH = 190
+
+
 
 
 # Password validation
@@ -174,3 +178,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
