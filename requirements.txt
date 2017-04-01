@@ -1,6 +1,7 @@
 Django==1.11b1
 djangorestframework==3.6.2
 django-rest-framework-social-oauth2==1.0.5
+django-cors-headers==2.0.2
 factory-boy==2.8.1
 Faker==0.7.10
 mysqlclient==1.3.10
