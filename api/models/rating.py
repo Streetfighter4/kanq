@@ -8,8 +8,8 @@ from .user import User
 class Rating(models.Model):
     RATING_CHOICES = (
         (-1, 'DISLIKE_VALUE'),
+        (0, 'DEFAULT_VALUE'),
         (1, 'LIKE_VALUE'),
-        (0, 'DEFAULT_VALUE')
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
