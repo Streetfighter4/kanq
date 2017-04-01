@@ -15,7 +15,7 @@ export class Settings {
   // Deviant Art auth settings
   static DEVIANT_ART_CLIENT_ID = '6006';
   static DEVIANT_ART_SECRET = 'ca92baea3ce8bbbd7360479f21afd45e';
-  static DEVIANT_ART_REDIRECT_URI = Settings.LOCAL_URL + '/oauth/deviant_art/token';
+  static DEVIANT_ART_REDIRECT_URI = Settings.LOCAL_URL + 'oauth/deviant_art/token';
   static DEVIANT_ART_RESPONSE_TYPE = 'code';
   static DEVIANT_ART_AUTHORIZATION_URL = 'https://www.deviantart.com/oauth2/authorize';
   static DEVIANT_ART_AUTHORIZATION_FULL_URL = Settings.DEVIANT_ART_AUTHORIZATION_URL +

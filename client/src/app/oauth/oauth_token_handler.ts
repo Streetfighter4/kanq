@@ -21,7 +21,7 @@ export abstract class OAuthTokenHandler implements OnInit {
   abstract getBackend(): string;
   abstract getGrantType(): string;
 
-  private handleOauthToken(res: Response) {
+  private handleOAuthToken(res: Response) {
     let token = res.json().access_token;
 
     let body = {
@@ -60,7 +60,7 @@ export abstract class OAuthTokenHandler implements OnInit {
 
       this.http.get(url)
         .toPromise()
-        .then(this.handleOauthToken.bind(this))
+        .then(this.handleOAuthToken.bind(this))
         .catch(this.handleError);
     });
   }
