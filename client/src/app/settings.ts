@@ -1,6 +1,6 @@
 export class Settings {
   // General settings
-  static LOCAL_URL = 'https://localhost:3000/';
+  static LOCAL_URL = 'http://localhost:3000/';
 
   // Facebook auth settings
   static FACEBOOK_APP_ID = '182030805622565';
