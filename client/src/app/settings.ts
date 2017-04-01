@@ -10,7 +10,6 @@ export class Settings {
   static FACEBOOK_ACCESS_TOKEN_URL = 'https://graph.facebook.com/v2.8/oauth/access_token';
 
   // API settings
-  static API_URL = 'http://localhost:8000/';
   static API_CONVERT_TOKEN_URL = 'http://localhost:8000/api/oauth/convert-token';
   static API_CLIENT_ID = 'ZX23hQ6UlX9LzyIbE2htfoYTRyEESj5ZStBI3W1H';
   static API_SECRET = '53LPADTcPPRaFrg0e7Z1itI5bC7rP1AL9SiJhmzYHQ045a7pTvBGnzgjMoNzO6m9VDRNQXkXcEkp7xVTgZE0L1yWZh4FCy6VjVtoMHQta9p9cFMg0xAj8lx7tJhwldgy';

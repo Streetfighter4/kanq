@@ -32,7 +32,8 @@ export class FacebookTokenComponent implements OnInit {
   }
 
   private handleAPIResponse(res: Response) {
-    console.log('Got API token', res);
+    let token = res.json().access_token;
+    localStorage.setItem('api_token', token);
   }
 
   private handleError(error: Response) {
