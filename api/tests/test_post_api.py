@@ -2,6 +2,8 @@ from django.test import TestCase
 from rest_framework.test import APIRequestFactory
 
 from api.factories import PostFactory
+from api.models import Post
+from api.serializers import PostSerializer
 from api.views.posts import PostViewSet
 
 
@@ -27,9 +29,17 @@ class PostApiTest(TestCase):
         self.assertIn('comments', response.data)
 
     def test_get_to_post_new_returns_sorted_by_date(self):
-        PostFactory.create_batch(3)
+        batch_size = 3
+        PostFactory.create_batch(batch_size)
         request = self.factory.get("api/posts/new")
         response = self.new_filter_view(request)
 
+        posts = response.data
+
+        for i in range(len(posts)-1):
+            self.assertGreater(posts[i].created_at, posts[i+1].created_at)
+
+
+        # self.assertListEqual(batch_size)
 
 

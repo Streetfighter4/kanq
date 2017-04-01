@@ -72,7 +72,6 @@ class PostFactory(DjangoModelFactory):
     creator = factory.SubFactory(UserFactory)
     topic = factory.SubFactory(TopicFactory)
     image = factory.SubFactory(ImageFactory)
-    created_at = fuzzy.FuzzyDateTime(datetime(2017, 1, 1, tzinfo=pytz.UTC))
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
@@ -104,7 +103,6 @@ class CommentFactory(DjangoModelFactory):
     content = factory.Faker('text')
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
-    created_at = fuzzy.FuzzyDateTime(datetime(2017, 1, 1, tzinfo=pytz.UTC))
 
     # Subfactory needs to be added like that, because otherwise
     # it can't reference itself

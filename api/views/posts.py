@@ -29,7 +29,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def new(self, request):
-        return Response()
+        return Response(Post.objects.order_by('-created_at'))
 
     @list_route()
     def feed(self):  # Get feed for a given user
