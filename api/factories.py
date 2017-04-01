@@ -129,6 +129,6 @@ class RatingFactory(DjangoModelFactory):
 
     type = factory.Faker('word')
     user = factory.SubFactory(UserFactory)
-    value = factory.fuzzy.FuzzyChoice([Rating.LIKE_VALUE, Rating.DISLIKE_VALUE])
+    value = factory.fuzzy.FuzzyChoice([Rating.RATING_CHOICES[0][0], Rating.RATING_CHOICES[2][0]])
     post = factory.SubFactory(PostFactory)
     comment = factory.SubFactory(CommentFactory)

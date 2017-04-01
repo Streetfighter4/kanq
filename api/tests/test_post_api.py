@@ -41,5 +41,5 @@ class PostApiTest(TestCase):
         request = self.factory.get(url)
         response = view.func(request, pk=1)
 
-        self.assertIn('comments', response.data)
+        self.assertIn('comment_post', response.data)
 

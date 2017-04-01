@@ -33,6 +33,10 @@ class UserSerializer(ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}, 'is_active': {'read_only': True}}
 
     def create(self, validated_data):
+        # Exclude password_confirmation from user creation
+        if 'password_confirmation' in validated_data:
+            del validated_data['password_confirmation']
+
         user = User.objects.create(**validated_data)
         user.set_password(validated_data.get('password'))
         user.save()
@@ -56,7 +60,7 @@ class PostDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments')
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comment_post')
 
 
 class TopicSerializer(ModelSerializer):
