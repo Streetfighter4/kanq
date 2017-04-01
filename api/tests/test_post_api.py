@@ -1,9 +1,7 @@
 from django.test import TestCase
-from django.urls import resolve
 from rest_framework.test import APIRequestFactory
 
 from api.factories import PostFactory
-from api.models import Post
 from api.views.posts import PostViewSet
 
 
@@ -14,6 +12,7 @@ class PostApiTest(TestCase):
         self.factory = APIRequestFactory()
         self.detail_view = PostViewSet.as_view({'get': 'retrieve'})
         self.list_view = PostViewSet.as_view({'get': 'list'})
+        self.new_filter_view = PostViewSet.as_view({'get': 'new'})
 
     def test_get_to_list_uses_default_serializer(self):
         request = self.factory.get("api/posts")
@@ -26,4 +25,11 @@ class PostApiTest(TestCase):
         response = self.detail_view(request, pk=self.post.id)
 
         self.assertIn('comments', response.data)
+
+    def test_get_to_post_new_returns_sorted_by_date(self):
+        PostFactory.create_batch(3)
+        request = self.factory.get("api/posts/new")
+        response = self.new_filter_view(request)
+
+
 

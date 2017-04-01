@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
+from rest_framework.response import Response
 
 from api.models import Post
 from api.serializers import PostSerializer, PostDetailSerializer
@@ -27,8 +28,8 @@ class PostViewSet(viewsets.ModelViewSet):
         pass
 
     @list_route()
-    def new(self, request):  # Filter topic by query param
-        pass
+    def new(self, request):
+        return Response()
 
     @list_route()
     def feed(self):  # Get feed for a given user
