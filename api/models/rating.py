@@ -16,7 +16,7 @@ class Rating(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating_user')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
     value = models.CharField(max_length=1, choices=RATING_CHOICES)
 
     def __str__(self):
