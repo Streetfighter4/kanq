@@ -4,17 +4,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent }  from './app.component';
 import {FacebookAuthorizerComponent} from './oauth/facebook/facebook_authorizer.component';
 import {AppRoutingModule} from './app-routing.module';
-import {FacebookAuthenticatorComponent} from './oauth/facebook/facebook_authenticator.component';
+import {HttpModule} from '@angular/http';
+import {FacebookTokenComponent} from './oauth/facebook/facebook_token.component';
 
 @NgModule({
   imports:      [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpModule
   ],
   declarations: [
     AppComponent,
     FacebookAuthorizerComponent,
-    FacebookAuthenticatorComponent
+    FacebookTokenComponent
   ],
   bootstrap:    [ AppComponent ]
 })
