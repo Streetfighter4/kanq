@@ -19,6 +19,7 @@ export abstract class OauthTokenHandler implements OnInit {
   abstract getRedirectUri(): string;
   abstract getClientSecret(): string;
   abstract getBackend(): string;
+  abstract getGrantType(): string;
 
   private handleOauthToken(res: Response) {
     let token = res.json().access_token;
@@ -54,8 +55,10 @@ export abstract class OauthTokenHandler implements OnInit {
           '?client_id=' + this.getClientID() +
           '&redirect_uri=' + this.getRedirectUri() +
           '&client_secret=' + this.getClientSecret() +
-          '&code=' + code;
+          '&code=' + code +
+          '&grant_type=' + this.getGrantType();
 
+      window.location.href = url;
       this.http.get(url)
         .toPromise()
         .then(this.handleOauthToken.bind(this))

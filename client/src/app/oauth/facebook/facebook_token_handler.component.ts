@@ -24,4 +24,8 @@ export class FacebookTokenHandlerComponent extends OauthTokenHandler {
   getBackend(): string {
     return Settings.API_FACEBOOK_BACKEND;
   }
+
+  getGrantType(): string {
+    return '';
+  }
 }
