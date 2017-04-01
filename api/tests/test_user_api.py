@@ -20,7 +20,7 @@ class UserApiTest(TestCase):
     def test_password_not_readable(self):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
         response = self.create_view(request)
-        self.assertNotIn('password', response)
+        self.assertNotIn('password', response.data)
 
     def test_password_saves_as_hash(self):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
