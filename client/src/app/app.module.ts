@@ -5,7 +5,7 @@ import { AppComponent }  from './app.component';
 import {FacebookAuthorizerComponent} from './oauth/facebook/facebook_authorizer.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpModule} from '@angular/http';
-import {FacebookTokenComponent} from './oauth/facebook/facebook_token.component';
+import {FacebookTokenHandlerComponent} from './oauth/facebook/facebook_token_handler.component';
 
 @NgModule({
   imports:      [
@@ -16,7 +16,7 @@ import {FacebookTokenComponent} from './oauth/facebook/facebook_token.component'
   declarations: [
     AppComponent,
     FacebookAuthorizerComponent,
-    FacebookTokenComponent
+    FacebookTokenHandlerComponent
   ],
   bootstrap:    [ AppComponent ]
 })

@@ -1,11 +1,11 @@
 import {RouterModule, Routes} from '@angular/router';
 import {FacebookAuthorizerComponent} from './oauth/facebook/facebook_authorizer.component';
 import {NgModule} from '@angular/core';
-import {FacebookTokenComponent} from './oauth/facebook/facebook_token.component';
+import {FacebookTokenHandlerComponent} from './oauth/facebook/facebook_token_handler.component';
 
 const routes: Routes = [
   {path: 'oauth/facebook/authorize', component: FacebookAuthorizerComponent},
-  {path: 'oauth/facebook/token', component: FacebookTokenComponent}
+  {path: 'oauth/facebook/token', component: FacebookTokenHandlerComponent}
 ];
 
 @NgModule({

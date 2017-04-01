@@ -1,29 +1,35 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {Settings} from '../../settings';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
-import {Http, RequestOptions, Response, Headers} from '@angular/http';
+import {Http, Response} from '@angular/http';
+import {Settings} from '../settings';
 
 @Component({
   template: ''
 })
-export class FacebookTokenComponent implements OnInit {
+export abstract class OauthTokenHandler implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private http: Http) {}
 
-  private handleFacebookToken(res: Response) {
+  abstract getAccessTokenUrl(): string;
+  abstract getClientID(): string;
+  abstract getRedirectUri(): string;
+  abstract getClientSecret(): string;
+  abstract getBackend(): string;
+
+  private handleOauthToken(res: Response) {
     let token = res.json().access_token;
 
     let body = {
       client_id: Settings.API_CLIENT_ID,
       client_secret: Settings.API_SECRET,
       grant_type: Settings.API_CONVERT_TOKEN_GRANT,
-      backend: Settings.API_FACEBOOK_BACKEND,
+      backend: this.getBackend(),
       token: token
-    }
+    };
 
     this.http.post(Settings.API_CONVERT_TOKEN_URL, body)
       .toPromise()
@@ -33,6 +39,7 @@ export class FacebookTokenComponent implements OnInit {
 
   private handleAPIResponse(res: Response) {
     let token = res.json().access_token;
+    console.log('Auth with backend ' + this.getBackend() + ' succesful!', token);
     localStorage.setItem('api_token', token);
   }
 
@@ -43,15 +50,15 @@ export class FacebookTokenComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       let code = params['code'];
-      let url = Settings.FACEBOOK_ACCESS_TOKEN_URL +
-          '?client_id=' + Settings.FACEBOOK_APP_ID +
-          '&redirect_uri=' + Settings.FACEBOOK_REDIRECT_URI +
-          '&client_secret=' + Settings.FACEBOOK_SECRET +
+      let url = this.getAccessTokenUrl() +
+          '?client_id=' + this.getClientID() +
+          '&redirect_uri=' + this.getRedirectUri() +
+          '&client_secret=' + this.getClientSecret() +
           '&code=' + code;
 
       this.http.get(url)
         .toPromise()
-        .then(this.handleFacebookToken.bind(this))
+        .then(this.handleOauthToken.bind(this))
         .catch(this.handleError);
     });
   }
