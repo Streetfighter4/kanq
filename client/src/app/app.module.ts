@@ -7,13 +7,13 @@ import {FacebookModule} from './oauth/facebook/facebook.module';
 import {NavbarModule} from './navbar/navbar.module';
 import {LoginModule} from './login/login.module';
 import {AlertModule} from 'ng2-bootstrap';
-import {FormsModule} from '@angular/forms';
 import {HomeModule} from './home/home.module';
+import {ROUTES} from './routes';
 
 @NgModule({
   imports: [
     BrowserModule,
-    RouterModule.forRoot([]),
+    RouterModule.forRoot(ROUTES),
     FacebookModule,
     NavbarModule,
     LoginModule,
