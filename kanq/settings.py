@@ -64,7 +64,7 @@ MIDDLEWARE = [
 
 # Use CORS, so that the client can access them from the other host
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000'
+    'localhost:4200'
 )
 
 ROOT_URLCONF = 'kanq.urls'
