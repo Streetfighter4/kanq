@@ -7,6 +7,7 @@ import {FacebookModule} from './oauth/facebook/facebook.module';
 import {NavbarModule} from './navbar/navbar.module';
 import {LoginModule} from './login/login.module';
 import {AlertModule} from 'ng2-bootstrap';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import {AlertModule} from 'ng2-bootstrap';
     FacebookModule,
     NavbarModule,
     LoginModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
   ],
   declarations: [
     AppComponent,

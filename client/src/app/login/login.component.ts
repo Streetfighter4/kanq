@@ -18,7 +18,7 @@ export class LoginComponent {
   login() {
     this.userService.loginThroughPassword(this.user)
       .then(this.handleLoginSuccess.bind(this))
-      .catch(this.handleLoginError);
+      .catch(this.handleLoginError.bind(this));
   }
 
   handleLoginSuccess(token) {
@@ -28,7 +28,7 @@ export class LoginComponent {
   }
 
   handleLoginError(res) {
-    console.log(res);
-    this.errors = res;
+    this.errors = res.json();
+    console.log(this.errors.non_field_errors);
   }
 }

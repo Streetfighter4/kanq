@@ -1,8 +1,18 @@
 <form (submit)="login(); $event.preventDefault()">
   <span class="h2">LOGIN</span>
 
-  <alert type="danger" [hidden]="!errors">
-    ERRORS
+  <alert type="danger" *ngIf="errors">
+    <ul *ngIf="errors?.non_field_errors">
+      <li *ngFor="let err of errors?.non_field_errors">{{ err }}</li>
+    </ul>
+    <ul *ngIf="errors?.username">
+      Username:
+      <li *ngFor="let err of errors?.username">{{ err }}</li>
+    </ul>
+    <ul *ngIf="errors?.password">
+      Password:
+      <li *ngFor="let err of errors?.password">{{ err }}</li>
+    </ul>
   </alert>
 
   <div class="form-group">
