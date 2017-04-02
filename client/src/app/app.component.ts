@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     <navbar></navbar>
     <h1>Hello {{name}}</h1>
     <form action="/oauth/facebook/authorize" method="GET">
-      <input type="submit" value="Facebook login">
+      <button type="submit" class="btn btn-primary">Facebook login</button>
     </form>
     <router-outlet></router-outlet>
   `,

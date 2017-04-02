@@ -13,7 +13,6 @@ import {Ng2BootstrapModule} from 'ng2-bootstrap';
     RouterModule.forRoot([]),
     FacebookModule,
     NavbarModule,
-    Ng2BootstrapModule.forRoot()
   ],
   declarations: [
     AppComponent,
