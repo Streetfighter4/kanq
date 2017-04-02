@@ -5,7 +5,6 @@ import { AppComponent }  from './app.component';
 import {RouterModule} from '@angular/router';
 import {FacebookModule} from './oauth/facebook/facebook.module';
 import {NavbarModule} from './navbar/navbar.module';
-import {Ng2BootstrapModule} from 'ng2-bootstrap';
 
 @NgModule({
   imports:      [
