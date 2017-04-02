@@ -43,32 +43,34 @@ class UserSerializer(ModelSerializer):
         return user
 
 
-class PostSerializer(ModelSerializer):
-    tags = serializers.StringRelatedField(many=True)
-    creator = UserSerializer(read_only=True)
-    image = ImageSerializer(read_only=True)
-
-    class Meta:
-        model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags')
-
-
-class PostDetailSerializer(ModelSerializer):
-    tags = serializers.StringRelatedField(many=True)
-    creator = UserSerializer(read_only=True)
-    # TODO: figure out a way to get only top level comments
-
-    class Meta:
-        model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments')
-
-
 class TopicSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Topic
         fields = ('id', 'name', 'start', 'end', 'tags')
+
+
+class PostSerializer(ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
+    creator = UserSerializer(read_only=True)
+    image = ImageSerializer(read_only=True)
+    topic = TopicSerializer(read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'created_at')
+
+
+class PostDetailSerializer(ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
+    creator = UserSerializer(read_only=True)
+    topic = TopicSerializer(read_only=True)
+    # TODO: figure out a way to get only top level comments
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments', 'created_at')
 
 
 class TagSerializer(ModelSerializer):
