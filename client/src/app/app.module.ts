@@ -6,18 +6,20 @@ import {RouterModule} from '@angular/router';
 import {FacebookModule} from './oauth/facebook/facebook.module';
 import {NavbarModule} from './navbar/navbar.module';
 import {LoginModule} from './login/login.module';
+import {AlertModule} from 'ng2-bootstrap';
 
 @NgModule({
-  imports:      [
+  imports: [
     BrowserModule,
     RouterModule.forRoot([]),
     FacebookModule,
     NavbarModule,
-    LoginModule
+    LoginModule,
+    AlertModule.forRoot()
   ],
   declarations: [
     AppComponent,
   ],
-  bootstrap:    [ AppComponent ]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

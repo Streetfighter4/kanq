@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Settings} from '../settings';
+import {User} from './user';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class UserService {
-  constructor(private http: Http) {}
+  constructor(private http: Http,
+              private router: Router) {}
 
   loginThroughToken(token: string, backend: string): Promise<string> {
     let body = {
@@ -18,6 +21,17 @@ export class UserService {
     return this.http.post(Settings.API_CONVERT_TOKEN_URL, body)
       .toPromise()
       .then(res => res.json().access_token)
-      .catch(err => console.log('Login through token error: ', err));
+      .catch(err => console.log('Login through token error', err));
+  }
+
+  loginThroughPassword(user: User): Promise<any> {
+    let body = {
+      username: user.username,
+      password: user.password
+    };
+
+    return this.http.post(Settings.API_PASSWORD_LOGIN_URL, body)
+      .toPromise()
+      .then(res => res.json().token);
   }
 }
