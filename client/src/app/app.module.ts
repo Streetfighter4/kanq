@@ -5,7 +5,7 @@ import { AppComponent }  from './app.component';
 import {RouterModule} from '@angular/router';
 import {FacebookModule} from './oauth/facebook/facebook.module';
 import {NavbarModule} from './navbar/navbar.module';
-import {Ng2BootstrapModule} from 'ng2-bootstrap';
+import {LoginModule} from './login/login.module';
 
 @NgModule({
   imports:      [
@@ -13,6 +13,7 @@ import {Ng2BootstrapModule} from 'ng2-bootstrap';
     RouterModule.forRoot([]),
     FacebookModule,
     NavbarModule,
+    LoginModule
   ],
   declarations: [
     AppComponent,

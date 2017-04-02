@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import {Response} from '@angular/http';
 import {FacebookService} from './facebook.service';
-import {UserService} from '../../services/user.service';
+import {UserService} from '../../user/user.service';
 import {Settings} from '../../settings';
 
 @Component({
