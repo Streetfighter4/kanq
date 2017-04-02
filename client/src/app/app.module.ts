@@ -8,6 +8,7 @@ import {NavbarModule} from './navbar/navbar.module';
 import {LoginModule} from './login/login.module';
 import {AlertModule} from 'ng2-bootstrap';
 import {FormsModule} from '@angular/forms';
+import {HomeModule} from './home/home.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {FormsModule} from '@angular/forms';
     FacebookModule,
     NavbarModule,
     LoginModule,
+    HomeModule,
     AlertModule.forRoot(),
   ],
   declarations: [
