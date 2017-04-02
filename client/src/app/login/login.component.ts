@@ -11,14 +11,18 @@ import {Router} from '@angular/router';
 export class LoginComponent {
   user: User = new User();
   errors: any;
+  loading: boolean = false;
 
   constructor(private userService: UserService,
               private router: Router) {}
 
   login() {
+    this.loading = true;
+
     this.userService.loginThroughPassword(this.user)
       .then(this.handleLoginSuccess.bind(this))
-      .catch(this.handleLoginError.bind(this));
+      .catch(this.handleLoginError.bind(this))
+      .then(() => this.loading = false);
   }
 
   handleLoginSuccess(token) {
