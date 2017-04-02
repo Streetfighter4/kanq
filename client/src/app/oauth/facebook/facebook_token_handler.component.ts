@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
-import {Http, Response} from '@angular/http';
+import {Response} from '@angular/http';
+import {FacebookService} from './facebook.service';
+import {UserService} from '../../services/user.service';
 import {Settings} from '../../settings';
 
 @Component({
@@ -12,48 +14,29 @@ import {Settings} from '../../settings';
 })
 export class FacebookTokenHandlerComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
-              private http: Http) {}
-
-  private handleOAuthToken(res: Response) {
-    let token = res.json().access_token;
-
-    let body = {
-      client_id: Settings.API_CLIENT_ID,
-      client_secret: Settings.API_SECRET,
-      grant_type: Settings.API_CONVERT_TOKEN_GRANT,
-      backend: Settings.API_FACEBOOK_BACKEND,
-      token: token
-    };
-
-    this.http.post(Settings.API_CONVERT_TOKEN_URL, body)
-      .toPromise()
-      .then(this.handleAPIResponse.bind(this))
-      .catch(this.handleError);
-  }
-
-  private handleAPIResponse(res: Response) {
-    let token = res.json().access_token;
-    console.log('Facebook auth succesful!', token);
-    localStorage.setItem('api_token', token);
-  }
-
-  private handleError(error: Response) {
-    console.log('An error occured', error);
-  }
+              private router: Router,
+              private facebookService: FacebookService,
+              private userService: UserService) {}
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      let code = params['code'];
-      let url = Settings.FACEBOOK_ACCESS_TOKEN_URL +
-          '?client_id=' + Settings.FACEBOOK_APP_ID +
-          '&redirect_uri=' + Settings.FACEBOOK_REDIRECT_URI +
-          '&client_secret=' + Settings.FACEBOOK_SECRET +
-          '&code=' + code;
+    this.getFacebookToken();
+  }
 
-      this.http.get(url)
-        .toPromise()
-        .then(this.handleOAuthToken.bind(this))
-        .catch(this.handleError);
+  private getFacebookToken() {
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.facebookService.getToken(params['code'])
+        .then(this.getAPIToken.bind(this));
     });
+  }
+
+  private getAPIToken(facebookToken: string) {
+    this.userService.loginThroughToken(facebookToken, Settings.API_FACEBOOK_BACKEND)
+      .then(this.saveAPIToken.bind(this));
+  }
+
+  private saveAPIToken(apiToken: string) {
+    console.log('Facebook auth succesful!', apiToken);
+    localStorage.setItem('api_token', apiToken);
+    this.router.navigate(['/']);
   }
 }
