@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'my-app',
   template: `
+    <navbar></navbar>
     <h1>Hello {{name}}</h1>
     <form action="/oauth/facebook/authorize" method="GET">
       <input type="submit" value="Facebook login">
