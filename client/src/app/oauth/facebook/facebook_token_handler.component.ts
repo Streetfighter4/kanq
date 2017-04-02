@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -12,7 +12,8 @@ import {Settings} from '../../settings';
 })
 export class FacebookTokenHandlerComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
-              private http: Http) {}
+              private http: Http,
+              private router: Router) {}
 
   private handleOAuthToken(res: Response) {
     let token = res.json().access_token;
@@ -35,6 +36,7 @@ export class FacebookTokenHandlerComponent implements OnInit {
     let token = res.json().access_token;
     console.log('Facebook auth succesful!', token);
     localStorage.setItem('api_token', token);
+    this.router.navigate(['/']);
   }
 
   private handleError(error: Response) {
