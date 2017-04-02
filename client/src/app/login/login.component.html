@@ -1,0 +1,29 @@
+<form (submit)="login(); $event.preventDefault()">
+  <span class="h2">LOGIN</span>
+
+  <alert type="danger" *ngIf="errors">
+    <ul *ngIf="errors?.non_field_errors">
+      <li *ngFor="let err of errors?.non_field_errors">{{ err }}</li>
+    </ul>
+    <ul *ngIf="errors?.username">
+      Username:
+      <li *ngFor="let err of errors?.username">{{ err }}</li>
+    </ul>
+    <ul *ngIf="errors?.password">
+      Password:
+      <li *ngFor="let err of errors?.password">{{ err }}</li>
+    </ul>
+  </alert>
+
+  <div class="form-group">
+    <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
+  </div>
+
+  <div class="form-group">
+    <input type="password" [(ngModel)]="user.password" class="form-control" placeholder="Password" name="password">
+  </div>
+
+  <div class="form-group">
+    <input type="submit" [disabled]="loading" class="form-control" value="Login">
+  </div>
+</form>
