@@ -33,6 +33,5 @@ export class LoginComponent {
 
   handleLoginError(res) {
     this.errors = res.json();
-    console.log(this.errors.non_field_errors);
   }
 }
