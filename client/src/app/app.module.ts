@@ -9,6 +9,7 @@ import {LoginModule} from './login/login.module';
 import {AlertModule} from 'ng2-bootstrap';
 import {HomeModule} from './home/home.module';
 import {ROUTES} from './routes';
+import {LoggedInGuard} from './guards/logged_in_guard';
 
 @NgModule({
   imports: [
@@ -23,6 +24,9 @@ import {ROUTES} from './routes';
   declarations: [
     AppComponent,
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  providers: [
+    LoggedInGuard
+  ]
 })
 export class AppModule { }

@@ -38,6 +38,6 @@ export class UserService {
 
   isLoggedIn(): boolean {
     let token = localStorage.getItem(Settings.LOCAL_STORAGE_TOKEN_KEY);
-    return !isUndefined(token);
+    return token != undefined;
   }
 }
