@@ -3,6 +3,7 @@ import {Http} from '@angular/http';
 import {Settings} from '../settings';
 import {User} from './user';
 import {Router} from '@angular/router';
+import {isUndefined} from 'util';
 
 @Injectable()
 export class UserService {
@@ -33,5 +34,10 @@ export class UserService {
     return this.http.post(Settings.API_PASSWORD_LOGIN_URL, body)
       .toPromise()
       .then(res => res.json().token);
+  }
+
+  isLoggedIn(): boolean {
+    let token = localStorage.getItem(Settings.LOCAL_STORAGE_TOKEN_KEY);
+    return !isUndefined(token);
   }
 }
