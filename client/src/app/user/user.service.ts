@@ -46,7 +46,12 @@ export class UserService {
     };
 
     return this.http.post(Settings.API_SIGNUP_URL, body)
-      .toPromise();
+      .toPromise()
+      .then(res => res.json().access_token);
+  }
+
+  handleLogin(token: string) {
+    localStorage.setItem(Settings.LOCAL_STORAGE_TOKEN_KEY, token);
   }
 }
 

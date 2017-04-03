@@ -14,7 +14,6 @@ export class SignupComponent {
   loading: boolean = false;
 
   constructor(private userService: UserService,
-
               private router: Router) {}
 
   signup() {
@@ -28,12 +27,11 @@ export class SignupComponent {
 
   handleSignupSuccess(token) {
     console.log('Successful signup', token);
-    localStorage.setItem(Settings.LOCAL_STORAGE_TOKEN_KEY, token);
+    this.userService.handleLogin(token);
     this.router.navigate(['/'])
   }
 
   handleSignupError(res) {
-    console.log('Error', res.json());
     this.errors = res.json();
   }
 }

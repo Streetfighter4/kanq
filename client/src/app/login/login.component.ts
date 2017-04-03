@@ -27,7 +27,7 @@ export class LoginComponent {
 
   handleLoginSuccess(token) {
     console.log('Successful login', token);
-    localStorage.setItem(Settings.LOCAL_STORAGE_TOKEN_KEY, token);
+    this.userService.handleLogin(token);
     this.router.navigate(['/'])
   }
 
