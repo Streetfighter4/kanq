@@ -1,10 +1,12 @@
 import {NgModule} from '@angular/core';
 import {NavbarComponent} from './navbar.component';
 import {RouterModule} from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser';
 
 @NgModule({
   imports: [
-    RouterModule
+    RouterModule,
+    BrowserModule
   ],
   declarations: [
     NavbarComponent

@@ -10,6 +10,7 @@ import {AlertModule} from 'ng2-bootstrap';
 import {HomeModule} from './home/home.module';
 import {ROUTES} from './routes';
 import {LoggedInGuard} from './guards/logged_in_guard';
+import {FeedModule} from './feed/feed.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {LoggedInGuard} from './guards/logged_in_guard';
     NavbarModule,
     LoginModule,
     HomeModule,
+    FeedModule,
     AlertModule.forRoot(),
   ],
   declarations: [

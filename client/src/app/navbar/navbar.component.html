@@ -4,7 +4,7 @@
       <a class="navbar-brand" routerLink="/">Kanq</a>
     </div>
 
-    <ul class="nav navbar-nav navbar-right">
+    <ul *ngIf="!userService.isLoggedIn()" class="nav navbar-nav navbar-right">
       <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
       <li><a href="#">Signup</a></li>
     </ul>
