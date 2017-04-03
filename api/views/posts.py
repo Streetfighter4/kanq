@@ -48,7 +48,7 @@ class PostViewSet(viewsets.ModelViewSet):
         objects = Post.objects
         if topic_id:
             try:
-                objects = objects.filter(topic__id=int(request.GET.get('topic_id', '')))
+                objects = objects.filter(topic__id=int(topic_id))
             except ValueError:
                 print('Wrong topic id: ' + topic_id)
 

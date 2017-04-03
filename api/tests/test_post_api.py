@@ -13,7 +13,7 @@ class PostApiTest(TestCase):
         self.new_filter_view = PostViewSet.as_view({'get': 'new'})
 
     def test_get_to_list_uses_default_serializer(self):
-        post = PostFactory()
+        PostFactory()
         request = self.factory.get("api/posts")
         response = self.list_view(request)
 
