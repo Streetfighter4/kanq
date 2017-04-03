@@ -10,6 +10,7 @@ from api.views import ratings
 from api.views import users
 from api.views import comments
 from api.views import medals
+from api.views import signup
 
 router = DefaultRouter()
 
@@ -27,4 +28,5 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', token_views.obtain_auth_token, name='auth'),
     url(r'^oauth/', include('rest_framework_social_oauth2.urls')),
+    url(r'^signup/', signup.signup, name="signup")
 ]
