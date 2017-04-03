@@ -24,11 +24,10 @@ export class SignupComponent {
       .then(this.handleSignupSuccess.bind(this))
       .catch(this.handleSignupError.bind(this))
       .then(() => this.loading = false);
-
   }
 
   handleSignupSuccess(token) {
-    console.log('Successful login', token);
+    console.log('Successful signup', token);
     localStorage.setItem(Settings.LOCAL_STORAGE_TOKEN_KEY, token);
     this.router.navigate(['/'])
   }
