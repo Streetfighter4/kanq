@@ -34,6 +34,7 @@ export class SignupComponent {
   }
 
   handleSignupError(res) {
+    console.log('Error', res.json());
     this.errors = res.json();
   }
 }

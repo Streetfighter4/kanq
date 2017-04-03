@@ -11,6 +11,7 @@ def signup(request):
     serialized = UserSerializer(data=request.data)
     if serialized.is_valid():
         new_user = serialized.save()
-        return Response(new_user, status=status.HTTP_201_CREATED)
+        serialized_new_user = UserSerializer(new_user)
+        return Response(serialized_new_user.data, status=status.HTTP_201_CREATED)
     else:
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
