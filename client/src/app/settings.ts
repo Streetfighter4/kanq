@@ -18,6 +18,7 @@ export class Settings {
 
   static API_CONVERT_TOKEN_URL = Settings.API_URL + 'oauth/convert-token/';
   static API_PASSWORD_LOGIN_URL = Settings.API_URL + 'auth/';
+  static API_SIGNUP_URL = Settings.API_URL + 'signup/';
 
   static API_CLIENT_ID = 'ZX23hQ6UlX9LzyIbE2htfoYTRyEESj5ZStBI3W1H';
   static API_SECRET = '53LPADTcPPRaFrg0e7Z1itI5bC7rP1AL9SiJhmzYHQ045a7pTvBGnzgjMoNzO6m9VDRNQXkXcEkp7xVTgZE0L1yWZh4FCy6VjVtoMHQta9p9cFMg0xAj8lx7tJhwldgy';

@@ -34,4 +34,19 @@ export class UserService {
       .toPromise()
       .then(res => res.json().token);
   }
+
+  signup(user: User): Promise<any> {
+    let body = {
+      username: user.username,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      email: user.email,
+      password_confirmation: user.passwordConfirmation,
+      password: user.password
+    };
+
+    return this.http.post(Settings.API_SIGNUP_URL, body)
+      .toPromise();
+  }
 }
+

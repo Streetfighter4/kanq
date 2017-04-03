@@ -9,6 +9,7 @@ import {LoginModule} from './login/login.module';
 import {AlertModule} from 'ng2-bootstrap';
 import {HomeModule} from './home/home.module';
 import {ROUTES} from './routes';
+import {SignupModule} from './signup/signup.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {ROUTES} from './routes';
     FacebookModule,
     NavbarModule,
     LoginModule,
+    SignupModule,
     HomeModule,
     AlertModule.forRoot(),
   ],
