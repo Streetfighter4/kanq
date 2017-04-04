@@ -4,12 +4,12 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
-from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 class User(AbstractUser):
-    first_name = models.CharField(max_length=50, blank=False)
-    last_name = models.CharField(max_length=50, blank=False)
-    email = models.EmailField(max_length=50, blank=False)
+    first_name = models.CharField(_('first name'), max_length=30, blank=False)
+    last_name = models.CharField(_('last name'), max_length=30, blank=False)
+    email = models.EmailField(_('email address'), blank=False)
 
     following = models.ManyToManyField('self', related_name='followers', symmetrical=False)
 
