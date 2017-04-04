@@ -17,7 +17,8 @@ export const ROUTES: Route[] = [
   },
   {
     path: 'feed',
-    component: FeedComponent
+    component: FeedComponent,
+    canActivate: [LoggedInGuard]
   },
   {
     path: 'oauth/facebook',
