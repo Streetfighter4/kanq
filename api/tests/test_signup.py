@@ -1,6 +1,6 @@
 from django.test import TestCase
 from api.views.signup import signup
-from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIRequestFactory, force_authenticate
 
 from api import factories
 from api.serializers import UserSerializer
@@ -21,6 +21,7 @@ class SignupTest(TestCase):
         request_data['password_confirmation'] = self.PASSWORD
 
         request = self.factory.post('/api/signup/', request_data, format='json')
+        force_authenticate(request, user=self.user)
         response = signup(request)
 
         new_user = response.data
@@ -35,6 +36,7 @@ class SignupTest(TestCase):
         # if the input data is invalid. Required fields
         # are used only as an example
         request = self.factory.post('/api/signup/', {}, format='json')
+        force_authenticate(request, user=self.user)
         response = signup(request)
 
         data = response.data
