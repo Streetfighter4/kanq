@@ -40,4 +40,8 @@ export class UserService {
     let token = localStorage.getItem(Settings.LOCAL_STORAGE_TOKEN_KEY);
     return token != undefined;
   }
+
+  signout() {
+    localStorage.removeItem(Settings.LOCAL_STORAGE_TOKEN_KEY)
+  }
 }
