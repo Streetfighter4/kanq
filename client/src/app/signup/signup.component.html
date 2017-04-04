@@ -1,61 +1,63 @@
-<h2 class="page-header text-center">SIGNUP</h2>
+<div class="col-md-4 col-md-offset-4">
+  <h2 class="page-header text-center">SIGNUP</h2>
 
-<alert type="danger" *ngIf="errors">
-  <ul *ngIf="errors?.non_field_errors">
-    <li *ngFor="let err of errors?.non_field_errors">{{ err }}</li>
-  </ul>
-  <ul *ngIf="errors?.username">
-    Username:
-    <li *ngFor="let err of errors?.username">{{ err }}</li>
-  </ul>
-   <ul *ngIf="errors?.firstName">
-    First Name:
-    <li *ngFor="let err of errors?.firstName">{{ err }}</li>
-  </ul>
-   <ul *ngIf="errors?.lastName">
-    Last Name:
-    <li *ngFor="let err of errors?.lastName">{{ err }}</li>
-  </ul>
-   <ul *ngIf="errors?.email">
-    E-mail:
-    <li *ngFor="let err of errors?.email">{{ err }}</li>
-  </ul>
-  <ul *ngIf="errors?.password">
-    Password:
-    <li *ngFor="let err of errors?.password">{{ err }}</li>
-  </ul>
-   <ul *ngIf="errors?.passwordConfirmation">
-    Confirm your password:
-    <li *ngFor="let err of errors?.passwordConfirmation">{{ err }}</li>
-  </ul>
-</alert>
+  <alert type="danger" *ngIf="errors">
+    <ul *ngIf="errors?.non_field_errors">
+      <li *ngFor="let err of errors?.non_field_errors">{{ err }}</li>
+    </ul>
+    <ul *ngIf="errors?.username">
+      Username:
+      <li *ngFor="let err of errors?.username">{{ err }}</li>
+    </ul>
+     <ul *ngIf="errors?.firstName">
+      First Name:
+      <li *ngFor="let err of errors?.firstName">{{ err }}</li>
+    </ul>
+     <ul *ngIf="errors?.lastName">
+      Last Name:
+      <li *ngFor="let err of errors?.lastName">{{ err }}</li>
+    </ul>
+     <ul *ngIf="errors?.email">
+      E-mail:
+      <li *ngFor="let err of errors?.email">{{ err }}</li>
+    </ul>
+    <ul *ngIf="errors?.password">
+      Password:
+      <li *ngFor="let err of errors?.password">{{ err }}</li>
+    </ul>
+     <ul *ngIf="errors?.passwordConfirmation">
+      Confirm your password:
+      <li *ngFor="let err of errors?.passwordConfirmation">{{ err }}</li>
+    </ul>
+  </alert>
 
-<form (submit)="signup(); $event.preventDefault()">
-  <div class="form-group">
-    <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
-  </div>
+  <form (submit)="signup(); $event.preventDefault()">
+    <div class="form-group">
+      <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
+    </div>
 
-  <div class="form-group">
-    <input type="text" [(ngModel)]="user.firstName" class="form-control" placeholder="First Name" name="firstName">
-  </div>
+    <div class="form-group">
+      <input type="text" [(ngModel)]="user.firstName" class="form-control" placeholder="First Name" name="firstName">
+    </div>
 
-   <div class="form-group">
-    <input type="text" [(ngModel)]="user.lastName" class="form-control" placeholder="Last Name" name="lastName">
-  </div>
+     <div class="form-group">
+      <input type="text" [(ngModel)]="user.lastName" class="form-control" placeholder="Last Name" name="lastName">
+    </div>
 
-   <div class="form-group">
-    <input type="text" [(ngModel)]="user.email" class="form-control" placeholder="E-mail" name="email">
-  </div>
+     <div class="form-group">
+      <input type="text" [(ngModel)]="user.email" class="form-control" placeholder="E-mail" name="email">
+    </div>
 
-  <div class="form-group">
-    <input type="password" [(ngModel)]="user.password" class="form-control" placeholder="Password" name="password">
-  </div>
+    <div class="form-group">
+      <input type="password" [(ngModel)]="user.password" class="form-control" placeholder="Password" name="password">
+    </div>
 
-   <div class="form-group">
-    <input type="password" [(ngModel)]="user.passwordConfirmation" class="form-control" placeholder="Confirm your password" name="passwordConfirmation">
-  </div>
+     <div class="form-group">
+      <input type="password" [(ngModel)]="user.passwordConfirmation" class="form-control" placeholder="Confirm your password" name="passwordConfirmation">
+    </div>
 
-  <div class="form-group">
-    <input type="submit" [disabled]="loading" class="form-control" value="Signup">
-  </div>
-</form>
+    <div class="form-group">
+      <input type="submit" [disabled]="loading" class="form-control" value="Signup">
+    </div>
+  </form>
+</div>

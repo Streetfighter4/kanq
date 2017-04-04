@@ -1,34 +1,36 @@
-<h2 class="page-header text-center">LOGIN</h2>
+<div class="col-md-4 col-md-offset-4">
+  <h2 class="page-header text-center">LOGIN</h2>
 
-<a routerLink="/oauth/facebook/authorize" class="btn btn-block btn btn-social btn-facebook">
-  <span class="fa fa-facebook"></span>
-  Facebook login
-</a>
+  <alert type="danger" *ngIf="errors">
+    <ul *ngIf="errors?.non_field_errors">
+      <li *ngFor="let err of errors?.non_field_errors">{{ err }}</li>
+    </ul>
+    <ul *ngIf="errors?.username">
+      Username:
+      <li *ngFor="let err of errors?.username">{{ err }}</li>
+    </ul>
+    <ul *ngIf="errors?.password">
+      Password:
+      <li *ngFor="let err of errors?.password">{{ err }}</li>
+    </ul>
+  </alert>
 
-<alert type="danger" *ngIf="errors">
-  <ul *ngIf="errors?.non_field_errors">
-    <li *ngFor="let err of errors?.non_field_errors">{{ err }}</li>
-  </ul>
-  <ul *ngIf="errors?.username">
-    Username:
-    <li *ngFor="let err of errors?.username">{{ err }}</li>
-  </ul>
-  <ul *ngIf="errors?.password">
-    Password:
-    <li *ngFor="let err of errors?.password">{{ err }}</li>
-  </ul>
-</alert>
+  <form (submit)="login(); $event.preventDefault()">
+    <div class="form-group">
+      <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
+    </div>
 
-<form (submit)="login(); $event.preventDefault()">
-  <div class="form-group">
-    <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
-  </div>
+    <div class="form-group">
+      <input type="password" [(ngModel)]="user.password" class="form-control" placeholder="Password" name="password">
+    </div>
 
-  <div class="form-group">
-    <input type="password" [(ngModel)]="user.password" class="form-control" placeholder="Password" name="password">
-  </div>
+    <div class="form-group">
+      <input type="submit" [disabled]="loading" class="form-control" value="Login">
+    </div>
+  </form>
 
-  <div class="form-group">
-    <input type="submit" [disabled]="loading" class="form-control" value="Login">
-  </div>
-</form>
+  <a routerLink="/oauth/facebook/authorize" class="btn btn-block btn btn-social btn-facebook">
+    <span class="fa fa-facebook"></span>
+    Facebook login
+  </a>
+</div>
