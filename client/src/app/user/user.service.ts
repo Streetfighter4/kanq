@@ -50,8 +50,18 @@ export class UserService {
       .then(res => res.json().access_token);
   }
 
+  isLoggedIn(): boolean {
+    let token = localStorage.getItem(Settings.LOCAL_STORAGE_TOKEN_KEY);
+    return token != undefined;
+  }
+
+  signout() {
+    localStorage.removeItem(Settings.LOCAL_STORAGE_TOKEN_KEY)
+  }
+
   handleLogin(token: string) {
     localStorage.setItem(Settings.LOCAL_STORAGE_TOKEN_KEY, token);
   }
 }
+
 

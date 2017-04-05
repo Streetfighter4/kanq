@@ -10,6 +10,8 @@ import {AlertModule} from 'ng2-bootstrap';
 import {HomeModule} from './home/home.module';
 import {ROUTES} from './routes';
 import {SignupModule} from './signup/signup.module';
+import {LoggedInGuard} from './guards/logged_in_guard';
+import {FeedModule} from './feed/feed.module';
 
 @NgModule({
   imports: [
@@ -20,11 +22,15 @@ import {SignupModule} from './signup/signup.module';
     LoginModule,
     SignupModule,
     HomeModule,
+    FeedModule,
     AlertModule.forRoot(),
   ],
   declarations: [
     AppComponent,
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  providers: [
+    LoggedInGuard
+  ]
 })
 export class AppModule { }
