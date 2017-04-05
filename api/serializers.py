@@ -27,20 +27,23 @@ class ImageSerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    password_confirmation = serializers.CharField(allow_blank=False, write_only=True)
+
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'is_active', 'password')
+        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'is_active', 'password', 'password_confirmation')
         extra_kwargs = {'password': {'write_only': True}, 'is_active': {'read_only': True}}
 
     def create(self, validated_data):
-        # Exclude password_confirmation from user creation
-        if 'password_confirmation' in validated_data:
-            del validated_data['password_confirmation']
-
         user = User.objects.create(**validated_data)
         user.set_password(validated_data.get('password'))
         user.save()
         return user
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs.pop('password_confirmation'):
+            raise serializers.ValidationError('Password doesn\'t match password confirmation')
+        return attrs
 
 
 class PostSerializer(ModelSerializer):
