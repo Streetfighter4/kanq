@@ -11,6 +11,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    permission_classes_by_action = {'create': []}
+
     @detail_route(methods=['put'])
     def follow(self, request, pk=None): # follows a given user
         pass
@@ -28,3 +30,10 @@ class UserViewSet(viewsets.ModelViewSet):
         response = serializer.data
         response['access_token'] = Token.objects.get(user=user).key
         return Response(response, status=status.HTTP_201_CREATED, headers=headers)
+
+    # Token isn't required when creating user (signup)
+    def get_permissions(self):
+        try:
+            return [permission() for permission in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
