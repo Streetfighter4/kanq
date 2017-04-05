@@ -10,7 +10,7 @@ import {UserService} from '../../user/user.service';
 import {Settings} from '../../settings';
 
 @Component({
-  template: ''
+  template: 'Authenticating...'
 })
 export class FacebookTokenHandlerComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,

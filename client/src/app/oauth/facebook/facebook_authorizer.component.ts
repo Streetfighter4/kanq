@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Settings} from '../../settings';
 
 @Component({
-  template: ''
+  template: 'Redirecting to Facebook...'
 })
 export class FacebookAuthorizerComponent extends OnInit {
   ngOnInit(): void {
