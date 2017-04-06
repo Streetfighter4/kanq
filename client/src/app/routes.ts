@@ -5,6 +5,7 @@ import {FacebookAuthorizerComponent} from './oauth/facebook/facebook_authorizer.
 import {FacebookTokenHandlerComponent} from './oauth/facebook/facebook_token_handler.component';
 import {LoggedInGuard} from './guards/logged_in_guard';
 import {FeedComponent} from './feed/feed.component';
+import {TopicIndexComponent} from './topic/topic-index/topic-index.component';
 
 export const ROUTES: Route[] = [
   {
@@ -18,6 +19,11 @@ export const ROUTES: Route[] = [
   {
     path: 'feed',
     component: FeedComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'topics',
+    component: TopicIndexComponent,
     canActivate: [LoggedInGuard]
   },
   {

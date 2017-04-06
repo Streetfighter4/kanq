@@ -11,10 +11,12 @@ import {HomeModule} from './home/home.module';
 import {ROUTES} from './routes';
 import {LoggedInGuard} from './guards/logged_in_guard';
 import {FeedModule} from './feed/feed.module';
+import {TopicIndexModule} from './topic/topic-index/topic-index.module';
 
 @NgModule({
   imports: [
     BrowserModule,
+    TopicIndexModule,
     RouterModule.forRoot(ROUTES),
     FacebookModule,
     NavbarModule,
