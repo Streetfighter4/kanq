@@ -11,7 +11,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    parent = models.ForeignKey('self', related_name='children', null=True)
+    parent = models.ForeignKey('self', related_name='children', blank=True)
     ratings = GenericRelation(Rating)
 
     def __str__(self):

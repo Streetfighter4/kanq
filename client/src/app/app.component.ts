@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'my-app',
-  template: `
-    <h1>Hello {{name}}</h1>
-    <form action="/oauth/facebook/authorize" method="GET">
-      <input type="submit" value="Facebook login">
-    </form>
-    <router-outlet></router-outlet>
-  `,
+  moduleId: module.id,
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
 })
 export class AppComponent  {
   name = 'Kanq';

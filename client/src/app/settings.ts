@@ -1,6 +1,7 @@
 export class Settings {
   // General settings
-  static LOCAL_URL = 'http://localhost:3000/';
+  static LOCAL_URL = 'http://localhost:4200/';
+  static LOCAL_STORAGE_TOKEN_KEY = 'api_token';
 
   // Facebook auth settings
   static FACEBOOK_APP_ID = '182030805622565';
@@ -13,8 +14,11 @@ export class Settings {
   static FACEBOOK_ACCESS_TOKEN_URL = 'https://graph.facebook.com/v2.8/oauth/access_token';
 
   // API settings
-  static API_URL = 'http://localhost:8000/';
-  static API_CONVERT_TOKEN_URL = Settings.API_URL + 'api/oauth/convert-token';
+  static API_URL = 'http://localhost:8000/api/';
+
+  static API_CONVERT_TOKEN_URL = Settings.API_URL + 'oauth/convert-token/';
+  static API_PASSWORD_LOGIN_URL = Settings.API_URL + 'auth/';
+
   static API_CLIENT_ID = 'ZX23hQ6UlX9LzyIbE2htfoYTRyEESj5ZStBI3W1H';
   static API_SECRET = '53LPADTcPPRaFrg0e7Z1itI5bC7rP1AL9SiJhmzYHQ045a7pTvBGnzgjMoNzO6m9VDRNQXkXcEkp7xVTgZE0L1yWZh4FCy6VjVtoMHQta9p9cFMg0xAj8lx7tJhwldgy';
   static API_CONVERT_TOKEN_GRANT = 'convert_token';

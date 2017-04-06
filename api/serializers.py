@@ -66,7 +66,12 @@ class PostDetailSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
     topic = TopicSerializer(read_only=True)
-    # TODO: figure out a way to get only top level comments
+    comments = serializers.SerializerMethodField()
+
+    def get_comments(self, post):
+        comments = Comment.objects.filter(post=post, parent=None)
+        serializer = CommentSerializer(instance=comments, many=True)
+        return serializer.data
 
     class Meta:
         model = Post
