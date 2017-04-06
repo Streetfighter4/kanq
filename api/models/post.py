@@ -1,13 +1,15 @@
-import redis
 import logging
-from api import settings
+
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from .rating import Rating
+
 from .image import Image
-from .topic import Topic
+from .rating import Rating
 from .tag import Tag
+from .topic import Topic
 from .user import User
+
+from api.helpers import redis_connection
 
 logger = logging.getLogger(__name__)
 
@@ -31,21 +33,7 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
 
         if save_to_redis:
-            followers_ids = self.creator.followers.values_list('id', flat=True)
-            redis_instance = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT)
-
-            try:
-                redis_instance.ping()
-            except redis.ConnectionError:
-                logger.warning("Could not establish redis connection on %s:%s" % (settings.REDIS_HOST, settings.REDIS_PORT))
-                return
-
-            redis_pipe = redis_instance.pipeline(transaction=False)
-
-            for follower_id in followers_ids:
-                redis_pipe.lpush(follower_id, self.id).ltrim(follower_id, 0, settings.REDIS_FEED_MAX_LENGTH)
-
-            redis_pipe.execute()
+            redis_connection.push_new_post(self)
 
     def __str__(self):
         return self.title

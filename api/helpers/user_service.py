@@ -1,23 +1,14 @@
-import logging
-
-import redis
-
-from api import settings
-from api.models import Post
-
-logger = logging.getLogger(__name__)
+from api.models import Post, User
+from . import redis_connection
 
 
 def get_user_feed(user_id, page, per_page):
-    redis_instance = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT)
+    post_ids = redis_connection.get_user_feed_ids(user_id, page, per_page)
 
-    try:
-        redis_instance.ping()
-    except redis.ConnectionError:
-        logger.warning("Could not establish redis connection on %s:%s" % (settings.REDIS_HOST, settings.REDIS_PORT))
-        return
+    if post_ids:
+        return Post.objects.filter(pk__in=post_ids)
 
-    redis_response = redis_instance.lrange(user_id, page * per_page, per_page - 1)
-    post_ids = [int(post_id) for post_id in redis_response]
-
-    return Post.objects.filter(pk__in=post_ids)
+    user = User.objects.get(pk=user_id)
+    start = page * per_page
+    end = start + per_page
+    return Post.objects.filter(creator__id__in=user.get_following_ids()).order_by('-created_at')[start:end]

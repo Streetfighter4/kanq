@@ -21,3 +21,9 @@ class User(AbstractUser):
         if created:
             Token.objects.create(user=instance)
 
+    def get_followers_ids(self):
+        return self.followers.values_list('id', flat=True)
+
+    def get_following_ids(self):
+        return self.following.values_list('id', flat=True)
+
