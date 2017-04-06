@@ -1,3 +1,6 @@
+from datetime import datetime
+
+import pytz
 from django.db import models
 
 from .tag import Tag
@@ -9,6 +12,13 @@ class Topic(models.Model):
     start = models.DateTimeField(blank=False)
     end = models.DateTimeField(blank=False)
     tags = models.ManyToManyField(Tag, related_name='topics')
+
+    def is_active(self):
+        return self.start <= datetime.now(pytz.utc) <= self.end
+
+    def has_ended(self):
+        now = datetime.now(pytz.utc)
+        return self.start <= now and self.end <= now
 
     def __str__(self):
         return self.name
