@@ -33,7 +33,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     # Token isn't required when creating user (signup)
     def get_permissions(self):
-        try:
+        if self.action in self.permission_classes_by_action.keys():
             return [permission() for permission in self.permission_classes_by_action[self.action]]
-        except KeyError:
+        else:
             return [permission() for permission in self.permission_classes]
