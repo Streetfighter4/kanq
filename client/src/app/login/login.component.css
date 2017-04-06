@@ -1,0 +1,9 @@
+.btn-facebook {
+  margin: 15px auto;
+  width: 60%;
+}
+
+input[type="submit"] {
+  width: 60%;
+  margin: 0 auto;
+}
