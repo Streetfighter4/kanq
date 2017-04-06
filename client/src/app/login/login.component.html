@@ -5,19 +5,7 @@
   Facebook login
 </a>
 
-<alert type="danger" *ngIf="errors">
-  <ul *ngIf="errors?.non_field_errors">
-    <li *ngFor="let err of errors?.non_field_errors">{{ err }}</li>
-  </ul>
-  <ul *ngIf="errors?.username">
-    Username:
-    <li *ngFor="let err of errors?.username">{{ err }}</li>
-  </ul>
-  <ul *ngIf="errors?.password">
-    Password:
-    <li *ngFor="let err of errors?.password">{{ err }}</li>
-  </ul>
-</alert>
+<errors [(errors)]="errors"></errors>
 
 <form (submit)="login(); $event.preventDefault()">
   <div class="form-group">

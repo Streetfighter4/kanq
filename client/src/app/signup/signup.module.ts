@@ -4,13 +4,15 @@ import {AlertModule} from 'ng2-bootstrap';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {SignupComponent} from './signup.component';
+import {ErrorsModule} from '../errors/errors.module';
 
 @NgModule({
   imports: [
     AlertModule,
     FormsModule,
     BrowserModule,
-    RouterModule
+    RouterModule,
+    ErrorsModule
   ],
   declarations: [
     SignupComponent
