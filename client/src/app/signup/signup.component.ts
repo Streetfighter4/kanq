@@ -6,7 +6,8 @@ import {Router} from '@angular/router';
 
 @Component({
   moduleId: module.id,
-  templateUrl: 'signup.component.html'
+  templateUrl: 'signup.component.html',
+  styleUrls: ['signup.component.css']
 })
 export class SignupComponent {
   user: User = new User();
