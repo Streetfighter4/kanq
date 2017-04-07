@@ -34,9 +34,9 @@ export class FacebookTokenHandlerComponent implements OnInit {
       .then(this.saveAPIToken.bind(this));
   }
 
-  private saveAPIToken(apiToken: string) {
-    console.log('Facebook auth successful!', apiToken);
-    localStorage.setItem('api_token', apiToken);
+  private saveAPIToken(token: string) {
+    console.log('Facebook auth successful!', token);
+    this.userService.handleLogin(token);
     this.router.navigate(['/']);
   }
 }

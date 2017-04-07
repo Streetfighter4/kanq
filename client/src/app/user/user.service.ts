@@ -35,6 +35,21 @@ export class UserService {
       .then(res => res.json().token);
   }
 
+  signup(user: User): Promise<any> {
+    let body = {
+      username: user.username,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      email: user.email,
+      password_confirmation: user.passwordConfirmation,
+      password: user.password
+    };
+
+    return this.http.post(Settings.API_SIGNUP_URL, body)
+      .toPromise()
+      .then(res => res.json().access_token);
+  }
+
   isLoggedIn(): boolean {
     let token = localStorage.getItem(Settings.LOCAL_STORAGE_TOKEN_KEY);
     return token != undefined;
@@ -43,4 +58,10 @@ export class UserService {
   signout() {
     localStorage.removeItem(Settings.LOCAL_STORAGE_TOKEN_KEY)
   }
+
+  handleLogin(token: string) {
+    localStorage.setItem(Settings.LOCAL_STORAGE_TOKEN_KEY, token);
+  }
 }
+
+

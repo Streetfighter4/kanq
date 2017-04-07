@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
-import {LoginComponent} from './login.component';
 import {FormsModule} from '@angular/forms';
 import {AlertModule} from 'ng2-bootstrap';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
+import {SignupComponent} from './signup.component';
 import {ErrorsModule} from '../errors/errors.module';
 
 @NgModule({
@@ -15,7 +15,7 @@ import {ErrorsModule} from '../errors/errors.module';
     ErrorsModule
   ],
   declarations: [
-    LoginComponent
+    SignupComponent
   ]
 })
-export class LoginModule {}
+export class SignupModule {}

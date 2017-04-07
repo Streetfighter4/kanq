@@ -1,0 +1,12 @@
+<alert type="danger" *ngIf="errors">
+  <ul *ngIf="errors?.non_field_errors">
+    <li *ngFor="let err of errors?.non_field_errors">{{ err }}</li>
+  </ul>
+
+  <div *ngIf="errors">
+    <ul *ngFor="let field of errors | error_fields">
+      {{ field.name | make_field_readable }}:
+      <li *ngFor="let err of field.errors">{{ err }}</li>
+    </ul>
+  </div>
+</alert>
