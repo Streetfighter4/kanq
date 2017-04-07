@@ -12,6 +12,8 @@ import {ROUTES} from './routes';
 import {LoggedInGuard} from './guards/logged_in_guard';
 import {FeedModule} from './feed/feed.module';
 import {TopicIndexModule} from './topic/topic-index/topic-index.module';
+import {HttpClient} from './http_client/http-client.service';
+import {HttpModule} from '@angular/http';
 
 @NgModule({
   imports: [
@@ -24,13 +26,15 @@ import {TopicIndexModule} from './topic/topic-index/topic-index.module';
     HomeModule,
     FeedModule,
     AlertModule.forRoot(),
+    HttpModule
   ],
   declarations: [
     AppComponent,
   ],
   bootstrap: [ AppComponent ],
   providers: [
-    LoggedInGuard
+    LoggedInGuard,
+    HttpClient,
   ]
 })
 export class AppModule { }

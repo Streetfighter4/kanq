@@ -2,6 +2,10 @@ export class Settings {
   // General settings
   static LOCAL_URL = 'http://localhost:4200/';
   static LOCAL_STORAGE_TOKEN_KEY = 'api_token';
+  static NORMAL_API_TOKEN_LENGTH = 40;
+  static SOCIAL_API_TOKEN_LENGTH = 30;
+  static NORMAL_API_TOKEN_KEYWORD = 'Token';
+  static SOCIAL_API_TOKEN_KEYWORD = 'Bearer';
 
   // Facebook auth settings
   static FACEBOOK_APP_ID = '182030805622565';
