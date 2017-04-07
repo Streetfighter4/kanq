@@ -1,33 +1,43 @@
-<h2 class="page-header text-center">SIGNUP</h2>
+<div class="col-md-4 col-md-offset-4">
+  <h2 class="page-header text-center">SIGNUP</h2>
 
-<errors [(errors)]="errors"></errors>
+  <errors [(errors)]="errors"></errors>
 
-<form (submit)="signup(); $event.preventDefault()">
-  <div class="form-group">
-    <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
-  </div>
+  <form (submit)="signup(); $event.preventDefault()">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
+    </div>
 
-  <div class="form-group">
-    <input type="text" [(ngModel)]="user.firstName" class="form-control" placeholder="First Name" name="firstName">
-  </div>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <label>First name</label>
+        <input type="text" [(ngModel)]="user.firstName" class="form-control" placeholder="First Name" name="firstName">
+      </div>
 
-   <div class="form-group">
-    <input type="text" [(ngModel)]="user.lastName" class="form-control" placeholder="Last Name" name="lastName">
-  </div>
+      <div class="col-sm-6 form-group">
+        <label>Last name</label>
+        <input type="text" [(ngModel)]="user.lastName" class="form-control" placeholder="Last Name" name="lastName">
+      </div>
+    </div>
 
-   <div class="form-group">
-    <input type="text" [(ngModel)]="user.email" class="form-control" placeholder="E-mail" name="email">
-  </div>
+     <div class="form-group">
+       <label>Email</label>
+      <input type="text" [(ngModel)]="user.email" class="form-control" placeholder="Email" name="email">
+    </div>
 
-  <div class="form-group">
-    <input type="password" [(ngModel)]="user.password" class="form-control" placeholder="Password" name="password">
-  </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" [(ngModel)]="user.password" class="form-control" placeholder="Password" name="password">
+    </div>
 
-   <div class="form-group">
-    <input type="password" [(ngModel)]="user.passwordConfirmation" class="form-control" placeholder="Confirm your password" name="passwordConfirmation">
-  </div>
+     <div class="form-group">
+       <label>Password confirmation</label>
+      <input type="password" [(ngModel)]="user.passwordConfirmation" class="form-control" placeholder="Confirm your password" name="passwordConfirmation">
+    </div>
 
-  <div class="form-group">
-    <input type="submit" [disabled]="loading" class="form-control" value="Signup">
-  </div>
-</form>
+    <div class="form-group">
+      <input type="submit" [disabled]="loading" class="btn btn-primary center-block" value="Signup">
+    </div>
+  </form>
+</div>
