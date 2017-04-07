@@ -45,6 +45,10 @@ class UserSerializer(ModelSerializer):
 
 class TopicSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
+    best_post = serializers.SerializerMethodField()
+
+    def get_best_post(self):
+        return self.best_post()
 
     class Meta:
         model = Topic

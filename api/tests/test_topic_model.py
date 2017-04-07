@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 import pytz
 from django.test import TestCase
 
-from api.factories import TopicFactory
+from api.factories import TopicFactory, PostFactory, RatingFactory
+from api.models import Rating
 
 
 class TopicModelTest(TestCase):
@@ -26,3 +27,14 @@ class TopicModelTest(TestCase):
         self.assertTrue(self.ended_topic.has_ended())
         self.assertFalse(self.active_topic.has_ended())
         self.assertFalse(self.future_topic.has_ended())
+
+    def test_best_post_method_works_correctly(self):
+        best_post = PostFactory(topic=self.active_topic)
+        RatingFactory.create_batch(20, content_object=best_post, value=Rating.LIKE_VALUE)
+
+        other_posts = PostFactory.create_batch(5, topic=self.active_topic)
+
+        for post in other_posts:
+            RatingFactory.create_batch(10, content_object=post)
+
+        self.assertEqual(best_post, self.active_topic.best_post())

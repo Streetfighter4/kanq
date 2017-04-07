@@ -20,5 +20,9 @@ class Topic(models.Model):
         now = datetime.now(pytz.utc)
         return self.start <= now and self.end <= now
 
+    def best_post(self):
+        # Return post with the biggest rating
+        return max(self.posts.all(), key=lambda p: p.get_rating())
+
     def __str__(self):
         return self.name
