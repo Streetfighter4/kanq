@@ -1,5 +1,6 @@
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.db.models import Sum
 
 from .rating import Rating
 from .image import Image
@@ -17,6 +18,9 @@ class Post(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='posts')
     tags = models.ManyToManyField(Tag, related_name='posts')
     ratings = GenericRelation(Rating)
+
+    def get_rating(self):
+        return self.ratings.aggregate(Sum('value'))['value__sum']
 
     def __str__(self):
         return self.title
