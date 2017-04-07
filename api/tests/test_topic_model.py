@@ -37,4 +37,4 @@ class TopicModelTest(TestCase):
         for post in other_posts:
             RatingFactory.create_batch(10, content_object=post)
 
-        self.assertEqual(best_post, self.active_topic.best_post())
+        self.assertEqual(best_post, self.active_topic.get_best_post())

@@ -45,14 +45,21 @@ class UserSerializer(ModelSerializer):
 
 class TopicSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
-    best_post = serializers.SerializerMethodField()
+    best_post_image = serializers.SerializerMethodField()
 
-    def get_best_post(self):
-        return self.best_post()
+    def get_best_post_image(self, topic):
+        best_post = topic.get_best_post()
+
+        if(best_post):
+            image = best_post.image
+            serializer = ImageSerializer(image)
+            return serializer.data
+
+        return None
 
     class Meta:
         model = Topic
-        fields = ('id', 'name', 'start', 'end', 'tags')
+        fields = ('id', 'name', 'start', 'end', 'tags', 'best_post_image')
 
 
 class PostSerializer(ModelSerializer):
