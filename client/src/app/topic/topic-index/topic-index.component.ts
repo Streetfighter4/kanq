@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Topic} from '../topic/topic';
+import {TopicService} from '../topic/topic.service';
 
 @Component({
   moduleId: module.id,
@@ -10,9 +11,10 @@ import {Topic} from '../topic/topic';
 export class TopicIndexComponent implements OnInit {
   topics: Topic[];
 
-  constructor() { }
+  constructor(private topicService: TopicService) { }
 
   ngOnInit() {
-
+    this.topicService.getAll()
+      .then(res => this.topics = res);
   }
 }

@@ -1,5 +1,6 @@
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+
 from .rating import Rating
 from .image import Image
 from .topic import Topic
