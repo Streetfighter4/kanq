@@ -11,6 +11,8 @@ import {HomeModule} from './home/home.module';
 import {ROUTES} from './routes';
 import {LoggedInGuard} from './guards/logged_in_guard';
 import {FeedModule} from './feed/feed.module';
+import {HttpClient} from './http_client/http-client.service';
+import {HttpModule} from '@angular/http';
 
 @NgModule({
   imports: [
@@ -22,13 +24,15 @@ import {FeedModule} from './feed/feed.module';
     HomeModule,
     FeedModule,
     AlertModule.forRoot(),
+    HttpModule
   ],
   declarations: [
     AppComponent,
   ],
   bootstrap: [ AppComponent ],
   providers: [
-    LoggedInGuard
+    LoggedInGuard,
+    HttpClient,
   ]
 })
 export class AppModule { }

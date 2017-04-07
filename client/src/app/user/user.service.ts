@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {Settings} from '../settings';
 import {User} from './user';
 import {Router} from '@angular/router';
-import {isUndefined} from 'util';
+import {HttpClient} from '../http_client/http-client.service';
 
 @Injectable()
 export class UserService {
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
               private router: Router) {}
 
   loginThroughToken(token: string, backend: string): Promise<string> {
