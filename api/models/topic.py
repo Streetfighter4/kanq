@@ -25,7 +25,7 @@ class Topic(models.Model):
 
         if(posts.count() > 0):
             # Return post with the biggest rating
-            return max(self.posts.all(), key=lambda p: p.get_rating())
+            return max(self.posts.all(), key=lambda p: p.get_rating() or 0)
 
         return None
 

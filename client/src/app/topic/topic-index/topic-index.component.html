@@ -1,5 +1,9 @@
 <div *ngFor="let topic of topics">
-  <div class="topic col-md-4">
+  <div class="topic col-md-3">
     {{ topic.name }}
+
+    <div *ngIf="topic.best_post_image" class="best-post-image-holder">
+      <img src="{{ topic.best_post_image.uri }}" class="best-post-image">
+    </div>
   </div>
 </div>

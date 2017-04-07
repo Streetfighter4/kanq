@@ -3,9 +3,9 @@ from django.db import models
 
 class Image(models.Model):
     TEST_IMAGES = [
-        '/static/images/plant.jpg',
-        '/static/images/insect.jpg',
-        '/static/images/sunset.jpg'
+        'http://localhost:8000/static/images/plant.jpg',
+        'http://localhost:8000/static/images/insect.jpg',
+        'http://localhost:8000/static/images/sunset.jpg'
     ]
 
     created_at = models.DateTimeField(auto_now_add=True, blank=False)

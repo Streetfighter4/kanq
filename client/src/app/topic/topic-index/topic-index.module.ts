@@ -15,6 +15,6 @@ import {TopicService} from '../topic/topic.service';
   ],
   providers: [
     TopicService
-  ]
+  ],
 })
 export class TopicIndexModule { }

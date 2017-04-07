@@ -3,5 +3,6 @@ export class Topic {
   description: string;
   start: string;
   end: string;
+  best_post_image: any;
   // tags: Tag[];
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Topic} from '../topic/topic';
 import {TopicService} from '../topic/topic.service';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   moduleId: module.id,
