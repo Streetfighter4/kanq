@@ -26,9 +26,10 @@ def push_new_post(post):
     redis_instance = get_instance()
     if redis_instance:
         redis_pipe = redis_instance.pipeline(transaction=False)
+        redis_pipe.lpush(post.creator_id, post.id)
 
         for follower_id in followers_ids:
-            redis_pipe.lpush(follower_id, post.id).ltrim(follower_id, 0, settings.REDIS_FEED_MAX_LENGTH)
+            redis_pipe.lpush(follower_id, post.id).ltrim(follower_id, 0, settings.REDIS_FEED_MAX_LENGTH - 1)
 
         redis_pipe.execute()
 
@@ -39,7 +40,8 @@ def get_instance():
     try:
         redis_instance.ping()
     except redis.ConnectionError:
-        logger.warning("Could not establish redis connection on %s:%s" % (settings.REDIS_HOST, settings.REDIS_PORT))
+        # logger.warning("Could not establish redis connection on %s:%s" % (settings.REDIS_HOST, settings.REDIS_PORT))
+        # TODO: Enable log when it's redirected to a file
         return None
 
     return redis_instance

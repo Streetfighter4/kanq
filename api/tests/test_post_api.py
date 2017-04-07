@@ -65,6 +65,5 @@ class PostApiTest(TestCase):
         response = self.new_filter_view(request)
 
         posts = response.data
-        print(posts)
 
         self.assertEqual(len(posts), batch_size)
