@@ -61,7 +61,7 @@ class ImageFactory(DjangoModelFactory):
     class Meta:
         model = Image
 
-    uri = factory.Faker('file_name', category='image')
+    uri = factory.fuzzy.FuzzyChoice(Image.TEST_IMAGES)
 
 
 class PostFactory(DjangoModelFactory):
