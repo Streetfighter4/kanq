@@ -1,9 +1,9 @@
 from django.test import TestCase
-from api.views.signup import signup
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 from api import factories
 from api.serializers import UserSerializer
+from api.views.users import UserViewSet
 
 
 class SignupTest(TestCase):
@@ -13,6 +13,7 @@ class SignupTest(TestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         self.user = factories.UserFactory.build()
+        self.signup = UserViewSet.as_view({'post': 'create'})
 
     def test_signup_works(self):
         serializer = UserSerializer(self.user)
@@ -20,16 +21,16 @@ class SignupTest(TestCase):
         request_data['password'] = self.PASSWORD
         request_data['password_confirmation'] = self.PASSWORD
 
-        request = self.factory.post('/api/signup/', request_data, format='json')
+        request = self.factory.post('/api/users/', request_data, format='json')
         force_authenticate(request, user=self.user)
-        response = signup(request)
+        response = self.signup(request)
 
         new_user = response.data
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(new_user.username, self.user.username)
-        self.assertEqual(new_user.email, self.user.email)
-        self.assertEqual(new_user.first_name, self.user.first_name)
-        self.assertEqual(new_user.last_name, self.user.last_name)
+        self.assertEqual(new_user['username'], self.user.username)
+        self.assertEqual(new_user['email'], self.user.email)
+        self.assertEqual(new_user['first_name'], self.user.first_name)
+        self.assertEqual(new_user['last_name'], self.user.last_name)
 
     def test_signup_returns_errors_on_invalid_input(self):
         # This test checks if the API returns an error
@@ -37,7 +38,7 @@ class SignupTest(TestCase):
         # are used only as an example
         request = self.factory.post('/api/signup/', {}, format='json')
         force_authenticate(request, user=self.user)
-        response = signup(request)
+        response = self.signup(request)
 
         data = response.data
         self.assertEqual(response.status_code, 400)
