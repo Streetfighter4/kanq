@@ -105,9 +105,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    )
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # )
 }
 
 AUTHENTICATION_BACKENDS = (
@@ -180,7 +180,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Logging
+# Logging not working currently
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
