@@ -43,19 +43,29 @@ class UserSerializer(ModelSerializer):
         return user
 
 
+class TopicSerializer(ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = Topic
+        fields = ('id', 'name', 'start', 'end', 'tags')
+
+
 class PostSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
     image = ImageSerializer(read_only=True)
+    topic = TopicSerializer(read_only=True)
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags')
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'created_at')
 
 
 class PostDetailSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
+    topic = TopicSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
 
     def get_comments(self, post):
@@ -63,18 +73,9 @@ class PostDetailSerializer(ModelSerializer):
         serializer = CommentSerializer(instance=comments, many=True)
         return serializer.data
 
-
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments')
-
-
-class TopicSerializer(ModelSerializer):
-    tags = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = Topic
-        fields = ('id', 'name', 'start', 'end', 'tags')
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments', 'created_at')
 
 
 class TagSerializer(ModelSerializer):

@@ -138,9 +138,6 @@ else:
             },
         }
     }
-    SOCIAL_AUTH_UID_LENGTH = 223  # Taken from official social auth docs
-    ACCOUNT_EMAIL_MAX_LENGTH = 190
-
 
 
 
