@@ -22,7 +22,7 @@ class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
 
-    username = factory.Sequence(lambda n: 'User {0}'.format(n))
+    username = factory.Sequence(lambda n: 'user_{0}'.format(n))
     email = factory.Sequence(lambda n: 'user{0}@abv.bg'.format(n))
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
