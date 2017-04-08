@@ -22,7 +22,6 @@ class SignupTest(TestCase):
         request_data['password_confirmation'] = self.PASSWORD
 
         request = self.factory.post('/api/users/', request_data, format='json')
-        force_authenticate(request, user=self.user)
         response = self.signup(request)
 
         new_user = response.data
@@ -37,7 +36,6 @@ class SignupTest(TestCase):
         # if the input data is invalid. Required fields
         # are used only as an example
         request = self.factory.post('/api/signup/', {}, format='json')
-        force_authenticate(request, user=self.user)
         response = self.signup(request)
 
         data = response.data
