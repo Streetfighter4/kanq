@@ -1,0 +1,14 @@
+<div *ngIf="topic">
+  <h2 class="page-header text-center text-capitalize">{{ topic.name }}</h2>
+
+  <div *ngFor="let post of topic.posts">
+    <div class="post col-md-3">
+      {{ post.title }}
+
+      <div class="image-holder">
+        <img src="{{ post.image.uri }}" class="image">
+      </div>
+    </div>
+  </div>
+</div>
+
