@@ -12,4 +12,11 @@ export class TopicService {
       .then(res => res.json())
       .catch(err => console.log('Error getting topics', err));
   }
+
+  getDetail(id: number) {
+    return this.http.get(Settings.API_TOPICS_URL + id)
+      .toPromise()
+      .then(res => res.json())
+      .catch(err => console.log('Error getting topic detail', err))
+  }
 }

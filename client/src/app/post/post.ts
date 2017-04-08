@@ -1,9 +1,10 @@
 export class Post {
+  id: number;
   description: string;
   title: string;
   created_at: string;
-  creator: any;
+  creator_id: number;
   topic: any;
   image: any;
-  tags: any;
+  tags: string[];
 }
