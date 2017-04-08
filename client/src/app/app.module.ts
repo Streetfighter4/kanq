@@ -10,10 +10,10 @@ import {AlertModule} from 'ng2-bootstrap';
 import {HomeModule} from './home/home.module';
 import {ROUTES} from './routes';
 import {SignupModule} from './signup/signup.module';
-import {LoggedInGuard} from './guards/logged_in_guard';
+import {LoggedInGuard} from './common/logged_in_guard';
 import {FeedModule} from './feed/feed.module';
 import {TopicIndexModule} from './topic/topic-index/topic-index.module';
-import {HttpClient} from './http_client/http-client.service';
+import {HttpClient} from './common/http-client.service';
 import {HttpModule} from '@angular/http';
 import {TopicDetailModule} from './topic/topic-detail/topic-detail.module';
 
