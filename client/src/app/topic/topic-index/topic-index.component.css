@@ -8,3 +8,7 @@
 .best-post-image {
   height: 20vh;
 }
+
+.inactive {
+  background-color: grey;
+}

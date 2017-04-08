@@ -4,5 +4,6 @@ export class Topic {
   start: string;
   end: string;
   best_post_image: any;
+  active: boolean;
   // tags: Tag[];
 }
