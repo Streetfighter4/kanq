@@ -1,9 +1,13 @@
-<div *ngFor="let topic of topics">
-  <div class="topic col-md-3" [class.active]="topic.active" [class.inactive]="!topic.active">
-    {{ topic.name }}
+<h2 class="page-header text-center">All topics</h2>
 
-    <div *ngIf="topic.best_post_image" class="best-post-image-holder">
-      <img src="{{ topic.best_post_image.uri }}" class="best-post-image">
+<div *ngFor="let topic of topics">
+  <a routerLink="/topics/{{ topic.id }}">
+    <div class="topic col-md-3" [class.active]="topic.active" [class.inactive]="!topic.active">
+      {{ topic.name }}
+
+      <div *ngIf="topic.best_post_image" class="best-post-image-holder">
+        <img src="{{ topic.best_post_image.uri }}" class="best-post-image">
+      </div>
     </div>
-  </div>
+  </a>
 </div>

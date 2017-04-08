@@ -1,5 +1,5 @@
 <div *ngIf="topic">
-  <h2 class="page-header text-center text-capitalize">{{ topic.name }}</h2>
+  <h2 class="page-header text-center text-capitalize">Topic: {{ topic.name }}</h2>
 
   <div *ngFor="let post of topic.posts">
     <div class="post col-md-3">
