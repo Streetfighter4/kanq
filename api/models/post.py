@@ -20,7 +20,8 @@ class Post(models.Model):
     ratings = GenericRelation(Rating)
 
     def get_rating(self):
-        return self.ratings.aggregate(Sum('value'))['value__sum']
+        rating = self.ratings.aggregate(Sum('value'))['value__sum']
+        return rating or 0
 
     def __str__(self):
         return self.title

@@ -7,4 +7,5 @@ export class Post {
   topic: any;
   image: any;
   tags: string[];
+  rating: number;
 }

@@ -51,10 +51,14 @@ class UserSerializer(ModelSerializer):
 class PostGlanceSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     image = ImageSerializer(read_only=True)
+    rating = serializers.SerializerMethodField()
+
+    def get_rating(self, post):
+        return post.get_rating()
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'creator_id', 'image', 'tags', 'created_at')
+        fields = ('id', 'title', 'creator_id', 'image', 'tags', 'created_at', 'rating')
 
 
 class TopicSerializer(ModelSerializer):
