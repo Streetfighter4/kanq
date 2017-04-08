@@ -24,8 +24,8 @@ export class Settings {
   static API_PASSWORD_LOGIN_URL = Settings.API_URL + 'auth/';
   static API_SIGNUP_URL = Settings.API_URL + 'users/';
 
-  static API_CLIENT_ID = 'ZX23hQ6UlX9LzyIbE2htfoYTRyEESj5ZStBI3W1H';
-  static API_SECRET = '53LPADTcPPRaFrg0e7Z1itI5bC7rP1AL9SiJhmzYHQ045a7pTvBGnzgjMoNzO6m9VDRNQXkXcEkp7xVTgZE0L1yWZh4FCy6VjVtoMHQta9p9cFMg0xAj8lx7tJhwldgy';
+  static API_CLIENT_ID = 'X6s7sDaQgaO6J7dUXkutMNg2SKi1v1kuosZp4MLe';
+  static API_SECRET = 'SFmWafPzTVXE0SofJozV1yvi6lDAlJDrZVLqOABLzdWT2s9FXoGKsLcmeJuK0SUBUoJKQ4Gdoev2Vk9eUmKyWA10TJsEZvetkuxT3ZGC5IeD6lG6a5smEwCAWl6p8IJg';
   static API_CONVERT_TOKEN_GRANT = 'convert_token';
   static API_FACEBOOK_BACKEND = 'facebook';
 }
