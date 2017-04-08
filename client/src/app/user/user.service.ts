@@ -63,5 +63,3 @@ export class UserService {
     localStorage.setItem(Settings.LOCAL_STORAGE_TOKEN_KEY, token);
   }
 }
-
-
