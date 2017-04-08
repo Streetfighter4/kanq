@@ -15,11 +15,13 @@ import {FeedModule} from './feed/feed.module';
 import {TopicIndexModule} from './topic/topic-index/topic-index.module';
 import {HttpClient} from './http_client/http-client.service';
 import {HttpModule} from '@angular/http';
+import {TopicDetailModule} from './topic/topic-detail/topic-detail.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     TopicIndexModule,
+    TopicDetailModule,
     RouterModule.forRoot(ROUTES),
     FacebookModule,
     NavbarModule,

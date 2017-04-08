@@ -7,6 +7,7 @@ import {SignupComponent} from './signup/signup.component';
 import {LoggedInGuard} from './guards/logged_in_guard';
 import {FeedComponent} from './feed/feed.component';
 import {TopicIndexComponent} from './topic/topic-index/topic-index.component';
+import {TopicDetailComponent} from './topic/topic-detail/topic-detail.component';
 
 export const ROUTES: Route[] = [
   {
@@ -29,6 +30,11 @@ export const ROUTES: Route[] = [
   {
     path: 'topics',
     component: TopicIndexComponent,
+    canActivate: [LoggedInGuard],
+  },
+  {
+    path: 'topics/:id',
+    component: TopicDetailComponent,
     canActivate: [LoggedInGuard]
   },
   {
