@@ -36,6 +36,15 @@ class UserFactory(DjangoModelFactory):
             for f in extracted:
                 self.following.add(f)
 
+    @factory.post_generation
+    def followers(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for f in extracted:
+                self.followers.add(f)
+
 
 class TopicFactory(DjangoModelFactory):
     class Meta:

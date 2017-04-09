@@ -1,7 +1,9 @@
-from django.core.serializers import serialize
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
+
+from api import settings
+from api.helpers import user_service
 
 from api.models import Post
 from api.serializers import PostSerializer, PostDetailSerializer
@@ -35,8 +37,15 @@ class PostViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @list_route()
-    def feed(self):  # Get feed for a given user
-        pass
+    def feed(self, request):  # Get feed for a given user
+        user_id = request.GET.get('user_id', '')
+        if user_id:
+            # TODO: paginate
+            posts = user_service.get_user_feed(user_id, 0, 10)
+            serialized = PostSerializer(posts, many=True)
+            return Response(serialized.data, status=200)
+        else:
+            return Response(status=404)
 
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
