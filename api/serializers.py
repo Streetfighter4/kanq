@@ -87,12 +87,6 @@ class TagSerializer(ModelSerializer):
         fields = ('id', 'name')
 
 
-class RatingSerializer(ModelSerializer):
-    class Meta:
-        model = Rating
-        fields = ('id', 'value', 'user') # TODO: Fix after model fix
-
-
 class CommentSerializer(ModelSerializer):
     children = RecursiveField(many=True, read_only=True)
 
