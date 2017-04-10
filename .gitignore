@@ -130,4 +130,7 @@ fabric.properties
 mysql.cnf
 
 #Images Folder
-/images
+images/
+
+#kanq/bin
+kanq/bin/
