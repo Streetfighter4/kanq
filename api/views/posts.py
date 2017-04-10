@@ -20,7 +20,7 @@ class PostViewSet(viewsets.ModelViewSet):
         return PostSerializer
 
     def create(self, request, *args, **kwargs):  # Upload image to server if needed and create post
-        images_dir = './images'
+        images_dir = './images/'
         image_name = 'image1'
         image_extension = '.png'
         full_path = images_dir + image_name + image_extension
