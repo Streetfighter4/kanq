@@ -15,6 +15,7 @@ class UserApiTest(TestCase):
 
         self.factory = APIRequestFactory()
         self.create_view = UserViewSet.as_view({'post': 'create'})
+        self.follow_view = UserViewSet.as_view({'user': 'follow'})
 
     def test_password_not_readable(self):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
@@ -31,4 +32,3 @@ class UserApiTest(TestCase):
 
         self.assertNotEqual(self.jsonUser['password'], new_user.password)
         self.assertTrue(new_user.check_password(self.jsonUser['password']))
-

@@ -128,3 +128,6 @@ fabric.properties
 
 #MySQL
 mysql.cnf
+
+#Images Folder
+/images

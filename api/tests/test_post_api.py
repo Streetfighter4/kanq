@@ -3,6 +3,7 @@ from django.test import TestCase
 from api.factories import TopicFactory
 from rest_framework.test import APIRequestFactory, force_authenticate
 from api.factories import PostFactory, UserFactory
+from api.serializers import PostSerializer
 from api.views.posts import PostViewSet
 
 
@@ -12,6 +13,7 @@ class PostApiTest(TestCase):
         self.detail_view = PostViewSet.as_view({'get': 'retrieve'})
         self.list_view = PostViewSet.as_view({'get': 'list'})
         self.new_filter_view = PostViewSet.as_view({'get': 'new'})
+        self.create_view = PostViewSet.as_view({'post': 'create'})
         self.user = UserFactory()
 
     def test_get_to_list_uses_default_serializer(self):
@@ -65,6 +67,20 @@ class PostApiTest(TestCase):
         response = self.new_filter_view(request)
 
         posts = response.data
-        print(posts)
 
         self.assertEqual(len(posts), batch_size)
+
+
+    def test_new_create_post_is_created(self):
+        u = UserFactory()
+        t = TopicFactory()
+        newPost = PostFactory.build()
+        data = PostSerializer(newPost).data
+        data['creator'] = u.id
+
+        data['topic'] = t.id
+        #data['image'] = data['image']['id']
+        data['image'] = 'MjU1OzI1NTsyNTU='
+        print('boc------->' + str(data))
+        request = self.factory.post("api/posts/", data)
+        response = self.create_view(request)

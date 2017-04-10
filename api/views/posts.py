@@ -1,9 +1,12 @@
-from django.core.serializers import serialize
+import base64
+import os
+
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
 
-from api.models import Post
+from api.models import Post, Image
 from api.serializers import PostSerializer, PostDetailSerializer
 
 
@@ -17,8 +20,28 @@ class PostViewSet(viewsets.ModelViewSet):
         return PostSerializer
 
     def create(self, request, *args, **kwargs):  # Upload image to server if needed and create post
-        print(request.data['topic'])
-        pass
+        images_dir = './images'
+        image_name = 'image1'
+        image_extension = '.png'
+        full_path = images_dir + image_name + image_extension
+        if not os.path.exists(images_dir):
+            os.makedirs(images_dir)
+
+        data = request.data.copy()
+        decoded = str(base64.urlsafe_b64decode(data['image']))
+        file = open(full_path, 'w+')
+        file.write(decoded)
+        file.close()
+
+        image = Image.objects.create(uri=full_path)
+        data['image'] = image.id
+        print(str(data))
+
+        post = Post.objects.create(description = data['description'], title=data['title'],
+                                   creator_id = data['creator'], topic_id = data['topic'], image_id=data['image'])
+        return Response(post, status=status.HTTP_201_CREATED)
+
+        #    return Response(new_post, status=status.HTTP_400_BAD_REQUEST)
 
     @list_route()
     def top(self, request):  # Filter topic by query param
