@@ -180,3 +180,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Logging not working currently
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': 'warning.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}
