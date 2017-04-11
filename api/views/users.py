@@ -24,7 +24,10 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def unfollow(self, request, pk=None): # unfollows a given user
-        pass
+        user = get_object_or_404(User, id=request.data['followed'])
+        user.followers.remove(request.user)
+        user.save()
+        return Response(status=status.HTTP_200_OK)
 
     # Override create to return token
     def create(self, request, *args, **kwargs):

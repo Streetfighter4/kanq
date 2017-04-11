@@ -1,4 +1,5 @@
 from django.test import TestCase
+from rest_framework.generics import get_object_or_404
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 from api.factories import UserFactory
@@ -16,6 +17,7 @@ class UserApiTest(TestCase):
         self.factory = APIRequestFactory()
         self.create_view = UserViewSet.as_view({'post': 'create'})
         self.follow_view = UserViewSet.as_view({'put': 'follow'})
+        self.unfollow_view = UserViewSet.as_view({'put': 'unfollow'})
 
     def test_password_not_readable(self):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
@@ -43,13 +45,14 @@ class UserApiTest(TestCase):
         response = self.follow_view(request)
         self.assertIn(u.id, u1.get_followers_ids())
 
-    # def test_follow_connection_is_created(self):
-    #     u = UserFactory()
-    #     u1 = UserFactory()
-    #     data={}
-    #     data['follower'] = u.id
-    #     data['followed'] = u1.id
-    #     request = self.factory.put("api/users", data)
-    #     response = self.follow_view(request)
-    #
-    #     print('boc------->' + str(response.data))
+    def test_user_unfollow_other_user(self):
+        u = UserFactory()  # toni
+        u1 = UserFactory()  # yasen
+        u.followers.add(u1)
+        u.save()
+        data={}
+        data['followed'] = u1.id
+        request = self.factory.put("api/users/unfollow", data)
+        force_authenticate(request, user=u)
+        response = self.unfollow_view(request)
+        self.assertNotIn(u.id, u1.get_followers_ids())
