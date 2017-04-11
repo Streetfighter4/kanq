@@ -15,7 +15,7 @@ class UserApiTest(TestCase):
 
         self.factory = APIRequestFactory()
         self.create_view = UserViewSet.as_view({'post': 'create'})
-        self.follow_view = UserViewSet.as_view({'user': 'follow'})
+        self.follow_view = UserViewSet.as_view({'put': 'follow'})
 
     def test_password_not_readable(self):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
@@ -32,3 +32,24 @@ class UserApiTest(TestCase):
 
         self.assertNotEqual(self.jsonUser['password'], new_user.password)
         self.assertTrue(new_user.check_password(self.jsonUser['password']))
+
+    def test_user_follow_other_user(self):
+        u = UserFactory() # toni
+        u1 = UserFactory() # yasen
+        data={}
+        data['followed'] = u1.id
+        request = self.factory.put("api/users/follow", data)
+        force_authenticate(request, user=u)
+        response = self.follow_view(request)
+        self.assertIn(u.id, u1.get_followers_ids())
+
+    # def test_follow_connection_is_created(self):
+    #     u = UserFactory()
+    #     u1 = UserFactory()
+    #     data={}
+    #     data['follower'] = u.id
+    #     data['followed'] = u1.id
+    #     request = self.factory.put("api/users", data)
+    #     response = self.follow_view(request)
+    #
+    #     print('boc------->' + str(response.data))
