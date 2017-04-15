@@ -2,14 +2,14 @@ import logging
 
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.db.models import Sum
 
+from api.helpers import redis_connection
 from .image import Image
 from .rating import Rating
 from .tag import Tag
 from .topic import Topic
 from .user import User
-
-from api.helpers import redis_connection
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +34,11 @@ class Post(models.Model):
 
         if save_to_redis:
             redis_connection.push_new_post(self)
+
+    def get_rating(self):
+        rating = self.ratings.aggregate(Sum('value'))['value__sum']
+        return rating or 0
+
 
     def __str__(self):
         return self.title

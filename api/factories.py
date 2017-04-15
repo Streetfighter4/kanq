@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import factory
 import pytz
+from django.contrib.contenttypes.models import ContentType
 from factory import DjangoModelFactory
 from factory import fuzzy
 
@@ -69,7 +70,7 @@ class ImageFactory(DjangoModelFactory):
     class Meta:
         model = Image
 
-    uri = factory.Faker('file_name', category='image')
+    uri = factory.fuzzy.FuzzyChoice(Image.TEST_IMAGES)
 
 
 class PostFactory(DjangoModelFactory):
@@ -136,8 +137,9 @@ class RatingFactory(DjangoModelFactory):
     class Meta:
         model = Rating
 
-    type = factory.Faker('word')
     user = factory.SubFactory(UserFactory)
-    value = factory.fuzzy.FuzzyChoice([Rating.RATING_CHOICES[0][0], Rating.RATING_CHOICES[2][0]])
-    post = factory.SubFactory(PostFactory)
-    comment = factory.SubFactory(CommentFactory)
+    value = factory.fuzzy.FuzzyChoice([Rating.DISLIKE_VALUE, Rating.LIKE_VALUE])
+
+    # By default, it will be linked to a post
+    content_type = ContentType.objects.get(model='post')
+    content_object = factory.SubFactory(PostFactory)

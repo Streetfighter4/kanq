@@ -161,6 +161,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_URL = 'login'
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "api/static")
+
 AUTH_USER_MODEL = 'api.User'
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
