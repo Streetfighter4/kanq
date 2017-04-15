@@ -46,12 +46,40 @@ class UserSerializer(ModelSerializer):
         return attrs
 
 
+# TODO: I think this need to be here, so that topic serializer finds it, but maybe it should
+# be with the other post serializers somehow
+class PostGlanceSerializer(ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
+    image = ImageSerializer(read_only=True)
+    rating = serializers.SerializerMethodField()
+
+    def get_rating(self, post):
+        return post.get_rating()
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'creator_id', 'image', 'tags', 'created_at', 'rating')
+
+
 class TopicSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Topic
         fields = ('id', 'name', 'start', 'end', 'tags')
+
+
+class TopicDetailSerializer(ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
+    active = serializers.SerializerMethodField()
+    posts = PostGlanceSerializer(many=True)
+
+    def get_active(self, topic):
+        return topic.is_active()
+
+    class Meta:
+        model = Topic
+        fields = ('id', 'name', 'start', 'end', 'tags', 'active', 'posts')
 
 
 class PostSerializer(ModelSerializer):
