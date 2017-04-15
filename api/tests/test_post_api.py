@@ -63,8 +63,6 @@ class PostApiTest(TestCase):
         request = self.factory.get("api/posts/new/", {'topic_id': 'gibberish'})
         force_authenticate(request, user=self.user)
         response = self.new_filter_view(request)
-
         posts = response.data
-        print(posts)
 
         self.assertEqual(len(posts), batch_size)
