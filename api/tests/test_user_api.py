@@ -13,6 +13,7 @@ class UserApiTest(TestCase):
         self.user = UserFactory.build()
         self.jsonUser = UserSerializer(self.user).data
         self.jsonUser['password'] = 'test123'
+        self.jsonUser['password_confirmation'] = 'test123'
 
         self.factory = APIRequestFactory()
         self.create_view = UserViewSet.as_view({'post': 'create'})

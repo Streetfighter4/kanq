@@ -1,0 +1,14 @@
+.topic {
+  height: 30vh;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.best-post-image {
+  height: 20vh;
+}
+
+.inactive {
+  background-color: grey;
+}
