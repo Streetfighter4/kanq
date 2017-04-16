@@ -53,7 +53,9 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def trending(self, request):  # Filter topic by query param
-        pass
+        posts = Post.objects.all()
+        trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(60*60*24))
+        return Response(data=trending_posts, status=200)
 
     @list_route()
     def new(self, request):

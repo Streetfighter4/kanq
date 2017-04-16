@@ -1,8 +1,12 @@
-from django.test import TestCase
+from datetime import timedelta
 
-from api.factories import TopicFactory
+from django.test import TestCase
+from django.utils import timezone
+
+from api.factories import TopicFactory, RatingFactory
 from rest_framework.test import APIRequestFactory, force_authenticate
 from api.factories import PostFactory, UserFactory
+from api.models import Rating
 from api.serializers import PostSerializer
 from api.views.posts import PostViewSet
 
@@ -12,6 +16,7 @@ class PostApiTest(TestCase):
         self.factory = APIRequestFactory()
         self.detail_view = PostViewSet.as_view({'get': 'retrieve'})
         self.list_view = PostViewSet.as_view({'get': 'list'})
+        self.trending_view = PostViewSet.as_view({'get': 'trending'})
         self.new_filter_view = PostViewSet.as_view({'get': 'new'})
         self.create_view = PostViewSet.as_view({'post': 'create'})
         self.user = UserFactory()
@@ -58,7 +63,6 @@ class PostApiTest(TestCase):
         for post in posts:
             self.assertEqual(post['topic']['id'], topic.id)
 
-
     def test_get_to_post_new_returns_all_when_topic_filter_wrong(self):
         batch_size = 3
         PostFactory.create_batch(batch_size)
@@ -70,7 +74,6 @@ class PostApiTest(TestCase):
 
         self.assertEqual(len(posts), batch_size)
 
-
     def test_new_create_post_is_created(self):
         u = UserFactory()
         t = TopicFactory()
@@ -79,8 +82,55 @@ class PostApiTest(TestCase):
         data['creator'] = u.id
 
         data['topic'] = t.id
-        #data['image'] = data['image']['id']
+        # data['image'] = data['image']['id']
         data['image'] = 'MjU1OzI1NTsyNTU='
-        print('boc------->' + str(data))
         request = self.factory.post("api/posts/", data)
         response = self.create_view(request)
+
+    def test_trending_view_returns_highly_rated_new_posts_first(self):
+        low_post = PostFactory()
+        for i in range(3):
+            RatingFactory(content_object=low_post, value=Rating.LIKE_VALUE)
+
+        middle_post = PostFactory()
+        for i in range(7):
+            RatingFactory(content_object=middle_post, value=Rating.LIKE_VALUE)
+
+        high_post = PostFactory()
+        for i in range(50):
+            RatingFactory(content_object=high_post, value=Rating.LIKE_VALUE)
+
+        request = self.factory.get("api/posts/trending/")
+        force_authenticate(request, self.user)
+        response = self.trending_view(request)
+
+        posts = response.data
+
+        self.assertEqual(posts[0].id, high_post.id)
+        self.assertEqual(posts[1].id, middle_post.id)
+        self.assertEqual(posts[2].id, low_post.id)
+
+    def test_trending_returns_earlier_post_when_equal_ratings(self):
+        low_post = PostFactory()
+        middle_post = PostFactory()
+        high_post = PostFactory()
+        for i in range(50):
+            RatingFactory(content_object=low_post, value=Rating.LIKE_VALUE)
+            RatingFactory(content_object=middle_post, value=Rating.LIKE_VALUE)
+            RatingFactory(content_object=high_post, value=Rating.LIKE_VALUE)
+
+        low_post.created_at = timezone.now() - timedelta(hours=20)
+        middle_post.created_at = timezone.now() - timedelta(hours=10)
+        high_post.created_at = timezone.now() - timedelta(hours=3)
+
+        request = self.factory.get("api/posts/trending/")
+        force_authenticate(request, self.user)
+        response = self.trending_view(request)
+
+        posts = response.data
+
+        self.assertEqual(posts[0].id, high_post.id)
+        self.assertEqual(posts[1].id, middle_post.id)
+        self.assertEqual(posts[2].id, low_post.id)
+
+
