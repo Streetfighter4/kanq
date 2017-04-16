@@ -23,11 +23,10 @@ class Topic(models.Model):
     def get_best_post(self):
         posts = self.posts.all()
 
-        if(posts.count() > 0):
-            # Return post with the biggest rating
-            return max(self.posts.all(), key=lambda p: p.get_rating() or 0)
+        if posts.count() <= 0:
+            return None
 
-        return None
+        return max(posts, key=lambda p: p.get_rating() or 0)
 
     def __str__(self):
         return self.name
