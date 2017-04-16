@@ -49,7 +49,10 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def top(self, request):  # Filter topic by query param
-        pass
+        posts = self.filter_by_topic(request).all()
+        posts = sorted(posts, key=lambda p: p.get_rating(), reverse=True)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @list_route()
     def trending(self, request):  # Filter topic by query param

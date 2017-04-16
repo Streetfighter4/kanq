@@ -1,8 +1,9 @@
 from django.test import TestCase
 
-from api.factories import TopicFactory
+from api.factories import TopicFactory, RatingFactory
 from rest_framework.test import APIRequestFactory, force_authenticate
 from api.factories import PostFactory, UserFactory
+from api.models import Post
 from api.serializers import PostSerializer
 from api.views.posts import PostViewSet
 
@@ -14,6 +15,7 @@ class PostApiTest(TestCase):
         self.list_view = PostViewSet.as_view({'get': 'list'})
         self.new_filter_view = PostViewSet.as_view({'get': 'new'})
         self.create_view = PostViewSet.as_view({'post': 'create'})
+        self.top_view = PostViewSet.as_view({'get': 'top'})
         self.user = UserFactory()
 
     def test_get_to_list_uses_default_serializer(self):
@@ -82,3 +84,24 @@ class PostApiTest(TestCase):
         data['image'] = 'MjU1OzI1NTsyNTU='
         request = self.factory.post("api/posts/", data)
         response = self.create_view(request)
+
+    def test_top_view_sort_correctly(self):
+        batch_size = 5
+        new_posts = PostFactory.create_batch(batch_size)
+
+        for p in new_posts:
+            RatingFactory.create_batch(batch_size, content_object=p)
+
+        request = self.factory.get("api/posts/top")
+        force_authenticate(request, user=self.user)
+        posts = self.top_view(request).data
+
+        for i in range(len(posts) - 1):
+            self.assertGreaterEqual(posts[i]['rating'], posts[i + 1]['rating'])
+
+
+    def test_top_view_sort_right_posts(self):
+        request = self.factory.get("api/posts")
+        posts = self.top_view(request).data
+        for i in range(len(posts) - 1):
+            self.assertEqual(posts[i]['topic'], posts[i + 1]['topic'])
