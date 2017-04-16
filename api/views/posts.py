@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
-
+from kanq.settings import REST_FRAMEWORK
 from api.helpers import user_service
 
 from api.models import Post, Image
@@ -51,7 +51,11 @@ class PostViewSet(viewsets.ModelViewSet):
     def top(self, request):  # Filter topic by query param
         posts = self.filter_by_topic(request).all()
         posts = sorted(posts, key=lambda p: p.get_rating(), reverse=True)
-        serializer = PostSerializer(posts, many=True)
+        page = self.paginate_queryset(posts)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+        else:
+            serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @list_route()
@@ -61,15 +65,21 @@ class PostViewSet(viewsets.ModelViewSet):
     @list_route()
     def new(self, request):
         objects = self.filter_by_topic(request).order_by('-created_at')
-        serializer = PostSerializer(objects, many=True)
-        return Response(serializer.data)
+        page = self.paginate_queryset(objects)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+        else:
+            serializer = self.get_serializer(objects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @list_route()
     def feed(self, request):  # Get feed for a given user
         user_id = request.GET.get('user_id', '')
+
         if user_id:
-            # TODO: paginate
-            posts = user_service.get_user_feed(user_id, 0, 10)
+            page = request.GET.get('page', '0')
+            page_size = REST_FRAMEWORK.PAGE_SIZE
+            posts = user_service.get_user_feed(user_id, page, page_size)
             serialized = PostSerializer(posts, many=True)
             return Response(serialized.data, status=200)
         else:

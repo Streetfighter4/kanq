@@ -1,9 +1,8 @@
 from django.test import TestCase
-
+from kanq.settings import REST_FRAMEWORK
 from api.factories import TopicFactory, RatingFactory
 from rest_framework.test import APIRequestFactory, force_authenticate
 from api.factories import PostFactory, UserFactory
-from api.models import Post
 from api.serializers import PostSerializer
 from api.views.posts import PostViewSet
 
@@ -24,7 +23,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
 
         response = self.list_view(request)
-        self.assertNotIn('comments', response.data[0])
+        self.assertNotIn('comments', response.data['results'][0])
 
     def test_get_to_detail_uses_detail_serializer(self):
         post = PostFactory()
@@ -105,3 +104,24 @@ class PostApiTest(TestCase):
         posts = self.top_view(request).data
         for i in range(len(posts) - 1):
             self.assertEqual(posts[i]['topic'], posts[i + 1]['topic'])
+
+
+    def test_top_view_return_ten_posts_for_paginate(self):
+        batch_size = 15
+        PostFactory.create_batch(batch_size)
+        data = {}
+        data['page'] = 0
+        request = self.factory.get("api/posts/top", data)
+        force_authenticate(request, user=self.user)
+        posts = self.top_view(request).data
+        self.assertEqual(len(posts), REST_FRAMEWORK['PAGE_SIZE'])
+
+    def test_top_view_return_rest_of_the_posts(self):
+        batch_size = 15
+        PostFactory.create_batch(batch_size)
+        data = {}
+        data['page'] = 1
+        request = self.factory.get("api/posts/top", data)
+        force_authenticate(request, user=self.user)
+        posts = self.top_view(request).data
+        self.assertEqual(len(posts), data['page'] * REST_FRAMEWORK['PAGE_SIZE'])
