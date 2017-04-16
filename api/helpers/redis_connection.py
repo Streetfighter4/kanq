@@ -40,8 +40,7 @@ def get_instance():
     try:
         redis_instance.ping()
     except redis.ConnectionError:
-        # logger.warning("Could not establish redis connection on %s:%s" % (settings.REDIS_HOST, settings.REDIS_PORT))
-        # TODO: Enable log when it's redirected to a file
+        logger.error("Could not establish redis connection on %s:%s" % (settings.REDIS_HOST, settings.REDIS_PORT))
         return None
 
     return redis_instance
