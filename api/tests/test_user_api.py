@@ -17,6 +17,7 @@ class UserApiTest(TestCase):
         self.factory = APIRequestFactory()
         self.create_view = UserViewSet.as_view({'post': 'create'})
         self.follow_view = UserViewSet.as_view({'user': 'follow'})
+        self.me_view = UserViewSet.as_view({'get': 'me'})
 
     def test_password_not_readable(self):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
@@ -33,3 +34,15 @@ class UserApiTest(TestCase):
 
         self.assertNotEqual(self.jsonUser['password'], new_user.password)
         self.assertTrue(new_user.check_password(self.jsonUser['password']))
+
+    def test_me_route_returns_current_user(self):
+        self.user.save()
+
+        request = self.factory.get('/api/users/me')
+        force_authenticate(request, user=self.user)
+        response = self.me_view(request)
+        returned_user = response.data
+
+        self.assertEqual(self.user.username, returned_user['username'])
+
+

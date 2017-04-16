@@ -21,6 +21,11 @@ class UserViewSet(viewsets.ModelViewSet):
     def unfollow(self, request, pk=None): # unfollows a given user
         pass
 
+    @detail_route(methods=['get'])
+    def me(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
     # Override create to return token
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
