@@ -33,6 +33,6 @@ class TopicViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         topic = Topic.objects.get(pk=pk)
         serializer = TopicDetailSerializer(topic)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 

@@ -83,9 +83,9 @@ class PostViewSet(viewsets.ModelViewSet):
             page_size = REST_FRAMEWORK.PAGE_SIZE
             posts = user_service.get_user_feed(user_id, page, page_size)
             serialized = PostSerializer(posts, many=True)
-            return Response(serialized.data, status=200)
+            return Response(serialized.data, status=status.HTTP_200_OK)
         else:
-            return Response(status=404)
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
