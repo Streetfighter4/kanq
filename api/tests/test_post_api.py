@@ -1,4 +1,6 @@
 from django.test import TestCase
+from rest_framework import status
+
 from kanq.settings import REST_FRAMEWORK
 from api.factories import TopicFactory, RatingFactory
 from rest_framework.test import APIRequestFactory, force_authenticate
@@ -15,6 +17,7 @@ class PostApiTest(TestCase):
         self.new_filter_view = PostViewSet.as_view({'get': 'new'})
         self.create_view = PostViewSet.as_view({'post': 'create'})
         self.top_view = PostViewSet.as_view({'get': 'top'})
+        self.rate_view = PostViewSet.as_view({'put': 'rate'})
         self.user = UserFactory()
 
     def test_get_to_list_uses_default_serializer(self):
@@ -116,6 +119,7 @@ class PostApiTest(TestCase):
         posts = self.top_view(request).data
         self.assertEqual(len(posts), REST_FRAMEWORK['PAGE_SIZE'])
 
+
     def test_top_view_return_rest_of_the_posts(self):
         batch_size = 15
         PostFactory.create_batch(batch_size)
@@ -125,3 +129,18 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
         posts = self.top_view(request).data
         self.assertEqual(len(posts), data['page'] * REST_FRAMEWORK['PAGE_SIZE'])
+
+
+    def test_rate_view_update_correctly(self):
+        new_post = PostFactory()
+        RatingFactory(content_object=new_post, value=1)
+        data = {}
+        data['post'] = new_post.id
+        data['vote'] = 1
+        request = self.factory.put("api/posts/rate", data)
+        force_authenticate(request, user=self.user)
+        response = self.rate_view(request)
+        serializer = PostSerializer(new_post).data
+        self.assertEqual(2, serializer['rating'])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+

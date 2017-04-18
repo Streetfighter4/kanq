@@ -5,11 +5,13 @@ from rest_framework import status
 
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
+
 from kanq.settings import REST_FRAMEWORK
 from api.helpers import user_service
 
-from api.models import Post, Image
+from api.models import Post, Image, Rating
 
 from api.serializers import PostSerializer, PostDetailSerializer
 
@@ -87,7 +89,9 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
-        pass
+        post = get_object_or_404(Post, id=request.data['post'])
+        Rating.objects.create(content_object=post, value=request.data['vote'], user = request.user)
+        return Response(status=status.HTTP_200_OK)
 
     @staticmethod
     def filter_by_topic(request):
