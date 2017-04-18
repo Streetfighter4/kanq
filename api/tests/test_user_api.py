@@ -1,4 +1,5 @@
 from django.test import TestCase
+from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.test import APIRequestFactory, force_authenticate
 
@@ -24,6 +25,7 @@ class UserApiTest(TestCase):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
         force_authenticate(request, user=self.user)
         response = self.create_view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertNotIn('password', response.data)
 
     def test_password_saves_as_hash(self):
@@ -31,6 +33,7 @@ class UserApiTest(TestCase):
         force_authenticate(request, user=self.user)
 
         response = self.create_view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         new_user = User.objects.get(pk=response.data['id'])
 
         self.assertNotEqual(self.jsonUser['password'], new_user.password)
@@ -44,6 +47,7 @@ class UserApiTest(TestCase):
         request = self.factory.put("api/users/follow", data)
         force_authenticate(request, user=u)
         response = self.follow_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn(u.id, u1.get_followers_ids())
 
     def test_user_unfollow_other_user(self):
@@ -56,4 +60,5 @@ class UserApiTest(TestCase):
         request = self.factory.put("api/users/unfollow", data)
         force_authenticate(request, user=u)
         response = self.unfollow_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertNotIn(u.id, u1.get_followers_ids())

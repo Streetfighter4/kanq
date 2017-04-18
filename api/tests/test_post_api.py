@@ -26,6 +26,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
 
         response = self.list_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertNotIn('comments', response.data['results'][0])
 
     def test_get_to_detail_uses_detail_serializer(self):
@@ -33,7 +34,7 @@ class PostApiTest(TestCase):
         request = self.factory.get("api/posts/%d" % post.id)
         force_authenticate(request, user=self.user)
         response = self.detail_view(request, pk=post.id)
-
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('comments', response.data)
 
     def test_get_to_post_new_returns_sorted_by_date(self):
@@ -42,7 +43,7 @@ class PostApiTest(TestCase):
         request = self.factory.get("api/posts/new")
         force_authenticate(request, user=self.user)
         response = self.new_filter_view(request)
-
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         posts = response.data
 
         for i in range(len(posts) - 1):
@@ -56,7 +57,7 @@ class PostApiTest(TestCase):
         request = self.factory.get("api/posts/new/", {'topic_id': topic.id})
         force_authenticate(request, user=self.user)
         response = self.new_filter_view(request)
-
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         posts = response.data
 
         for post in posts:
@@ -69,7 +70,7 @@ class PostApiTest(TestCase):
         request = self.factory.get("api/posts/new/", {'topic_id': 'gibberish'})
         force_authenticate(request, user=self.user)
         response = self.new_filter_view(request)
-
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         posts = response.data
 
         self.assertEqual(len(posts), batch_size)
@@ -96,7 +97,9 @@ class PostApiTest(TestCase):
 
         request = self.factory.get("api/posts/top")
         force_authenticate(request, user=self.user)
-        posts = self.top_view(request).data
+        response = self.top_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        posts = response.data
 
         for i in range(len(posts) - 1):
             self.assertGreaterEqual(posts[i]['rating'], posts[i + 1]['rating'])
@@ -104,7 +107,10 @@ class PostApiTest(TestCase):
 
     def test_top_view_sort_right_posts(self):
         request = self.factory.get("api/posts")
-        posts = self.top_view(request).data
+        force_authenticate(request, user=self.user)
+        response = self.top_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        posts = response.data
         for i in range(len(posts) - 1):
             self.assertEqual(posts[i]['topic'], posts[i + 1]['topic'])
 
@@ -116,7 +122,9 @@ class PostApiTest(TestCase):
         data['page'] = 0
         request = self.factory.get("api/posts/top", data)
         force_authenticate(request, user=self.user)
-        posts = self.top_view(request).data
+        response = self.top_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        posts = response.data
         self.assertEqual(len(posts), REST_FRAMEWORK['PAGE_SIZE'])
 
 
@@ -127,9 +135,10 @@ class PostApiTest(TestCase):
         data['page'] = 1
         request = self.factory.get("api/posts/top", data)
         force_authenticate(request, user=self.user)
-        posts = self.top_view(request).data
+        response = self.top_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        posts = response.data
         self.assertEqual(len(posts), data['page'] * REST_FRAMEWORK['PAGE_SIZE'])
-
 
     def test_rate_view_update_correctly(self):
         new_post = PostFactory()
@@ -140,7 +149,7 @@ class PostApiTest(TestCase):
         request = self.factory.put("api/posts/rate", data)
         force_authenticate(request, user=self.user)
         response = self.rate_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         serializer = PostSerializer(new_post).data
         self.assertEqual(2, serializer['rating'])
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
