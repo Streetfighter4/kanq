@@ -21,7 +21,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):  # Upload image to server if needed and create post
         images_dir = './images/'
-        image_name = 'image1'
+        image_name = request.data['creator'] + request.data['created_at']
         image_extension = '.png'
         full_path = images_dir + image_name + image_extension
         if not os.path.exists(images_dir):
@@ -35,13 +35,11 @@ class PostViewSet(viewsets.ModelViewSet):
 
         image = Image.objects.create(uri=full_path)
         data['image'] = image.id
-        print(str(data))
 
         post = Post.objects.create(description = data['description'], title=data['title'],
                                    creator_id = data['creator'], topic_id = data['topic'], image_id=data['image'])
-        return Response(post, status=status.HTTP_201_CREATED)
-
-        #    return Response(new_post, status=status.HTTP_400_BAD_REQUEST)
+        serializer = PostSerializer(instance=post)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @list_route()
     def top(self, request):  # Filter topic by query param

@@ -1,8 +1,13 @@
-from django.test import TestCase
+from datetime import datetime
 
-from api.factories import TopicFactory
+import pytz
+from django.test import TestCase
+from rest_framework import status
 from rest_framework.test import APIRequestFactory, force_authenticate
+
 from api.factories import PostFactory, UserFactory
+from api.factories import TopicFactory
+from api.models import Post
 from api.serializers import PostSerializer
 from api.views.posts import PostViewSet
 
@@ -72,15 +77,31 @@ class PostApiTest(TestCase):
 
 
     def test_new_create_post_is_created(self):
-        u = UserFactory()
-        t = TopicFactory()
+        topic = TopicFactory()
         newPost = PostFactory.build()
         data = PostSerializer(newPost).data
-        data['creator'] = u.id
+        data['creator'] = self.user.id
 
-        data['topic'] = t.id
-        #data['image'] = data['image']['id']
+        data['topic'] = topic.id
         data['image'] = 'MjU1OzI1NTsyNTU='
-        print('boc------->' + str(data))
         request = self.factory.post("api/posts/", data)
+        force_authenticate(request, user=self.user)
         response = self.create_view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertNotEqual(0, len(Post.objects.filter(creator_id=self.user.id)))
+
+    def test_create_view_update_image(self):
+        topic = TopicFactory()
+        newPost = PostFactory.build()
+        data = PostSerializer(newPost).data
+        data['creator'] = self.user.id
+
+        data['topic'] = topic.id
+        data['image'] = 'MjU1OzI1NTsyNTU='
+        data['created_at'] = datetime.now(pytz.utc)
+        request = self.factory.post("api/posts/", data)
+        force_authenticate(request, user=self.user)
+        response = self.create_view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIsNotNone(response.data['image'])
+
