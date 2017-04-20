@@ -1,9 +1,28 @@
+.login{
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin-top: 50px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 7px;
+}
+
+.login-text{
+  font-family: "Times New Roman";
+}
+
+
+.checkbox {
+  margin-bottom: 30px;
+  margin-left: 20px;
+}
+
 .btn-facebook {
   margin: 15px auto;
-  width: 60%;
+  width: 100%;
 }
 
 input[type="submit"] {
-  width: 60%;
+  width: 100%;
   margin: 0 auto;
 }

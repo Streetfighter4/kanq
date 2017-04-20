@@ -1,12 +1,14 @@
+
 <div class="col-md-4 col-md-offset-4">
-  <h2 class="page-header text-center">LOGIN</h2>
+  <!-- <h2 class="page-header text-center">LOGIN</h2> -->
 
   <errors [(errors)]="errors"></errors>
 
-  <form (submit)="login(); $event.preventDefault()">
+  <form class="login" (submit)="login(); $event.preventDefault()">
+    <h2 class="login-text text-center">Please login</h2>
     <div class="form-group">
       <label>Username</label>
-      <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
+        <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username" name="username">
     </div>
 
     <div class="form-group">
@@ -17,10 +19,10 @@
     <div class="form-group">
       <input type="submit" [disabled]="loading" class="btn btn-primary center-block" value="Login">
     </div>
-  </form>
 
-  <a routerLink="/oauth/facebook/authorize" class="btn btn-block btn btn-social btn-facebook">
-    <span class="fa fa-facebook"></span>
-    Facebook login
-  </a>
+      <a routerLink="/oauth/facebook/authorize" class="btn btn-block btn btn-social btn-facebook">
+        <span class="fa fa-facebook"></span>
+        Facebook login
+      </a>
+  </form>
 </div>
