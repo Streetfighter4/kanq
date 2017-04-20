@@ -1,4 +1,5 @@
 import base64
+from django.utils import timezone
 import os
 
 from rest_framework import status
@@ -21,9 +22,10 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):  # Upload image to server if needed and create post
         images_dir = './images/'
-        image_name = request.data['creator'] + request.data['created_at']
-        image_extension = '.png'
-        full_path = images_dir + image_name + image_extension
+        image_name = '{}_{}'.format(request.data['creator'], timezone.now().strftime("%Y_%m_%d_%H_%M_%S"))
+        image_extension = request.data['extension']
+        full_path = '{}{}{}'.format(images_dir, image_name, image_extension)
+        print(full_path)
         if not os.path.exists(images_dir):
             os.makedirs(images_dir)
 

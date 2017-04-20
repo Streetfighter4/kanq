@@ -1,6 +1,3 @@
-from datetime import datetime
-
-import pytz
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIRequestFactory, force_authenticate
@@ -84,6 +81,7 @@ class PostApiTest(TestCase):
 
         data['topic'] = topic.id
         data['image'] = 'MjU1OzI1NTsyNTU='
+        data['extension'] = '.png'
         request = self.factory.post("api/posts/", data)
         force_authenticate(request, user=self.user)
         response = self.create_view(request)
@@ -98,7 +96,7 @@ class PostApiTest(TestCase):
 
         data['topic'] = topic.id
         data['image'] = 'MjU1OzI1NTsyNTU='
-        data['created_at'] = datetime.now(pytz.utc)
+        data['extension'] = '.png'
         request = self.factory.post("api/posts/", data)
         force_authenticate(request, user=self.user)
         response = self.create_view(request)
