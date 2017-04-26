@@ -79,8 +79,6 @@ class PostApiTest(TestCase):
         data['creator'] = u.id
 
         data['topic'] = t.id
-        #data['image'] = data['image']['id']
         data['image'] = 'MjU1OzI1NTsyNTU='
-        print('boc------->' + str(data))
         request = self.factory.post("api/posts/", data)
         response = self.create_view(request)
