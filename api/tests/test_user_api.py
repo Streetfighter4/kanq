@@ -38,11 +38,9 @@ class UserApiTest(TestCase):
     def test_user_follow_other_user(self):
         u = UserFactory() # toni
         u1 = UserFactory() # yasen
-        data={}
-        data['followed'] = u1.id
-        request = self.factory.put("api/users/follow", data)
+        request = self.factory.put("api/users/follow")
         force_authenticate(request, user=u)
-        response = self.follow_view(request)
+        self.follow_view(request, pk=u1.id)
         self.assertIn(u.id, u1.get_followers_ids())
 
     def test_user_unfollow_other_user(self):
@@ -50,9 +48,7 @@ class UserApiTest(TestCase):
         u1 = UserFactory()  # yasen
         u.followers.add(u1)
         u.save()
-        data={}
-        data['followed'] = u1.id
-        request = self.factory.put("api/users/unfollow", data)
+        request = self.factory.put("api/users/unfollow")
         force_authenticate(request, user=u)
-        response = self.unfollow_view(request)
+        self.unfollow_view(request, pk=u1.id)
         self.assertNotIn(u.id, u1.get_followers_ids())

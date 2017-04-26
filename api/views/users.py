@@ -16,7 +16,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def follow(self, request, pk=None): # follows a given user
-        user = get_object_or_404(User, id=request.data['followed'])
+        user = get_object_or_404(User, id=pk)
         user.followers.add(request.user)
         user.save()
         return Response(status=status.HTTP_200_OK)
@@ -24,7 +24,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def unfollow(self, request, pk=None): # unfollows a given user
-        user = get_object_or_404(User, id=request.data['followed'])
+        user = get_object_or_404(User, id=pk)
         user.followers.remove(request.user)
         user.save()
         return Response(status=status.HTTP_200_OK)
