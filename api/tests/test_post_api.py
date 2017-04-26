@@ -8,6 +8,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 from api.factories import PostFactory, UserFactory
 from api.models import Rating
 from api.serializers import PostSerializer
+from api.settings import TRENDING_POST_FALLOUT
 from api.views.posts import PostViewSet
 
 
@@ -89,16 +90,13 @@ class PostApiTest(TestCase):
 
     def test_trending_view_returns_highly_rated_new_posts_first(self):
         low_post = PostFactory()
-        for i in range(3):
-            RatingFactory(content_object=low_post, value=Rating.LIKE_VALUE)
+        RatingFactory.create_batch(3, content_object=low_post, value=Rating.LIKE_VALUE)
 
         middle_post = PostFactory()
-        for i in range(7):
-            RatingFactory(content_object=middle_post, value=Rating.LIKE_VALUE)
+        RatingFactory.create_batch(7, content_object=middle_post , value=Rating.LIKE_VALUE)
 
         high_post = PostFactory()
-        for i in range(50):
-            RatingFactory(content_object=high_post, value=Rating.LIKE_VALUE)
+        RatingFactory.create_batch(50, content_object=high_post , value=Rating.LIKE_VALUE)
 
         request = self.factory.get("api/posts/trending/")
         force_authenticate(request, self.user)
@@ -120,8 +118,11 @@ class PostApiTest(TestCase):
             RatingFactory(content_object=high_post, value=Rating.LIKE_VALUE)
 
         low_post.created_at = timezone.now() - timedelta(hours=20)
+        low_post.save()
         middle_post.created_at = timezone.now() - timedelta(hours=10)
+        middle_post.save()
         high_post.created_at = timezone.now() - timedelta(hours=3)
+        high_post.save()
 
         request = self.factory.get("api/posts/trending/")
         force_authenticate(request, self.user)
@@ -132,5 +133,3 @@ class PostApiTest(TestCase):
         self.assertEqual(posts[0].id, high_post.id)
         self.assertEqual(posts[1].id, middle_post.id)
         self.assertEqual(posts[2].id, low_post.id)
-
-

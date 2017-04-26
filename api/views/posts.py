@@ -12,6 +12,7 @@ from api.helpers import user_service
 from api.models import Post, Image
 
 from api.serializers import PostSerializer, PostDetailSerializer
+from api.settings import TRENDING_POST_FALLOUT
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -54,7 +55,7 @@ class PostViewSet(viewsets.ModelViewSet):
     @list_route()
     def trending(self, request):  # Filter topic by query param
         posts = Post.objects.all()
-        trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(60*60*24))
+        trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(TRENDING_POST_FALLOUT))
         return Response(data=trending_posts, status=200)
 
     @list_route()
