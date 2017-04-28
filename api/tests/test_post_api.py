@@ -2,13 +2,12 @@ from datetime import timedelta
 
 from django.test import TestCase
 from django.utils import timezone
-
-from api.factories import TopicFactory, RatingFactory
 from rest_framework.test import APIRequestFactory, force_authenticate
+
 from api.factories import PostFactory, UserFactory
+from api.factories import TopicFactory, RatingFactory
 from api.models import Rating
 from api.serializers import PostSerializer
-from api.settings import TRENDING_POST_FALLOUT
 from api.views.posts import PostViewSet
 
 
@@ -83,7 +82,6 @@ class PostApiTest(TestCase):
         data['creator'] = u.id
 
         data['topic'] = t.id
-        # data['image'] = data['image']['id']
         data['image'] = 'MjU1OzI1NTsyNTU='
         request = self.factory.post("api/posts/", data)
         response = self.create_view(request)

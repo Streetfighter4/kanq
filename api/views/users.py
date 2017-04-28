@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import detail_route
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from api.models import User
@@ -15,11 +16,18 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def follow(self, request, pk=None): # follows a given user
-        pass
+        user = get_object_or_404(User, id=pk)
+        user.followers.add(request.user)
+        user.save()
+        return Response(status=status.HTTP_200_OK)
+
 
     @detail_route(methods=['put'])
     def unfollow(self, request, pk=None): # unfollows a given user
-        pass
+        user = get_object_or_404(User, id=pk)
+        user.followers.remove(request.user)
+        user.save()
+        return Response(status=status.HTTP_200_OK)
 
     # Override create to return token
     def create(self, request, *args, **kwargs):
