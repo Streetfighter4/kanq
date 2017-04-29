@@ -13,6 +13,10 @@ from api.models import Post, Image
 
 from api.serializers import PostSerializer, PostDetailSerializer
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -84,7 +88,7 @@ class PostViewSet(viewsets.ModelViewSet):
             try:
                 objects = objects.filter(topic__id=int(topic_id))
             except ValueError:
-                print('Wrong topic id: ' + topic_id)
+                logger.error('Tried filtering by topic with wrong topic_id')
 
         return objects
 

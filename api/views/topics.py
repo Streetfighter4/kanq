@@ -5,6 +5,10 @@ from rest_framework.response import Response
 from api.models import Topic
 from api.serializers import TopicSerializer, TopicDetailSerializer
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class TopicViewSet(viewsets.ModelViewSet):
     queryset = Topic.objects.all()
