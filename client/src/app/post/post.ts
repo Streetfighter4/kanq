@@ -10,7 +10,7 @@ export class Post {
   topic: Topic;
   image: Image;
   // tags: Tag[];
-  // comments: Comment[];
+  comments: Comment[];
   created_at: string;
   rating: number;
 }
