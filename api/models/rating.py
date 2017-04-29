@@ -20,4 +20,4 @@ class Rating(models.Model):
     ])
 
     def __str__(self):
-        return self.user + " " + self.value
+        return "%s %s" % (self.user, self.value)
