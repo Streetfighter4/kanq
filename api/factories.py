@@ -110,17 +110,12 @@ class CommentFactory(DjangoModelFactory):
     class Meta:
         model = Comment
 
+    def _after_postgeneration(cls, obj, create, results=None):
+        RatingFactory.create_batch(content_object=obj)
+
     content = factory.Faker('text')
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
-
-    # Subfactory needs to be added like that, because otherwise
-    # it can't reference itself
-    parent = factory.SubFactory('api.factories.CommentFactory', user=user, post=post)
-
-    # Tell the recursion to go only up to 3 levels deep
-    parent__parent__parent = None
-
 
 class MedalFactory(DjangoModelFactory):
     MIN_RANK = 1
