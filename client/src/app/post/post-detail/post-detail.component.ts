@@ -23,4 +23,9 @@ export class PostDetailComponent implements OnInit {
         .then(res => this.post = res);
     });
   }
+
+  rate(value: number) {
+    this.postService.rate(this.id, value)
+      .then(console.log);
+  }
 }

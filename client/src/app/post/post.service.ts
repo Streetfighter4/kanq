@@ -12,4 +12,10 @@ export class PostService {
       .then(res => res.json())
       .catch(err => console.log('error getting post', err));
   }
+
+  rate(id: number, value: number) {
+    return this.http.get(Settings.API_POSTS_URL + id + '/rate/')
+      .toPromise()
+      .then(res => res.json())
+  }
 }

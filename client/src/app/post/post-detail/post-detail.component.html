@@ -1,8 +1,21 @@
 <div class="post" *ngIf="post">
-  <h2 class="page-header text-center text-capitalize">Title: {{ post.title }}</h2>
+  <h2 class="page-header text-center text-capitalize">Post: {{ post.title }}</h2>
+
+  <div class="post-topic text-center">
+    Topic: {{ post.topic.name }}
+  </div>
+
+  <div class="post-rating text-center">
+    Rating: {{ post.rating }}
+    <div class="post-vote glyphicon glyphicon-arrow-up" (click)="rate(1)"></div>
+    <div class="post-vote glyphicon glyphicon-arrow-down" (click)="rate(-1)"></div>
+  </div>
+
   <img class="post-image center-block" src="{{ post.image.uri }}">
 
   <p class="post-description">
     {{ post.description }}
   </p>
+
+  Created by {{ post.creator.username }} on {{ post.created_at | date: 'medium' }}
 </div>
