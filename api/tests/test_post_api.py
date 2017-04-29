@@ -102,9 +102,9 @@ class PostApiTest(TestCase):
 
         posts = response.data
 
-        self.assertEqual(posts[0].id, high_post.id)
-        self.assertEqual(posts[1].id, middle_post.id)
-        self.assertEqual(posts[2].id, low_post.id)
+        self.assertEqual(posts[0]["id"], high_post.id)
+        self.assertEqual(posts[1]["id"], middle_post.id)
+        self.assertEqual(posts[2]["id"], low_post.id)
 
     def test_trending_returns_earlier_post_when_equal_ratings(self):
         low_post = PostFactory()
@@ -128,6 +128,6 @@ class PostApiTest(TestCase):
 
         posts = response.data
 
-        self.assertEqual(posts[0].id, high_post.id)
-        self.assertEqual(posts[1].id, middle_post.id)
-        self.assertEqual(posts[2].id, low_post.id)
+        self.assertEqual(posts[0]["id"], high_post.id)
+        self.assertEqual(posts[1]["id"], middle_post.id)
+        self.assertEqual(posts[2]["id"], low_post.id)
