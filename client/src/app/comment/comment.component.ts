@@ -1,4 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {CommentService} from './comment.service';
+import {Comment} from './comment';
 
 @Component({
   selector: 'comment',
@@ -8,9 +10,30 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
 
-  constructor() { }
+  showReplyBox: boolean = false;
+  replyText: string;
+
+  constructor(private commentService: CommentService) { }
 
   ngOnInit() {
   }
 
+  openReplyBox() {
+    this.showReplyBox = true;
+  }
+
+  createChildComment() {
+    this.commentService.createComment(this.replyText, this.comment)
+      .then(this.handleCommentCreation.bind(this));
+  }
+
+  handleCommentCreation(newComment: Comment) {
+    this.resetReplyBox();
+    this.comment.children.push(newComment);
+  }
+
+  resetReplyBox() {
+    this.showReplyBox = false;
+    this.replyText = '';
+  }
 }

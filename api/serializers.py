@@ -145,6 +145,7 @@ class CommentSerializer(ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'content', 'post', 'user', 'parent', 'children', 'rating')
+        read_only_fields = ['user']
 
 
 class MedalSerializer(ModelSerializer):

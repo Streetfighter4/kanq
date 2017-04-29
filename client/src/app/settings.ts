@@ -24,6 +24,7 @@ export class Settings {
   static API_PASSWORD_LOGIN_URL = Settings.API_URL + 'auth/';
   static API_TOPICS_URL = Settings.API_URL + 'topics/';
   static API_POSTS_URL = Settings.API_URL + 'posts/';
+  static API_COMMENTS_URL = Settings.API_URL + 'comments/';
   static API_SIGNUP_URL = Settings.API_URL + 'users/';
 
   static API_CLIENT_ID = 'X6s7sDaQgaO6J7dUXkutMNg2SKi1v1kuosZp4MLe';

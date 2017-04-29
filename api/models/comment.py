@@ -19,5 +19,6 @@ class Comment(models.Model):
         rating = self.ratings.aggregate(Sum('value'))['value__sum']
         return rating or 0
 
+
     def __str__(self):
         return self.content
