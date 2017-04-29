@@ -22,6 +22,12 @@
     {{ post.description }}
   </p>
 
+  <div class="reply" (click)="openReplyBox()">Reply</div>
+  <div class="reply-box" *ngIf="showReplyBox">
+    <textarea [(ngModel)]="replyText"></textarea>
+    <input type="button" value="Save comment" (click)="createChildComment()">
+  </div>
+
   <div class="comments">
     <label class="center-block text-center">Comments</label>
     <comment *ngFor="let comment of post.comments" [comment]="comment"></comment>

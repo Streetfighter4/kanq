@@ -23,7 +23,7 @@ export class CommentComponent implements OnInit {
   }
 
   createChildComment() {
-    this.commentService.createComment(this.replyText, this.comment)
+    this.commentService.createComment(this.replyText, this.comment, this.comment.post)
       .then(this.handleCommentCreation.bind(this));
   }
 
