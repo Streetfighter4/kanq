@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '../../common/http-client.service';
-import {Settings} from '../../settings';
+import {HttpClient} from '../common/http-client.service';
+import {Settings} from '../settings';
 
 @Injectable()
 export class TopicService {

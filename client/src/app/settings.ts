@@ -23,6 +23,7 @@ export class Settings {
   static API_CONVERT_TOKEN_URL = Settings.API_URL + 'oauth/convert-token/';
   static API_PASSWORD_LOGIN_URL = Settings.API_URL + 'auth/';
   static API_TOPICS_URL = Settings.API_URL + 'topics/';
+  static API_POSTS_URL = Settings.API_URL + 'posts/';
   static API_SIGNUP_URL = Settings.API_URL + 'users/';
 
   static API_CLIENT_ID = 'X6s7sDaQgaO6J7dUXkutMNg2SKi1v1kuosZp4MLe';

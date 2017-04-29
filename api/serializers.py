@@ -31,7 +31,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'is_active', 'password', 'password_confirmation')
+        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'password', 'password_confirmation')
         extra_kwargs = {'password': {'write_only': True}, 'is_active': {'read_only': True}}
 
     def create(self, validated_data):
@@ -97,19 +97,6 @@ class TopicDetailSerializer(ModelSerializer):
         fields = ('id', 'name', 'start', 'end', 'tags', 'active', 'posts')
 
 
-class TopicDetailSerializer(ModelSerializer):
-    tags = serializers.StringRelatedField(many=True)
-    active = serializers.SerializerMethodField()
-    posts = PostGlanceSerializer(many=True)
-
-    def get_active(self, topic):
-        return topic.is_active()
-
-    class Meta:
-        model = Topic
-        fields = ('id', 'name', 'start', 'end', 'tags', 'active', 'posts')
-
-
 class PostSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
@@ -121,13 +108,16 @@ class PostSerializer(ModelSerializer):
         fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'created_at')
 
 
-
-
 class PostDetailSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
     topic = TopicSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
+    image = ImageSerializer(read_only=True)
+    rating = serializers.SerializerMethodField()
+
+    def get_rating(self, post):
+        return post.get_rating()
 
     def get_comments(self, post):
         comments = Comment.objects.filter(post=post, parent=None)
@@ -136,7 +126,7 @@ class PostDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments', 'created_at')
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments', 'created_at', 'rating')
 
 
 class TagSerializer(ModelSerializer):

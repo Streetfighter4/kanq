@@ -2,15 +2,17 @@
   <h2 class="page-header text-center text-capitalize">Topic: {{ topic.name }}</h2>
 
   <div *ngFor="let post of topic.posts">
-    <div class="post col-md-3">
-      {{ post.title }}
+    <a routerLink="/posts/{{ post.id }}">
+      <div class="post col-md-3">
+        {{ post.title }}
 
-      <div class="image-holder">
-        <img src="{{ post.image.uri }}" class="image">
+        <div class="image-holder">
+          <img src="{{ post.image.uri }}" class="image">
+        </div>
+
+        Upvotes: {{ post.rating }}
       </div>
-
-      Upvotes: {{ post.rating }}
-    </div>
+    </a>
   </div>
 </div>
 
