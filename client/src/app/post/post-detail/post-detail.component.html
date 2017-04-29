@@ -24,8 +24,6 @@
 
   <div class="comments">
     <label class="center-block text-center">Comments</label>
-    <div class="comment" *ngFor="let comment of post.comments">
-      <comment [comment]="comment"></comment>
-    </div>
+    <comment *ngFor="let comment of post.comments" [comment]="comment"></comment>
   </div>
 </div>

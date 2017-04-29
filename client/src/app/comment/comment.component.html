@@ -1,3 +1,13 @@
-<div>
-  {{ comment.content }}
+<div class="comment">
+  <p>
+    {{ comment.content }}
+  </p>
+
+  Rating: {{ comment.rating }}
+  <div class="vote glyphicon glyphicon-arrow-up" (click)="rate(1)"></div>
+  <div class="vote glyphicon glyphicon-arrow-down" (click)="rate(-1)"></div>
+
+  <div *ngFor="let comment of comment.children">
+    <comment [comment]="comment"></comment>
+  </div>
 </div>
