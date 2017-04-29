@@ -137,10 +137,14 @@ class TagSerializer(ModelSerializer):
 
 class CommentSerializer(ModelSerializer):
     children = RecursiveField(many=True, read_only=True)
+    rating = serializers.SerializerMethodField()
+
+    def get_rating(self, comment):
+        return comment.get_rating()
 
     class Meta:
         model = Comment
-        fields = ('id', 'content', 'post', 'user', 'parent', 'children')
+        fields = ('id', 'content', 'post', 'user', 'parent', 'children', 'rating')
 
 
 class MedalSerializer(ModelSerializer):
