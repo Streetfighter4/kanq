@@ -116,7 +116,7 @@ class CommentFactory(DjangoModelFactory):
 
     # Subfactory needs to be added like that, because otherwise
     # it can't reference itself
-    parent = factory.SubFactory('api.factories.CommentFactory')
+    parent = factory.SubFactory('api.factories.CommentFactory', user=user, post=post)
 
     # Tell the recursion to go only up to 3 levels deep
     parent__parent__parent = None

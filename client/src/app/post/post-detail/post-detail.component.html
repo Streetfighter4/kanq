@@ -11,11 +11,21 @@
     <div class="post-vote glyphicon glyphicon-arrow-down" (click)="rate(-1)"></div>
   </div>
 
+  <div class="center-block text-center">
+    Created by {{ post.creator.username }} on {{ post.created_at | date: 'medium' }}
+  </div>
+
   <img class="post-image center-block" src="{{ post.image.uri }}">
 
   <p class="post-description">
+    <label class="center-block text-center">Description</label>
     {{ post.description }}
   </p>
 
-  Created by {{ post.creator.username }} on {{ post.created_at | date: 'medium' }}
+  <div class="comments">
+    <label class="center-block text-center">Comments</label>
+    <div class="comment" *ngFor="let comment of post.comments">
+      <comment [comment]="comment"></comment>
+    </div>
+  </div>
 </div>
