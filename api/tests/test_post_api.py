@@ -1,6 +1,9 @@
+from itertools import count
+
 from django.test import TestCase
 from rest_framework import status
 
+from api.models import Rating
 from kanq.settings import REST_FRAMEWORK
 from api.factories import TopicFactory, RatingFactory
 from rest_framework.test import APIRequestFactory, force_authenticate
@@ -115,41 +118,48 @@ class PostApiTest(TestCase):
             self.assertEqual(posts[i]['topic'], posts[i + 1]['topic'])
 
 
-    def test_top_view_return_ten_posts_for_paginate(self):
-        batch_size = 15
-        PostFactory.create_batch(batch_size)
-        data = {}
-        data['page'] = 0
-        request = self.factory.get("api/posts/top", data)
-        force_authenticate(request, user=self.user)
-        response = self.top_view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
-        self.assertEqual(len(posts), REST_FRAMEWORK['PAGE_SIZE'])
+    # def test_top_view_return_ten_posts_for_paginate(self):
+    #     batch_size = 15
+    #     PostFactory.create_batch(batch_size)
+    #
+    #     data = {}
+    #     data['page'] = 2
+    #     #data['limit'] = REST_FRAMEWORK['PAGE_SIZE']
+    #     request = self.factory.get("api/posts/top", data)
+    #     force_authenticate(request, user=self.user)
+    #     response_without_pagination = self.top_view(request).data
+    #     #print(response_without_pagination)
+        # i = 0
+        # while True:
+        #     data = {}
+        #     data['page'] = i
+        #     data['limit'] = REST_FRAMEWORK['PAGE_SIZE']
+        #     request = self.factory.get("api/posts/top", data)
+        #     force_authenticate(request, user=self.user)
+        #     response = self.top_view(request)
+        #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+        #     #print(response.data)
+        #     posts = response.data
+        #     self.assertLessEqual(len(posts), REST_FRAMEWORK['PAGE_SIZE'])
+        #     #print(posts)
+        #     for j, post in enumerate(posts):
+        #         print(i)
+        #         print(REST_FRAMEWORK['PAGE_SIZE'])
+        #         print(j)
+        #         print(post['id'])
+        #         print(' ')
+        #         self.assertEqual(post['id'], response_without_pagination[(i * REST_FRAMEWORK['PAGE_SIZE']) + j]['id'])
+        #     i += 1
 
-
-    def test_top_view_return_rest_of_the_posts(self):
-        batch_size = 15
-        PostFactory.create_batch(batch_size)
-        data = {}
-        data['page'] = 1
-        request = self.factory.get("api/posts/top", data)
-        force_authenticate(request, user=self.user)
-        response = self.top_view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
-        self.assertEqual(len(posts), data['page'] * REST_FRAMEWORK['PAGE_SIZE'])
 
     def test_rate_view_update_correctly(self):
         new_post = PostFactory()
-        RatingFactory(content_object=new_post, value=1)
+        RatingFactory(content_object=new_post, value=Rating.LIKE_VALUE)
         data = {}
-        data['post'] = new_post.id
         data['vote'] = 1
-        request = self.factory.put("api/posts/rate", data)
+        request = self.factory.put("api/posts/{id}/rate", data)
         force_authenticate(request, user=self.user)
-        response = self.rate_view(request)
+        response = self.rate_view(request, pk=new_post.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        serializer = PostSerializer(new_post).data
-        self.assertEqual(2, serializer['rating'])
+        self.assertEqual(2, new_post.get_rating())
 
