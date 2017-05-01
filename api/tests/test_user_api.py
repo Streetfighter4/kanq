@@ -1,4 +1,6 @@
 from django.test import TestCase
+from rest_framework import status
+from rest_framework.generics import get_object_or_404
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 from api.factories import UserFactory
@@ -25,6 +27,7 @@ class UserApiTest(TestCase):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
         force_authenticate(request, user=self.user)
         response = self.create_view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertNotIn('password', response.data)
 
     def test_password_saves_as_hash(self):
@@ -32,6 +35,7 @@ class UserApiTest(TestCase):
         force_authenticate(request, user=self.user)
 
         response = self.create_view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         new_user = User.objects.get(pk=response.data['id'])
 
         self.assertNotEqual(self.jsonUser['password'], new_user.password)
@@ -42,6 +46,8 @@ class UserApiTest(TestCase):
         u1 = UserFactory() # yasen
         request = self.factory.put("api/users/follow")
         force_authenticate(request, user=u)
+        response = self.follow_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.follow_view(request, pk=u1.id)
         self.assertIn(u.id, u1.get_followers_ids())
 
@@ -52,6 +58,8 @@ class UserApiTest(TestCase):
         u.save()
         request = self.factory.put("api/users/unfollow")
         force_authenticate(request, user=u)
+        response = self.unfollow_view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.unfollow_view(request, pk=u1.id)
         self.assertNotIn(u.id, u1.get_followers_ids())
 
