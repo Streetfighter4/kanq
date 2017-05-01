@@ -90,8 +90,9 @@ class PostViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
         post = get_object_or_404(Post, id=pk)
-        Rating.objects.create(content_object=post, value=request.data['vote'], user = request.user)
-        return Response(status=status.HTTP_200_OK)
+        if (post.get_current_user_vote(request) is None):
+            Rating.objects.create(content_object=post, value=request.data['vote'], user = request.user)
+            return Response(status=status.HTTP_200_OK)
 
     @staticmethod
     def filter_by_topic(request):

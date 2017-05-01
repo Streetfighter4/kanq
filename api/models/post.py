@@ -3,6 +3,7 @@ import logging
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Sum
+from rest_framework.generics import get_object_or_404
 
 from api.helpers import redis_connection
 from .image import Image
@@ -39,6 +40,9 @@ class Post(models.Model):
         rating = self.ratings.aggregate(Sum('value'))['value__sum']
         return rating or 0
 
+    def get_current_user_vote(self, request):
+        voted = Rating.objects.get(object_id=self.id, user=request.user)
+        return voted
 
     def __str__(self):
         return self.title

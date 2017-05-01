@@ -154,7 +154,8 @@ class PostApiTest(TestCase):
         new_post = PostFactory()
         RatingFactory(content_object=new_post, value=Rating.LIKE_VALUE)
         data = {}
-        data['vote'] = 1
+        data['vote'] = Rating.LIKE_VALUE
+        data['user'] = self.user
         request = self.factory.put("api/posts/{id}/rate", data)
         force_authenticate(request, user=self.user)
         response = self.rate_view(request, pk=new_post.id)
