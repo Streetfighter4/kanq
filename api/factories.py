@@ -110,9 +110,6 @@ class CommentFactory(DjangoModelFactory):
     class Meta:
         model = Comment
 
-    def _after_postgeneration(cls, obj, create, results=None):
-        RatingFactory.create_batch(content_object=obj)
-
     content = factory.Faker('text')
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
