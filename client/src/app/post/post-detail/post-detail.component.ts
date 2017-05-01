@@ -12,6 +12,7 @@ import {CommentService} from '../../comment/comment.service';
 export class PostDetailComponent implements OnInit {
   id: number;
   post: Post;
+  postVoted: boolean = false;
 
   showReplyBox: boolean = false;
   replyText: string;
@@ -30,8 +31,8 @@ export class PostDetailComponent implements OnInit {
   }
 
   rate(value: number) {
-    this.postService.rate(this.id, value)
-      .then(console.log);
+    this.postVoted = true;
+    this.postService.rate(this.id, value);
   }
 
   openReplyBox() {

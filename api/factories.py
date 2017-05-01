@@ -114,6 +114,7 @@ class CommentFactory(DjangoModelFactory):
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
 
+
 class MedalFactory(DjangoModelFactory):
     MIN_RANK = 1
     MAX_RANK = 3

@@ -10,12 +10,17 @@ export class PostService {
     return this.http.get(Settings.API_POSTS_URL + id)
       .toPromise()
       .then(res => res.json())
-      .catch(err => console.log('error getting post', err));
+      .catch(err => Promise.reject('error getting post'));
   }
 
   rate(id: number, value: number) {
-    return this.http.get(Settings.API_POSTS_URL + id + '/rate/')
+    let data = {
+      vote: value
+    };
+
+    return this.http.put(Settings.API_POSTS_URL + id + '/rate/', data)
       .toPromise()
       .then(res => res.json())
+      .catch(err => Promise.reject('error voting'));
   }
 }

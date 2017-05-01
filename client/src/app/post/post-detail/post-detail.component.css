@@ -8,6 +8,10 @@
   margin: 30px auto;
 }
 
+.post-voted {
+  background-color: orange;
+}
+
 .comments {
   margin: 30px auto;
 }
