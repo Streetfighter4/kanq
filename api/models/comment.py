@@ -1,5 +1,6 @@
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.db.models import Sum
 
 from .rating import Rating
 from .post import Post
@@ -13,6 +14,10 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     parent = models.ForeignKey('self', related_name='children', blank=True, null=True)
     ratings = GenericRelation(Rating)
+
+    def get_rating(self):
+        rating = self.ratings.aggregate(Sum('value'))['value__sum']
+        return rating or 0
 
     def __str__(self):
         return self.content

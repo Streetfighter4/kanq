@@ -112,7 +112,6 @@ class PostApiTest(TestCase):
         for i in range(len(posts) - 1):
             self.assertGreaterEqual(posts[i]['rating'], posts[i + 1]['rating'])
 
-
     def test_top_view_sort_right_posts(self):
         request = self.factory.get("api/posts")
         force_authenticate(request, user=self.user)
@@ -155,7 +154,6 @@ class PostApiTest(TestCase):
         #         print(' ')
         #         self.assertEqual(post['id'], response_without_pagination[(i * REST_FRAMEWORK['PAGE_SIZE']) + j]['id'])
         #     i += 1
-
 
     def test_rate_view_update_correctly(self):
         new_post = PostFactory()
