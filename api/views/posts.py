@@ -13,7 +13,8 @@ from api.helpers import user_service
 
 from api.models import Post, Image, Rating
 
-from api.serializers import PostSerializer, PostDetailSerializer
+from api.serializers import PostSerializer, PostDetailSerializer, PostGlanceSerializer
+from api.settings import TRENDING_POST_FALLOUT
 
 import logging
 
@@ -66,7 +67,10 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def trending(self, request):  # Filter topic by query param
-        pass
+        posts = Post.objects.all()
+        trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(TRENDING_POST_FALLOUT))
+        serializer = PostGlanceSerializer(trending_posts, many=True)
+        return Response(data=serializer.data, status=200)
 
     @list_route()
     def new(self, request):

@@ -1,8 +1,10 @@
 import logging
 
+import math
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Sum
+from django.utils import timezone
 
 from api.helpers import redis_connection
 from .image import Image
@@ -38,6 +40,18 @@ class Post(models.Model):
     def get_rating(self):
         rating = self.ratings.aggregate(Sum('value'))['value__sum']
         return rating or 0
+
+    def get_trend_coefficient(self, old_time):
+        time_alive = max(float((timezone.now() - self.created_at).total_seconds()), 1.01)
+        n = 2
+        normalizer = pow(10, 5)
+        if time_alive < old_time:
+            coef = (math.pow(self.get_rating(), n) * old_time) \
+                   / (math.log(time_alive) * normalizer)
+        else:
+            coef = 0
+
+        return coef
 
 
     def __str__(self):
