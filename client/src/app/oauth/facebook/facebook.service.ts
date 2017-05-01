@@ -16,6 +16,6 @@ export class FacebookService {
     return this.http.get(url)
       .toPromise()
       .then(res => res.json().access_token)
-      .catch(err => console.log('Facebook access token getting error', err));
+      .catch(err => Promise.reject('comment creation failed'));
   }
 }

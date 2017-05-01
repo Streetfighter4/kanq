@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
@@ -17,17 +17,25 @@ class TopicViewSet(viewsets.ModelViewSet):
     @list_route()
     def active(self, request):  # Get all active topics
         active_topics = [t for t in Topic.objects.all() if t.is_active()]
-        serializer = TopicSerializer(instance=active_topics, many=True)
-        return Response(serializer.data)
+        page = self.paginate_queryset(active_topics)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+        else:
+            serializer = self.get_serializer(active_topics, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @list_route()
     def inactive(self, request):  # Get all inactive topics
         inactive_topics = [t for t in Topic.objects.all() if not t.is_active()]
-        serializer = TopicSerializer(instance=inactive_topics, many=True)
-        return Response(serializer.data)
+        page = self.paginate_queryset(inactive_topics)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+        else:
+            serializer = self.get_serializer(inactive_topics, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):
         topic = Topic.objects.get(pk=kwargs.get('pk'))
         serializer = TopicDetailSerializer(topic)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 

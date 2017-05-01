@@ -5,13 +5,16 @@ from rest_framework import status
 
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
+from kanq.settings import REST_FRAMEWORK
 from api.helpers import user_service
 
-from api.models import Post, Image
+from api.models import Post, Image, Rating
 
-from api.serializers import PostSerializer, PostDetailSerializer
+from api.serializers import PostSerializer, PostDetailSerializer, PostGlanceSerializer
+from api.settings import TRENDING_POST_FALLOUT
 
 import logging
 
@@ -43,7 +46,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
         image = Image.objects.create(uri=full_path)
         data['image'] = image.id
-        print(str(data))
 
         post = Post.objects.create(description = data['description'], title=data['title'],
                                    creator_id = data['creator'], topic_id = data['topic'], image_id=data['image'])
@@ -53,32 +55,51 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def top(self, request):  # Filter topic by query param
-        pass
+        posts = self.filter_by_topic(request).all()
+        posts = sorted(posts, key=lambda p: p.get_rating(), reverse=True)
+        page = self.paginate_queryset(posts)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            #return self.get_paginated_response(serializer.data)
+        else:
+            serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @list_route()
     def trending(self, request):  # Filter topic by query param
-        pass
+        posts = Post.objects.all()
+        trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(TRENDING_POST_FALLOUT))
+        serializer = PostGlanceSerializer(trending_posts, many=True)
+        return Response(data=serializer.data, status=200)
 
     @list_route()
     def new(self, request):
         objects = self.filter_by_topic(request).order_by('-created_at')
-        serializer = PostSerializer(objects, many=True)
-        return Response(serializer.data)
+        page = self.paginate_queryset(objects)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+        else:
+            serializer = self.get_serializer(objects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @list_route()
     def feed(self, request):  # Get feed for a given user
         user_id = request.GET.get('user_id', '')
+
         if user_id:
-            # TODO: paginate
-            posts = user_service.get_user_feed(user_id, 0, 10)
+            page = request.GET.get('page', '0')
+            page_size = REST_FRAMEWORK.PAGE_SIZE
+            posts = user_service.get_user_feed(user_id, page, page_size)
             serialized = PostSerializer(posts, many=True)
-            return Response(serialized.data, status=200)
+            return Response(serialized.data, status=status.HTTP_200_OK)
         else:
-            return Response(status=404)
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
-        pass
+        post = get_object_or_404(Post, id=pk)
+        Rating.objects.create(content_object=post, value=request.data['vote'], user = request.user)
+        return Response(status=status.HTTP_200_OK)
 
     @staticmethod
     def filter_by_topic(request):
