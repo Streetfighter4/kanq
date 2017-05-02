@@ -8,7 +8,7 @@ from .user import User
 class Rating(models.Model):
     NOT_VOTED_VALUE = None
     DISLIKE_VALUE = -1
-    LIKE_VALUE = 1j
+    LIKE_VALUE = 1
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()

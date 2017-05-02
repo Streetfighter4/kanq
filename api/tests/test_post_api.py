@@ -112,7 +112,6 @@ class PostApiTest(TestCase):
         response = self.top_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         posts = response.data
-        print(posts)
         for i in range(len(posts) - 1):
             self.assertEqual(posts[i]['topic'], posts[i + 1]['topic'])
 
@@ -163,7 +162,15 @@ class PostApiTest(TestCase):
 
 
     def test_rate_view_update_correctly(self):
-        pass
+        new_post = PostFactory()
+        RatingFactory(content_object=new_post, value=Rating.LIKE_VALUE)
+        data = {}
+        data['vote'] = Rating.LIKE_VALUE
+        request = self.factory.put("api/posts/{id}/rate", data)
+        force_authenticate(request, user=self.user)
+        response = self.rate_view(request, pk=new_post.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(2, new_post.get_rating())
 
     def test_trending_view_returns_highly_rated_new_posts_first(self):
         low_post = PostFactory()

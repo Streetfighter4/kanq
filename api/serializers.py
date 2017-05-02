@@ -168,3 +168,8 @@ class BadgeSerializer(ModelSerializer):
         model = Badge
         fields = ('id', 'price', 'user', 'post')
 
+
+class RatingSerializer(ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'value', 'user')

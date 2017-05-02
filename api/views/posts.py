@@ -13,7 +13,7 @@ from api.helpers import user_service
 
 from api.models import Post, Image, Rating
 
-from api.serializers import PostSerializer, PostDetailSerializer, PostGlanceSerializer
+from api.serializers import PostSerializer, PostDetailSerializer, PostGlanceSerializer, RatingSerializer
 from api.settings import TRENDING_POST_FALLOUT
 
 import logging
@@ -55,8 +55,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def top(self, request):  # Filter topic by query param
-        print(request.GET.get('offset'))
-        print(request.GET.get('limit'))
         posts = self.filter_by_topic(request).all()
         posts = sorted(posts, key=lambda p: p.get_rating(), reverse=True)
         page = self.paginate_queryset(posts)
@@ -107,7 +105,8 @@ class PostViewSet(viewsets.ModelViewSet):
         else:
             rating.value = request.data['vote']
             rating.save()
-        return Response(status=status.HTTP_200_OK)
+        serialiser_rating = RatingSerializer(rating)
+        return Response(serialiser_rating.data, status=status.HTTP_200_OK)
 
     @staticmethod
     def filter_by_topic(request):
@@ -120,4 +119,3 @@ class PostViewSet(viewsets.ModelViewSet):
                 logger.error('Tried filtering by topic with wrong topic_id')
 
         return objects
-
