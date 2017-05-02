@@ -55,7 +55,7 @@ class PostViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(posts)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+            #return self.get_paginated_response(serializer.data)
         else:
             serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -89,10 +89,16 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
+        #TODO: request.data['vote'] in var
+        #TODO: error checking
         post = get_object_or_404(Post, id=pk)
-        if (post.get_current_user_vote(request) is None):
+        rating = post.get_current_user_vote(request.user)
+        if (rating is None):
             Rating.objects.create(content_object=post, value=request.data['vote'], user = request.user)
-            return Response(status=status.HTTP_200_OK)
+        else:
+            rating.value = request.data['vote']
+            rating.save()
+        return Response(status=status.HTTP_200_OK)
 
     @staticmethod
     def filter_by_topic(request):
