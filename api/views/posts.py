@@ -55,12 +55,13 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def top(self, request):  # Filter topic by query param
+        print(request.GET.get('offset'))
+        print(request.GET.get('limit'))
         posts = self.filter_by_topic(request).all()
         posts = sorted(posts, key=lambda p: p.get_rating(), reverse=True)
         page = self.paginate_queryset(posts)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            #return self.get_paginated_response(serializer.data)
         else:
             serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -97,8 +98,15 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
+        #TODO: request.data['vote'] in var
+        #TODO: error checking
         post = get_object_or_404(Post, id=pk)
-        Rating.objects.create(content_object=post, value=request.data['vote'], user = request.user)
+        rating = post.get_current_user_vote(request.user)
+        if (rating is None):
+            Rating.objects.create(content_object=post, value=request.data['vote'], user = request.user)
+        else:
+            rating.value = request.data['vote']
+            rating.save()
         return Response(status=status.HTTP_200_OK)
 
     @staticmethod
