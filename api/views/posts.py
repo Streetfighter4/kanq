@@ -50,12 +50,13 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def top(self, request):  # Filter topic by query param
+        print(request.GET.get('offset'))
+        print(request.GET.get('limit'))
         posts = self.filter_by_topic(request).all()
         posts = sorted(posts, key=lambda p: p.get_rating(), reverse=True)
         page = self.paginate_queryset(posts)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            #return self.get_paginated_response(serializer.data)
         else:
             serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
