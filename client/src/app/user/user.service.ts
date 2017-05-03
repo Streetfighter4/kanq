@@ -21,7 +21,7 @@ export class UserService {
     return this.http.post(Settings.API_CONVERT_TOKEN_URL, body)
       .toPromise()
       .then(res => res.json().access_token)
-      .catch(err => console.log('Login through token error', err));
+      .catch(err => Promise.reject('Login through token error'));
   }
 
   loginThroughPassword(user: User): Promise<any> {

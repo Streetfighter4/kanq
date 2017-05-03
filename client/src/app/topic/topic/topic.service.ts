@@ -10,13 +10,13 @@ export class TopicService {
     return this.http.get(Settings.API_TOPICS_URL)
       .toPromise()
       .then(res => res.json())
-      .catch(err => console.log('Error getting topics', err));
+      .catch(err => Promise.reject('Error getting topics'));
   }
 
   getDetail(id: number) {
     return this.http.get(Settings.API_TOPICS_URL + id)
       .toPromise()
       .then(res => res.json())
-      .catch(err => console.log('Error getting topic detail', err))
+      .catch(err => Promise.reject('Error getting topic detail'))
   }
 }
