@@ -98,18 +98,19 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
-        #TODO: error checking
-        post = get_object_or_404(Post, id=pk)
         vote = request.data['vote']
-        rating = post.get_current_user_vote(request.user)
-        response = exception_handler(APIException(), vote)
-        if (rating is None):
-            Rating.objects.create(content_object=post, value=vote, user = request.user)
+        if (vote is not None):
+            post = get_object_or_404(Post, id=pk)
+            rating = post.get_current_user_vote(request.user)
+            if (rating is None):
+                Rating.objects.create(content_object=post, value=vote, user = request.user)
+            else:
+                rating.value = vote
+                rating.save()
+            serialiser_rating = RatingSerializer(rating)
+            return Response(serialiser_rating.data, status=status.HTTP_200_OK)
         else:
-            rating.value = vote
-            rating.save()
-        serialiser_rating = RatingSerializer(rating)
-        return Response(serialiser_rating.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def filter_by_topic(request):

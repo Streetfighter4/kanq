@@ -124,7 +124,10 @@ class PostSerializer(ModelSerializer):
         model = Post
         fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'created_at', 'rating')
 
-
+class RatingSerializer(ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'value', 'user')
 
 
 class PostDetailSerializer(ModelSerializer):
@@ -140,7 +143,9 @@ class PostDetailSerializer(ModelSerializer):
         return serializer.data
 
     def get_rating(self, post):
-        return post.get_rating()
+        ratings = Rating.objects.filter(object_id=post.id)
+        serializer = RatingSerializer(instance=ratings, many=True)
+        return serializer.data
 
     class Meta:
         model = Post
@@ -158,7 +163,9 @@ class CommentSerializer(ModelSerializer):
     rating = serializers.SerializerMethodField()
 
     def get_rating(self, comment):
-        return comment.get_rating()
+        ratings = Rating.objects.filter(object_id=comment.id)
+        serializer = RatingSerializer(instance=ratings, many=True)
+        return serializer.data
 
     class Meta:
         model = Comment
@@ -176,8 +183,3 @@ class BadgeSerializer(ModelSerializer):
         model = Badge
         fields = ('id', 'price', 'user', 'post')
 
-
-class RatingSerializer(ModelSerializer):
-    class Meta:
-        model = Rating
-        fields = ('id', 'value', 'user')
