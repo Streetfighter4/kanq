@@ -1,5 +1,4 @@
 from django.test import TestCase
-from rest_framework.generics import get_object_or_404
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 from api.factories import UserFactory
@@ -19,6 +18,8 @@ class UserApiTest(TestCase):
         self.create_view = UserViewSet.as_view({'post': 'create'})
         self.follow_view = UserViewSet.as_view({'put': 'follow'})
         self.unfollow_view = UserViewSet.as_view({'put': 'unfollow'})
+        self.follow_view = UserViewSet.as_view({'user': 'follow'})
+        self.me_view = UserViewSet.as_view({'get': 'me'})
 
     def test_password_not_readable(self):
         request = self.factory.post('/api/users/', self.jsonUser, format='json')
@@ -53,3 +54,15 @@ class UserApiTest(TestCase):
         force_authenticate(request, user=u)
         self.unfollow_view(request, pk=u1.id)
         self.assertNotIn(u.id, u1.get_followers_ids())
+
+    def test_me_route_returns_current_user(self):
+        self.user.save()
+
+        request = self.factory.get('/api/users/me')
+        force_authenticate(request, user=self.user)
+        response = self.me_view(request)
+        returned_user = response.data
+
+        self.assertEqual(self.user.username, returned_user['username'])
+
+

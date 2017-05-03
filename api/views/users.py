@@ -29,6 +29,11 @@ class UserViewSet(viewsets.ModelViewSet):
         user.save()
         return Response(status=status.HTTP_200_OK)
 
+    @detail_route(methods=['get'])
+    def me(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
     # Override create to return token
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

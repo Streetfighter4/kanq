@@ -5,6 +5,10 @@ from rest_framework.response import Response
 from api.models import Topic
 from api.serializers import TopicSerializer, TopicDetailSerializer
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class TopicViewSet(viewsets.ModelViewSet):
     queryset = Topic.objects.all()
@@ -22,9 +26,8 @@ class TopicViewSet(viewsets.ModelViewSet):
         serializer = TopicSerializer(instance=inactive_topics, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
-        topic = Topic.objects.get(pk=pk)
+    def retrieve(self, request, *args, **kwargs):
+        topic = Topic.objects.get(pk=kwargs.get('pk'))
         serializer = TopicDetailSerializer(topic)
         return Response(serializer.data)
-
 

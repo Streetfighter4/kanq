@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
+    'django_celery_beat',
+
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
@@ -189,21 +191,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Logging not working currently
+# Logging not working currently (hopefully not true anymore)
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'WARNING',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': 'warning.log',
+            'filename': 'info.log',
         },
     },
     'loggers': {
-        'django': {
+        'api': {
             'handlers': ['file'],
-            'level': 'WARNING',
+            'level': 'INFO',
             'propagate': True,
         },
     },
