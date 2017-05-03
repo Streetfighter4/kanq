@@ -132,15 +132,19 @@ class PostDetailSerializer(ModelSerializer):
     creator = UserSerializer(read_only=True)
     topic = TopicSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
 
     def get_comments(self, post):
         comments = Comment.objects.filter(post=post, parent=None)
         serializer = CommentSerializer(instance=comments, many=True)
         return serializer.data
 
+    def get_rating(self, post):
+        return post.get_rating()
+
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments', 'created_at')
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments', 'created_at', 'rating')
 
 
 class TagSerializer(ModelSerializer):
@@ -151,10 +155,14 @@ class TagSerializer(ModelSerializer):
 
 class CommentSerializer(ModelSerializer):
     children = RecursiveField(many=True, read_only=True)
+    rating = serializers.SerializerMethodField()
+
+    def get_rating(self, comment):
+        return comment.get_rating()
 
     class Meta:
         model = Comment
-        fields = ('id', 'content', 'post', 'user', 'parent', 'children')
+        fields = ('id', 'content', 'post', 'user', 'rating', 'parent', 'children')
 
 
 class MedalSerializer(ModelSerializer):

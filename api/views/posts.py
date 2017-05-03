@@ -5,8 +5,10 @@ from rest_framework import status
 
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
+from rest_framework.exceptions import APIException
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
+from rest_framework.views import exception_handler
 
 from kanq.settings import REST_FRAMEWORK
 from api.helpers import user_service
@@ -96,14 +98,15 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
-        #TODO: request.data['vote'] in var
         #TODO: error checking
         post = get_object_or_404(Post, id=pk)
+        vote = request.data['vote']
         rating = post.get_current_user_vote(request.user)
+        response = exception_handler(APIException(), vote)
         if (rating is None):
-            Rating.objects.create(content_object=post, value=request.data['vote'], user = request.user)
+            Rating.objects.create(content_object=post, value=vote, user = request.user)
         else:
-            rating.value = request.data['vote']
+            rating.value = vote
             rating.save()
         serialiser_rating = RatingSerializer(rating)
         return Response(serialiser_rating.data, status=status.HTTP_200_OK)
