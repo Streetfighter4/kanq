@@ -99,7 +99,7 @@ class PostViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
         vote = request.data['vote']
-        if (vote is not None):
+        if ((vote is not None) and ((int(vote) is Rating.LIKE_VALUE) or (vote is int(Rating.DISLIKE_VALUE)))):
             post = get_object_or_404(Post, id=pk)
             rating = post.get_current_user_vote(request.user)
             if (rating is None):
@@ -107,8 +107,8 @@ class PostViewSet(viewsets.ModelViewSet):
             else:
                 rating.value = vote
                 rating.save()
-            serialiser_rating = RatingSerializer(rating)
-            return Response(serialiser_rating.data, status=status.HTTP_200_OK)
+            serializer_rating = RatingSerializer(rating)
+            return Response(serializer_rating.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
