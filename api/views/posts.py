@@ -5,10 +5,8 @@ from rest_framework import status
 
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
-from rest_framework.exceptions import APIException
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
-from rest_framework.views import exception_handler
 
 from kanq.settings import REST_FRAMEWORK
 from api.helpers import user_service
@@ -99,16 +97,20 @@ class PostViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
         vote = request.data['vote']
-        if ((vote is not None) and ((int(vote) is Rating.LIKE_VALUE) or (vote is int(Rating.DISLIKE_VALUE)))):
-            post = get_object_or_404(Post, id=pk)
-            rating = post.get_current_user_vote(request.user)
-            if (rating is None):
-                Rating.objects.create(content_object=post, value=vote, user = request.user)
+        if (vote is not None):
+            vote = int(vote)
+            if ((vote == Rating.LIKE_VALUE) or (vote == Rating.DISLIKE_VALUE)):
+                post = get_object_or_404(Post, id=pk)
+                rating = post.get_current_user_vote(request.user)
+                if (rating is None):
+                    Rating.objects.create(content_object=post, value=vote, user = request.user)
+                else:
+                    rating.value = vote
+                    rating.save()
+                serializer_rating = RatingSerializer(rating)
+                return Response(serializer_rating.data, status=status.HTTP_200_OK)
             else:
-                rating.value = vote
-                rating.save()
-            serializer_rating = RatingSerializer(rating)
-            return Response(serializer_rating.data, status=status.HTTP_200_OK)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

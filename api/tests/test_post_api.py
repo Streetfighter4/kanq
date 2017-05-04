@@ -107,14 +107,16 @@ class PostApiTest(TestCase):
             self.assertGreaterEqual(posts[i]['rating'], posts[i + 1]['rating'])
 
     def test_top_view_sort_right_posts(self):
-        request = self.factory.get("api/posts")
+        data={}
+        data['topic'] = TopicFactory()
+        request = self.factory.get("api/posts", data)
         force_authenticate(request, user=self.user)
         response = self.top_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         posts = response.data
         for i in range(len(posts) - 1):
+            self.assertEqual(posts[i]['topic'], data['topic'])
             self.assertEqual(posts[i]['topic'], posts[i + 1]['topic'])
-
 
     # def test_top_view_return_ten_posts_for_paginate(self):
     #     batch_size = 15

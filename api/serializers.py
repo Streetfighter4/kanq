@@ -1,4 +1,3 @@
-from pip._vendor.requests.api import post
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
@@ -143,8 +142,12 @@ class PostDetailSerializer(ModelSerializer):
         return serializer.data
 
     def get_rating(self, post):
-        ratings = Rating.objects.filter(object_id=post.id)
-        serializer = RatingSerializer(instance=ratings, many=True)
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        rating = post.get_current_user_vote(user=user)
+        serializer = RatingSerializer(instance=rating)
         return serializer.data
 
     class Meta:
@@ -163,8 +166,12 @@ class CommentSerializer(ModelSerializer):
     rating = serializers.SerializerMethodField()
 
     def get_rating(self, comment):
-        ratings = Rating.objects.filter(object_id=comment.id)
-        serializer = RatingSerializer(instance=ratings, many=True)
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        rating = comment.get_current_user_vote(user=user)
+        serializer = RatingSerializer(instance=rating)
         return serializer.data
 
     class Meta:
