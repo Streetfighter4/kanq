@@ -58,7 +58,7 @@ class PostApiTest(TestCase):
         posts = response.data
 
         for post in posts:
-            self.assertEqual(post['topic']['id'], topic.id)
+            self.assertEqual(post['topic_id'], topic.id)
 
 
     def test_get_to_post_new_returns_all_when_topic_filter_wrong(self):

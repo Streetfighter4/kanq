@@ -55,11 +55,10 @@ class PostSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
     image = ImageSerializer(read_only=True)
-    topic = TopicSerializer(read_only=True)
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'created_at')
+        fields = ('id', 'title', 'description', 'creator', 'topic_id', 'image', 'tags', 'created_at')
 
 
 class PostDetailSerializer(ModelSerializer):
