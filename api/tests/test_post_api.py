@@ -8,7 +8,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 from api.factories import PostFactory, UserFactory
 from api.factories import TopicFactory, RatingFactory
 from api.models import Rating
-from api.serializers import PostSerializer
+from api.serializers import PostSerializer, PostDetailSerializer
 from api.views.posts import PostViewSet
 
 
@@ -219,3 +219,11 @@ class PostApiTest(TestCase):
         self.assertEqual(posts[0]["id"], high_post.id)
         self.assertEqual(posts[1]["id"], middle_post.id)
         self.assertEqual(posts[2]["id"], low_post.id)
+
+    def test_post_detail_serializer_return_rating(self):
+        new_post = PostFactory()
+        RatingFactory(content_object=new_post, user=self.user, value=Rating.LIKE_VALUE)
+        request = self.factory.get("api/posts/{id}/")
+        force_authenticate(request, user=self.user)
+        response = self.detail_view(request, pk=new_post.id)
+        self.assertEqual(response.data['rating']['value'], 1)
