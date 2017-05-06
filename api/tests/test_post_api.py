@@ -77,27 +77,27 @@ class PostApiTest(TestCase):
         topic = TopicFactory()
         newPost = PostFactory.build()
         data = PostSerializer(newPost).data
-        data['creator'] = self.user.id
+        data['creator_id'] = self.user.id
 
-        data['topic'] = topic.id
-        data['image'] = 'MjU1OzI1NTsyNTU='
+        data['topic_id'] = topic.id
+        data['image'] = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAABtJREFUCJlj/M/A8J/hBgMDA4Pa//8M/xX/AwA5YgcbF4ARSAAAAABJRU5ErkJggg=='
         data['extension'] = '.png'
-        request = self.factory.post("api/posts/", data)
+        request = self.factory.post("api/posts/", data, format='json')
         force_authenticate(request, user=self.user)
         response = self.create_view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertNotEqual(0, len(Post.objects.filter(creator_id=self.user.id)))
+        self.assertEqual(1, (Post.objects.filter(creator_id=self.user.id)).count())
 
     def test_create_view_update_image(self):
         topic = TopicFactory()
         newPost = PostFactory.build()
         data = PostSerializer(newPost).data
-        data['creator'] = self.user.id
+        data['creator_id'] = self.user.id
 
-        data['topic'] = topic.id
-        data['image'] = 'MjU1OzI1NTsyNTU='
+        data['topic_id'] = topic.id
+        data['image'] = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAABtJREFUCJlj/M/A8J/hBgMDA4Pa//8M/xX/AwA5YgcbF4ARSAAAAABJRU5ErkJggg=='
         data['extension'] = '.png'
-        request = self.factory.post("api/posts/", data)
+        request = self.factory.post("api/posts/", data, format='json')
         force_authenticate(request, user=self.user)
         response = self.create_view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
