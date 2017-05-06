@@ -1,4 +1,4 @@
-import {Post} from '../../post/post';
+import {Post} from '../post/post';
 
 export class Topic {
   name: string;

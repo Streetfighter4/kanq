@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '../common/http-client.service';
-import {Topic} from '../topic/topic/topic';
+import {Topic} from '../topic/topic';
 import {Settings} from '../settings';
 import {Post} from './post';
 
