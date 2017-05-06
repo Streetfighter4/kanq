@@ -133,7 +133,6 @@ class PostApiTest(TestCase):
         posts = response.data
         for i in range(len(posts) - 1):
             self.assertEqual(posts[i]['topic'], data['topic'])
-            self.assertEqual(posts[i]['topic'], posts[i + 1]['topic'])
 
     # def test_top_view_return_ten_posts_for_paginate(self):
     #     batch_size = 15

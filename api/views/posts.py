@@ -1,25 +1,19 @@
 import base64
-from itertools import count
-
-from django.utils import timezone
+import logging
 import os
 
+from django.utils import timezone
 from rest_framework import status
-
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
-from kanq.settings import REST_FRAMEWORK
 from api.helpers import user_service
-
-from api.models import Post, Image, Rating
-
-from api.serializers import PostSerializer, PostDetailSerializer, PostGlanceSerializer, RatingSerializer
+from api.models import Rating
+from api.serializers import PostGlanceSerializer, RatingSerializer
 from api.settings import TRENDING_POST_FALLOUT
-
-import logging
+from kanq.settings import REST_FRAMEWORK
 
 logger = logging.getLogger(__name__)
 from api.models import Post, Image, Topic
@@ -88,7 +82,12 @@ class PostViewSet(viewsets.ModelViewSet):
     def trending(self, request):  # Filter topic by query param
         posts = Post.objects.all()
         trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(TRENDING_POST_FALLOUT))
-        serializer = PostGlanceSerializer(trending_posts, many=True)
+        page = self.paginate_queryset(trending_posts)
+        if page is not None:
+            serializer = PostGlanceSerializer(page, many=True)
+        else:
+            serializer = PostGlanceSerializer(trending_posts, many=True)
+
         return Response(data=serializer.data, status=200)
 
     @list_route()
