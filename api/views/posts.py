@@ -102,12 +102,13 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def feed(self, request):  # Get feed for a given user
-        user_id = request.GET.get('user_id', '')
+        user = request.user
 
-        if user_id:
+        if user:
+            user_id = str(user.id)
             page = request.GET.get('page', '0')
-            page_size = REST_FRAMEWORK.PAGE_SIZE
-            posts = user_service.get_user_feed(user_id, page, page_size)
+            page_size = REST_FRAMEWORK['PAGE_SIZE']
+            posts = user_service.get_user_feed(user_id, int(page), page_size)
             serialized = PostSerializer(posts, many=True)
             return Response(serialized.data, status=status.HTTP_200_OK)
         else:
