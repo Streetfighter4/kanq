@@ -54,7 +54,7 @@ class Post(models.Model):
         return coef
 
     def get_current_user_vote(self, user):
-        return Rating.objects.filter(user=user, object_id=self.id).first()
+        return self.ratings.filter(user=user).first()
 
     def __str__(self):
         return self.title

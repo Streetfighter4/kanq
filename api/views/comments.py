@@ -20,7 +20,7 @@ class CommentViewSet(viewsets.ModelViewSet):
                 comment = get_object_or_404(Comment, id=pk)
                 rating = comment.get_current_user_vote(request.user)
                 if (rating is None):
-                    Rating.objects.create(content_object=comment, value=vote, user = request.user)
+                    rating = Rating.objects.create(content_object=comment, value=vote, user = request.user)
                 else:
                     rating.value = request.data['vote']
                     rating.save()

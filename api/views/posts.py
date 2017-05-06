@@ -123,7 +123,7 @@ class PostViewSet(viewsets.ModelViewSet):
                 post = get_object_or_404(Post, id=pk)
                 rating = post.get_current_user_vote(request.user)
                 if (rating is None):
-                    Rating.objects.create(content_object=post, value=vote, user = request.user)
+                    rating = Rating.objects.create(content_object=post, value=vote, user = request.user)
                 else:
                     rating.value = vote
                     rating.save()
