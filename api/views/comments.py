@@ -14,12 +14,12 @@ class CommentViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
         vote = request.data['vote']
-        if (vote is not None):
+        if vote is not None:
             vote = int(vote)
-            if ((vote == Rating.LIKE_VALUE) or (vote == Rating.DISLIKE_VALUE)):
+            if (vote == Rating.LIKE_VALUE) or (vote == Rating.DISLIKE_VALUE):
                 comment = get_object_or_404(Comment, id=pk)
                 rating = comment.get_current_user_vote(request.user)
-                if (rating is None):
+                if rating is None:
                     rating = Rating.objects.create(content_object=comment, value=vote, user = request.user)
                 else:
                     rating.value = request.data['vote']
