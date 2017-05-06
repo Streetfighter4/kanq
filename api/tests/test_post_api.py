@@ -242,4 +242,4 @@ class PostApiTest(TestCase):
         request = self.factory.get("api/posts/{id}/")
         force_authenticate(request, user=self.user)
         response = self.detail_view(request, pk=new_post.id)
-        self.assertEqual(response.data['rating']['value'], 1)
+        self.assertEqual(response.data['user_rating']['value'], 1)
