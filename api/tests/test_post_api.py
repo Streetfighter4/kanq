@@ -1,14 +1,14 @@
 from datetime import timedelta
 
-from django.test import TestCase
 from django.utils import timezone
+from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIRequestFactory, force_authenticate
 
-from api.factories import PostFactory, UserFactory
-from api.factories import TopicFactory, RatingFactory
-from api.models import Rating
-from api.serializers import PostSerializer, PostDetailSerializer
+from api.factories import PostFactory, UserFactory, RatingFactory, TopicFactory
+from api.models import Rating, Post
+from api.serializers import PostSerializer
+
 from api.views.posts import PostViewSet
 
 
@@ -79,16 +79,33 @@ class PostApiTest(TestCase):
         self.assertEqual(len(posts), batch_size)
 
     def test_new_create_post_is_created(self):
-        u = UserFactory()
-        t = TopicFactory()
+        topic = TopicFactory()
         newPost = PostFactory.build()
         data = PostSerializer(newPost).data
-        data['creator'] = u.id
+        data['creator_id'] = self.user.id
 
-        data['topic'] = t.id
-        data['image'] = 'MjU1OzI1NTsyNTU='
-        request = self.factory.post("api/posts/", data)
+        data['topic_id'] = topic.id
+        data['image'] = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAABtJREFUCJlj/M/A8J/hBgMDA4Pa//8M/xX/AwA5YgcbF4ARSAAAAABJRU5ErkJggg=='
+        data['extension'] = '.png'
+        request = self.factory.post("api/posts/", data, format='json')
+        force_authenticate(request, user=self.user)
         response = self.create_view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(1, (Post.objects.filter(creator_id=self.user.id)).count())
+
+    def test_create_view_update_image(self):
+        topic = TopicFactory()
+        newPost = PostFactory.build()
+        data = PostSerializer(newPost).data
+        data['creator_id'] = self.user.id
+        data['topic_id'] = topic.id
+        data['image'] = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAABtJREFUCJlj/M/A8J/hBgMDA4Pa//8M/xX/AwA5YgcbF4ARSAAAAABJRU5ErkJggg=='
+        data['extension'] = '.png'
+        request = self.factory.post("api/posts/", data, format='json')
+        force_authenticate(request, user=self.user)
+        response = self.create_view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIsNotNone(response.data['image'])
 
     def test_top_view_sort_correctly(self):
         batch_size = 5

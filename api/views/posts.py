@@ -1,4 +1,7 @@
 import base64
+from itertools import count
+
+from django.utils import timezone
 import os
 
 from rest_framework import status
@@ -19,6 +22,10 @@ from api.settings import TRENDING_POST_FALLOUT
 import logging
 
 logger = logging.getLogger(__name__)
+from api.models import Post, Image, Topic
+from api.serializers import PostSerializer, PostDetailSerializer
+
+MAX_POSTS_ALLOWED = 3
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -31,27 +38,40 @@ class PostViewSet(viewsets.ModelViewSet):
         return PostSerializer
 
     def create(self, request, *args, **kwargs):  # Upload image to server if needed and create post
+        data = request.data.copy()
+        posts_count = Post.objects.filter(topic_id=data['topic_id'], creator=data['creator_id']).count()
+        if posts_count >= MAX_POSTS_ALLOWED:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        if data['topic_id'] is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        topic = Topic.objects.get(pk=data['topic_id'])
+        if not topic.is_active():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         images_dir = './images/'
-        image_name = 'image1'
-        image_extension = '.png'
-        full_path = images_dir + image_name + image_extension
+        image_name = '{}_{}'.format(request.data['creator_id'], timezone.now().strftime("%Y_%m_%d_%H_%M_%S"))
+        image_extension = request.data['extension']
+        if '.' not in image_extension:
+            image_extension = '.' + image_extension
+
+        full_path = '{}{}{}'.format(images_dir, image_name, image_extension)
+
         if not os.path.exists(images_dir):
             os.makedirs(images_dir)
 
-        data = request.data.copy()
-        decoded = str(base64.urlsafe_b64decode(data['image']))
-        file = open(full_path, 'w+')
-        file.write(decoded)
-        file.close()
+        image = data['image']
+        decoded = base64.b64decode(image)
+        with open(full_path, "wb") as fh:
+            fh.write(decoded)
+        fh.close()
 
         image = Image.objects.create(uri=full_path)
-        data['image'] = image.id
-
         post = Post.objects.create(description = data['description'], title=data['title'],
-                                   creator_id = data['creator'], topic_id = data['topic'], image_id=data['image'])
-        return Response(post, status=status.HTTP_201_CREATED)
-
-        #    return Response(new_post, status=status.HTTP_400_BAD_REQUEST)
+                                   creator_id = data['creator_id'], topic_id = data['topic_id'], image_id=image.id)
+        serializer = PostSerializer(instance=post)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @list_route()
     def top(self, request):  # Filter topic by query param

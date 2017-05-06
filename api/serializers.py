@@ -128,7 +128,6 @@ class RatingSerializer(ModelSerializer):
         model = Rating
         fields = ('id', 'value', 'user')
 
-
 class PostDetailSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     creator = UserSerializer(read_only=True)
