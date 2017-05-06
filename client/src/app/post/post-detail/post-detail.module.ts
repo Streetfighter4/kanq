@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import {PostDetailComponent} from './post-detail.component';
 import {PostService} from '../post.service';
 import {CommentModule} from '../../comment/comment.module';
-import {FormsModule} from '@angular/forms';
+import {ReplyBoxModule} from '../../reply-box/reply-box.module';
 
 @NgModule({
   imports: [
     CommonModule,
     CommentModule,
-    FormsModule
+    ReplyBoxModule
   ],
   declarations: [
     PostDetailComponent

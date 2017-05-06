@@ -1,0 +1,5 @@
+<div (click)="openReplyBox()">Reply</div>
+<div *ngIf="showReplyBox">
+  <textarea [(ngModel)]="replyText"></textarea>
+  <input type="button" value="Save comment" (click)="createChildComment()">
+</div>

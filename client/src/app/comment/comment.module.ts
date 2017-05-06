@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CommentComponent} from './comment.component';
-import {FormsModule} from '@angular/forms';
 import {CommentService} from './comment.service';
+import {ReplyBoxModule} from '../reply-box/reply-box.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule
+    ReplyBoxModule
   ],
   declarations: [
     CommentComponent

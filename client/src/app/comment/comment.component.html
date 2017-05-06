@@ -6,11 +6,7 @@
   Rating: {{ comment.rating }}
   <div class="vote glyphicon glyphicon-arrow-up" (click)="rate(1)"></div>
   <div class="vote glyphicon glyphicon-arrow-down" (click)="rate(-1)"></div>
-  <div class="reply" (click)="openReplyBox()">Reply</div>
-  <div class="reply-box" *ngIf="showReplyBox">
-    <textarea [(ngModel)]="replyText"></textarea>
-    <input type="button" value="Save comment" (click)="createChildComment()">
-  </div>
+  <reply-box [postId]="comment.post" [parent]="comment" [commentsContainer]="comment.children"></reply-box>
 
   <div *ngFor="let comment of comment.children">
     <comment [comment]="comment"></comment>
