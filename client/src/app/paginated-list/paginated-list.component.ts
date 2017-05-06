@@ -33,10 +33,6 @@ export class PaginatedListComponent<T> implements OnInit {
       this.loadNextPage(this.perPage, this.currentPage);
   }
 
-  containerHasScrollBar(): boolean {
-    return document.documentElement.scrollHeight > (window.innerHeight + window.pageYOffset);
-  }
-
   loadNextPage(perPage: number, currentPage: number) {}
 }
 
