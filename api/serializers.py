@@ -51,13 +51,23 @@ class PostGlanceSerializer(ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     image = ImageSerializer(read_only=True)
     rating = serializers.SerializerMethodField()
+    user_rating = serializers.SerializerMethodField()
 
     def get_rating(self, post):
         return post.get_rating()
 
+    def get_user_rating(self, post):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        rating = post.get_current_user_vote(user=user)
+        serializer = RatingSerializer(instance=rating)
+        return serializer.data
+
     class Meta:
         model = Post
-        fields = ('id', 'title', 'creator_id', 'image', 'tags', 'created_at', 'rating')
+        fields = ('id', 'title', 'creator_id', 'image', 'tags', 'created_at', 'rating', 'user_rating')
 
 
 class TopicSerializer(ModelSerializer):
@@ -115,32 +125,12 @@ class PostSerializer(ModelSerializer):
     image = ImageSerializer(read_only=True)
     topic = TopicSerializer(read_only=True)
     rating = serializers.SerializerMethodField()
+    user_rating = serializers.SerializerMethodField()
 
     def get_rating(self, post):
         return post.get_rating()
 
-    class Meta:
-        model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'created_at', 'rating')
-
-class RatingSerializer(ModelSerializer):
-    class Meta:
-        model = Rating
-        fields = ('id', 'value', 'user')
-
-class PostDetailSerializer(ModelSerializer):
-    tags = serializers.StringRelatedField(many=True)
-    creator = UserSerializer(read_only=True)
-    topic = TopicSerializer(read_only=True)
-    comments = serializers.SerializerMethodField()
-    rating = serializers.SerializerMethodField()
-
-    def get_comments(self, post):
-        comments = Comment.objects.filter(post=post, parent=None)
-        serializer = CommentSerializer(instance=comments, many=True)
-        return serializer.data
-
-    def get_rating(self, post):
+    def get_user_rating(self, post):
         user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
@@ -151,7 +141,42 @@ class PostDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments', 'created_at', 'rating')
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'created_at', 'rating', 'user_rating')
+
+class RatingSerializer(ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id', 'value', 'user')
+
+
+class PostDetailSerializer(ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
+    creator = UserSerializer(read_only=True)
+    topic = TopicSerializer(read_only=True)
+    comments = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
+    user_rating = serializers.SerializerMethodField()
+
+    def get_rating(self, post):
+        return post.get_rating()
+
+    def get_user_rating(self, post):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        rating = post.get_current_user_vote(user=user)
+        serializer = RatingSerializer(instance=rating)
+        return serializer.data
+
+    def get_comments(self, post):
+        comments = Comment.objects.filter(post=post, parent=None)
+        serializer = CommentSerializer(instance=comments, many=True)
+        return serializer.data
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'comments', 'created_at', 'rating', 'user_rating')
 
 
 class TagSerializer(ModelSerializer):
@@ -163,8 +188,12 @@ class TagSerializer(ModelSerializer):
 class CommentSerializer(ModelSerializer):
     children = RecursiveField(many=True, read_only=True)
     rating = serializers.SerializerMethodField()
+    user_rating = serializers.SerializerMethodField()
 
     def get_rating(self, comment):
+        return comment.get_rating()
+
+    def get_user_rating(self, comment):
         user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
@@ -175,7 +204,7 @@ class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'content', 'post', 'user', 'rating', 'parent', 'children')
+        fields = ('id', 'content', 'post', 'user', 'rating', 'user_rating', 'parent', 'children')
 
 
 class MedalSerializer(ModelSerializer):
