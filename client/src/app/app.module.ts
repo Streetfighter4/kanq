@@ -16,6 +16,7 @@ import {TopicIndexModule} from './topic/topic-index/topic-index.module';
 import {HttpClient} from './common/http-client.service';
 import {HttpModule} from '@angular/http';
 import {TopicDetailModule} from './topic/topic-detail/topic-detail.module';
+import { NotFoundComponent } from './common/not-found/not-found.component';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import {TopicDetailModule} from './topic/topic-detail/topic-detail.module';
   ],
   declarations: [
     AppComponent,
+    NotFoundComponent,
   ],
   bootstrap: [ AppComponent ],
   providers: [
