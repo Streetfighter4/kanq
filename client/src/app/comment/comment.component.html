@@ -3,9 +3,7 @@
     {{ comment.content }}
   </p>
 
-  Rating: {{ comment.rating }}
-  <div class="vote glyphicon glyphicon-arrow-up" (click)="rate(1)"></div>
-  <div class="vote glyphicon glyphicon-arrow-down" (click)="rate(-1)"></div>
+  <rating [rating]="comment.rating" [user_rating]="comment.user_rating" (onRatingChanged)="rate($event)"></rating>
   <reply-box [postId]="comment.post" [parent]="comment" [commentsContainer]="comment.children"></reply-box>
 
   <div *ngFor="let comment of comment.children">

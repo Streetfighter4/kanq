@@ -1,6 +1,7 @@
 import {Image} from '../image/image';
 import {User} from '../user/user';
 import {Topic} from '../topic/topic';
+import {Rating} from '../rating/rating';
 
 export class Post {
   id: number;
@@ -13,4 +14,5 @@ export class Post {
   comments: Comment[];
   created_at: string;
   rating: number;
+  user_rating: Rating;
 }

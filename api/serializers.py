@@ -144,10 +144,6 @@ class PostDetailSerializer(ModelSerializer):
     comments = serializers.SerializerMethodField()
     image = ImageSerializer(read_only=True)
     rating = serializers.SerializerMethodField()
-
-    def get_rating(self, post):
-        return post.get_rating()
-    rating = serializers.SerializerMethodField()
     user_rating = serializers.SerializerMethodField()
 
     def get_rating(self, post):
@@ -181,6 +177,7 @@ class TagSerializer(ModelSerializer):
 class CommentSerializer(ModelSerializer):
     children = RecursiveField(many=True, read_only=True)
     rating = serializers.SerializerMethodField()
+    user_rating = serializers.SerializerMethodField()
 
     def get_rating(self, comment):
         return comment.get_rating()

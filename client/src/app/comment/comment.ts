@@ -1,5 +1,6 @@
 import {Post} from '../post/post';
 import {User} from '../user/user';
+import {Rating} from '../rating/rating';
 
 export class Comment {
   id: number;
@@ -8,4 +9,6 @@ export class Comment {
   user: User;
   parent: Comment;
   children: Comment[];
+  rating: number;
+  user_rating: Rating;
 }

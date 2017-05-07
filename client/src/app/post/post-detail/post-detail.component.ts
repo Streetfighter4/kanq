@@ -4,14 +4,13 @@ import {PostService} from '../post.service';
 import {Post} from '../post';
 
 @Component({
-  selector: 'app-post-detail',
-  templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.css']
+  moduleId: module.id,
+  templateUrl: 'post-detail.component.html',
+  styleUrls: ['post-detail.component.css']
 })
 export class PostDetailComponent implements OnInit {
   id: number;
   post: Post;
-  postVoted: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private postService: PostService) { }
@@ -26,7 +25,9 @@ export class PostDetailComponent implements OnInit {
   }
 
   rate(value: number) {
-    this.postVoted = true;
-    this.postService.rate(this.id, value);
+    if(value)
+      this.postService.rate(this.id, value);
+    // else
+    //   this.postService.
   }
 }
