@@ -1,6 +1,6 @@
 import logging
-
 import math
+
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Sum
@@ -53,6 +53,8 @@ class Post(models.Model):
 
         return coef
 
+    def get_current_user_vote(self, user):
+        return self.ratings.filter(user=user).first()
 
     def __str__(self):
         return self.title
