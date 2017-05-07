@@ -49,5 +49,13 @@ export const ROUTES: Route[] = [
         component: FacebookTokenHandlerComponent
       }
     ]
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: '404'
   }
 ];
