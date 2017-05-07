@@ -8,6 +8,7 @@ import {LoggedInGuard} from './common/logged_in_guard';
 import {FeedComponent} from './feed/feed.component';
 import {TopicIndexComponent} from './topic/topic-index/topic-index.component';
 import {TopicDetailComponent} from './topic/topic-detail/topic-detail.component';
+import {NotFoundComponent} from "./common/not-found/not-found.component";
 
 export const ROUTES: Route[] = [
   {
