@@ -27,7 +27,7 @@ SECRET_KEY = '6k5x=1bv14kh6y8iz3tzx8q14o!y1r1t!jdb*4nps+o-8yx_cw'
 DEBUG = True
 
 # SECURITY WARNING: don't run with auth turned off in production!
-AUTH_REQUIRED=False
+AUTH_REQUIRED=True
 
 ALLOWED_HOSTS = []
 

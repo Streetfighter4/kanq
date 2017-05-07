@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Comment} from './comment';
+import {CommentService} from './comment.service';
 
 @Component({
   selector: 'comment',
@@ -10,7 +11,11 @@ import {Comment} from './comment';
 export class CommentComponent {
   @Input() comment: Comment;
 
+  constructor(private commentService: CommentService) { }
+
   rate(value: number) {
-    console.log('rated', value);
+    if(value)
+      this.commentService.rate(this.comment.id, value)
+        .then(console.log);
   }
 }

@@ -23,4 +23,15 @@ export class CommentService {
       .then(res => res.json())
       .catch(err => Promise.reject('comment creation failed'));
   }
+
+  rate(id: number, value: number) {
+    let data = {
+      vote: value
+    };
+
+    return this.http.put(Settings.API_COMMENTS_URL + id + '/rate/', data)
+      .toPromise()
+      .then(res => res.json())
+      .catch(err => Promise.reject('error voting comment'));
+  }
 }

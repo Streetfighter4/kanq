@@ -37,6 +37,6 @@ export class PostService {
     return this.http.put(Settings.API_POSTS_URL + id + '/rate/', data)
       .toPromise()
       .then(res => res.json())
-      .catch(err => Promise.reject('error voting'));
+      .catch(err => Promise.reject('error voting post'));
   }
 }

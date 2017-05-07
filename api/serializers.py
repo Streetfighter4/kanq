@@ -160,7 +160,7 @@ class PostDetailSerializer(ModelSerializer):
 
     def get_comments(self, post):
         comments = Comment.objects.filter(post=post, parent=None)
-        serializer = CommentSerializer(instance=comments, many=True)
+        serializer = CommentSerializer(instance=comments, many=True, context=self.context)
         return serializer.data
 
     class Meta:
