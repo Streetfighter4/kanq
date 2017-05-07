@@ -16,12 +16,14 @@ import {TopicIndexModule} from './topic/topic-index/topic-index.module';
 import {HttpClient} from './common/http-client.service';
 import {HttpModule} from '@angular/http';
 import {TopicDetailModule} from './topic/topic-detail/topic-detail.module';
+import {NotFoundModule} from './common/not-found/not-found.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     TopicIndexModule,
     TopicDetailModule,
+    NotFoundModule,
     RouterModule.forRoot(ROUTES),
     FacebookModule,
     NavbarModule,
