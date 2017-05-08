@@ -28,6 +28,10 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return PostDetailSerializer
+        elif self.action == 'top'\
+                or self.action == 'new'\
+                or self.action == 'trending':
+            return PostGlanceSerializer
 
         return PostSerializer
 
@@ -86,10 +90,10 @@ class PostViewSet(viewsets.ModelViewSet):
         trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(TRENDING_POST_FALLOUT))
         page = self.paginate_queryset(trending_posts)
         if page is not None:
-            serializer = PostGlanceSerializer(page, many=True)
+            serializer = PostGlanceSerializer(page, many=True, context={'request': request})
             return self.get_paginated_response(serializer.data)
         else:
-            serializer = PostGlanceSerializer(trending_posts, many=True)
+            serializer = PostGlanceSerializer(trending_posts, many=True, context={'request': request})
 
         return Response(data=serializer.data, status=200)
 
@@ -113,7 +117,7 @@ class PostViewSet(viewsets.ModelViewSet):
             page = request.GET.get('page', '0')
             page_size = REST_FRAMEWORK['PAGE_SIZE']
             posts = user_service.get_user_feed(user_id, int(page), page_size)
-            serialized = PostSerializer(posts, many=True)
+            serialized = PostGlanceSerializer(posts, many=True, context={'request': request})
             return Response(serialized.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
