@@ -8,7 +8,6 @@
      (scrolled)="onScroll()">
   <div class="topic col-md-3"
        *ngFor="let topic of elements"
-       [class.active]="topic.active"
        [class.inactive]="!topic.active">
     <a routerLink="/topics/{{ topic.id }}/trending">
       {{ topic.name }}
