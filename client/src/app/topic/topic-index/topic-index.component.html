@@ -1,13 +1,22 @@
 <h2 class="page-header text-center">All topics</h2>
 
-<div *ngFor="let topic of topics">
-  <a routerLink="/topics/{{ topic.id }}">
-    <div class="topic col-md-3" [class.active]="topic.active" [class.inactive]="!topic.active">
-      {{ topic.name }}
+<div class="paginated-list"
+     infinite-scroll
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="300"
+     [immediateCheck]="true"
+     (scrolled)="onScroll()">
+  <div class="topics">
+    <div class="topic" *ngFor="let topic of elements">
+      <a routerLink="/topics/{{ topic.id }}">
+        <div class="topic col-md-3" [class.active]="topic.active" [class.inactive]="!topic.active">
+          {{ topic.name }}
 
-      <div *ngIf="topic.best_post_image" class="best-post-image-holder">
-        <img src="{{ topic.best_post_image.uri }}" class="best-post-image">
-      </div>
+          <div *ngIf="topic.best_post_image" class="best-post-image-holder">
+            <img src="{{ topic.best_post_image.uri }}" class="best-post-image">
+          </div>
+        </div>
+      </a>
     </div>
-  </a>
+  </div>
 </div>

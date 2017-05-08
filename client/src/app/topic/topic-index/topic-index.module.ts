@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import {TopicIndexComponent} from './topic-index.component';
 import {TopicService} from '../topic/topic.service';
 import {RouterModule} from '@angular/router';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    InfiniteScrollModule
   ],
   declarations: [
     TopicIndexComponent

@@ -12,8 +12,8 @@ export class FeedComponent extends PaginatedListComponent<Post> {
     super();
   }
 
-  loadNextPage(perPage: number, currentPage: number) {
+  loadNextPage(currentPage: number, perPage: number) {
     this.postService.getFeed(currentPage, perPage)
-      .then(res => this.addPage(res));
+      .then(this.addPage.bind(this));
   }
 }

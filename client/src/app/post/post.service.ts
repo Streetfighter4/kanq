@@ -19,6 +19,7 @@ export class PostService {
 
     return this.http.get(url)
       .toPromise()
-      .then(res => res.json());
+      .then(res => res.json())
+      .catch(err => Promise.reject('error getting feed'));
   }
 }
