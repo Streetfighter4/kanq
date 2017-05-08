@@ -2,7 +2,6 @@ from datetime import datetime
 
 import pytz
 from django.db import models
-from django.db.models import Sum
 
 from .tag import Tag
 
@@ -26,7 +25,7 @@ class Topic(models.Model):
         posts = self.posts.all()
 
         if posts:
-            return posts.annotate(rating=Sum('ratings__value')).order_by('ratings').values('id' 'rating')
+            return sorted(posts, key=lambda p: -p.get_rating())[:post_count]
         else:
             return None
 

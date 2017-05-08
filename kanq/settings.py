@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
-    'django_crontab',
-
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
@@ -211,7 +209,3 @@ LOGGING = {
         },
     },
 }
-
-CRONJOBS = [
-    ('1 * * * *', 'api.tasks.update_topics'),
-]

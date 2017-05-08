@@ -70,7 +70,7 @@ class TopicSerializer(ModelSerializer):
         best_posts = topic.get_best_posts()
 
         if best_posts:
-            image = best_posts.first().image
+            image = best_posts[0].image
             serializer = ImageSerializer(image)
             return serializer.data
 

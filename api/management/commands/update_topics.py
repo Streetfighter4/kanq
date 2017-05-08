@@ -19,6 +19,9 @@ class Command(BaseCommand):
     @staticmethod
     def reward_topic_winners(topic):
         winner_posts = topic.get_best_posts(WINNERS_COUNT)
+        if not winner_posts:
+            return
+
         rank = 1
         for post in winner_posts:
             medal = Medal(rank=rank, user=post.creator, post=post)
