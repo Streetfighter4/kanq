@@ -10,13 +10,15 @@
        [immediateCheck]="true"
        (scrolled)="onScroll()">
     <div *ngFor="let post of elements" class="post col-md-3">
-      {{ post.title }}
+      <a routerLink="/posts/{{ post.id }}">
+        {{ post.title }}
 
-      <div class="image-holder">
-        <img src="{{ post.image.uri }}" class="image">
-      </div>
+        <div class="image-holder">
+          <img src="{{ post.image.uri }}" class="image">
+        </div>
 
-      Upvotes: {{ post.rating }}
+        Upvotes: {{ post.rating }}
+      </a>
     </div>
   </div>
 </div>
