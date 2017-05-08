@@ -80,6 +80,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def trending(self, request):  # Filter topic by query param
+        # TODO: This should filter posts by topic_id param
         posts = Post.objects.all()
         trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(TRENDING_POST_FALLOUT))
         page = self.paginate_queryset(trending_posts)
@@ -117,22 +118,24 @@ class PostViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['put'])
     def rate(self, request, pk=None):  # Update user's rating of a post
         vote = request.data['vote']
-        if vote is not None:
-            vote = int(vote)
-            if (vote == Rating.LIKE_VALUE) or (vote == Rating.DISLIKE_VALUE):
-                post = get_object_or_404(Post, id=pk)
-                rating = post.get_current_user_vote(request.user)
-                if rating is None:
-                    rating = Rating.objects.create(content_object=post, value=vote, user = request.user)
-                else:
-                    rating.value = vote
-                    rating.save()
-                serializer_rating = RatingSerializer(rating)
-                return Response(serializer_rating.data, status=status.HTTP_200_OK)
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        else:
+        if vote is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        vote = int(vote)
+        if not (vote == Rating.LIKE_VALUE) and not (vote == Rating.DISLIKE_VALUE):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        post = get_object_or_404(Post, id=pk)
+        rating = post.get_current_user_vote(request.user)
+
+        if (rating is None):
+            rating = Rating.objects.create(content_object=post, value=vote, user = request.user)
+        else:
+            rating.value = vote
+            rating.save()
+        serializer_rating = RatingSerializer(rating)
+        return Response(serializer_rating.data, status=status.HTTP_200_OK)
+
 
     @staticmethod
     def filter_by_topic(request):
