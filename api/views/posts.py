@@ -74,6 +74,7 @@ class PostViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(posts)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
         else:
             serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -86,6 +87,7 @@ class PostViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(trending_posts)
         if page is not None:
             serializer = PostGlanceSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
         else:
             serializer = PostGlanceSerializer(trending_posts, many=True)
 
@@ -97,6 +99,7 @@ class PostViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(objects)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
         else:
             serializer = self.get_serializer(objects, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
