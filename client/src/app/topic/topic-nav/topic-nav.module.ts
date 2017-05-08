@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {TopicDetailComponent} from './topic-detail.component';
+import { TopicNavComponent } from './topic-nav.component';
 import {RouterModule} from '@angular/router';
 
 @NgModule({
@@ -9,10 +9,10 @@ import {RouterModule} from '@angular/router';
     RouterModule
   ],
   declarations: [
-    TopicDetailComponent
+    TopicNavComponent
   ],
   exports: [
-    TopicDetailComponent
+    TopicNavComponent
   ]
 })
-export class TopicDetailModule { }
+export class TopicNavModule { }

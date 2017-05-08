@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Topic} from '../topic';
 import {TopicService} from '../topic.service';
-import {forEach} from '@angular/router/src/utils/collection';
+import {PaginatedListComponent} from '../../paginated-list/paginated-list.component';
 
 @Component({
   moduleId: module.id,
@@ -9,13 +9,13 @@ import {forEach} from '@angular/router/src/utils/collection';
   templateUrl: 'topic-index.component.html',
   styleUrls: ['topic-index.component.css']
 })
-export class TopicIndexComponent implements OnInit {
-  topics: Topic[];
+export class TopicIndexComponent extends PaginatedListComponent<Topic> {
+  constructor(private topicService: TopicService) {
+    super();
+  }
 
-  constructor(private topicService: TopicService) { }
-
-  ngOnInit() {
-    this.topicService.getAll()
-      .then(res => this.topics = res);
+  loadNextPage(currentPage: number, perPage: number) {
+    this.topicService.getAll(currentPage, perPage)
+      .then(this.addPage.bind(this));
   }
 }

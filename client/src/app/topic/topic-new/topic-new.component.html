@@ -1,0 +1,29 @@
+<div *ngIf="topic">
+  <h2 class="page-header text-center text-capitalize">Topic: {{ topic.name }} (new)</h2>
+
+  <topic-nav></topic-nav>
+
+  <div class="paginated-list posts"
+       infinite-scroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="300"
+       [immediateCheck]="true"
+       (scrolled)="onScroll()">
+    <div *ngFor="let post of elements" class="post col-md-4">
+      <a routerLink="/posts/{{ post.id }}">
+        <div class="thumbnail">
+            {{ post.title }}
+
+            <div class="image-holder">
+              <img src="{{ post.image.uri }}" class="image" style="padding-top: 10px">
+            </div>
+
+            <div class="vote text-right" style="padding-right: 10px; padding-top: 5px">
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"> <i class="fa fa-thumbs-o-down" aria-hidden="true"></i></i> {{ post.rating }}
+            </div>
+          </div>
+      </a>
+    </div>
+  </div>
+</div>
+

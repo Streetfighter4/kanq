@@ -48,7 +48,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
         response = self.new_filter_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
+        posts = response.data['results']
 
         for i in range(len(posts) - 1):
             self.assertGreater(posts[i]['created_at'], posts[i + 1]['created_at'])
@@ -62,7 +62,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
         response = self.new_filter_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
+        posts = response.data['results']
 
         for post in posts:
             self.assertEqual(post['topic']['id'], topic.id)
@@ -74,7 +74,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
         response = self.new_filter_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
+        posts = response.data['results']
 
         self.assertEqual(len(posts), batch_size)
 
@@ -120,7 +120,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
         response = self.top_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
+        posts = response.data['results']
 
         for i in range(len(posts) - 1):
             self.assertGreaterEqual(posts[i]['rating'], posts[i + 1]['rating'])
@@ -132,7 +132,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
         response = self.top_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
+        posts = response.data['results']
         for i in range(len(posts) - 1):
             self.assertEqual(posts[i]['topic'], data['topic'])
 
@@ -220,7 +220,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, self.user)
         response = self.trending_view(request)
 
-        posts = response.data
+        posts = response.data['results']
 
         self.assertEqual(posts[0]["id"], high_post.id)
         self.assertEqual(posts[1]["id"], middle_post.id)
@@ -246,7 +246,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, self.user)
         response = self.trending_view(request)
 
-        posts = response.data
+        posts = response.data['results']
 
         self.assertEqual(posts[0]["id"], high_post.id)
         self.assertEqual(posts[1]["id"], middle_post.id)

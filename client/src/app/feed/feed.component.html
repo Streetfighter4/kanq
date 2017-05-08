@@ -1,12 +1,20 @@
-<div class="paginated-list"
+<h2 class="page-header text-center text-capitalize">Feed</h2>
+
+<div class="paginated-list posts"
      infinite-scroll
      [infiniteScrollDistance]="2"
      [infiniteScrollThrottle]="300"
      [immediateCheck]="true"
      (scrolled)="onScroll()">
-  <div class="posts">
-    <div class="post" *ngFor="let post of elements">
-      {{ post.id }}: {{ post.title }}
-    </div>
+  <div *ngFor="let post of elements" class="post col-md-3">
+    <a routerLink="/posts/{{ post.id }}">
+      {{ post.title }}
+
+      <div class="image-holder">
+        <img src="{{ post.image.uri }}" class="image">
+      </div>
+
+      Upvotes: {{ post.rating }}
+    </a>
   </div>
 </div>

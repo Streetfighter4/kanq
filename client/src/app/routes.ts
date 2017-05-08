@@ -7,9 +7,11 @@ import {SignupComponent} from './signup/signup.component';
 import {LoggedInGuard} from './common/logged_in_guard';
 import {FeedComponent} from './feed/feed.component';
 import {TopicIndexComponent} from './topic/topic-index/topic-index.component';
-import {TopicDetailComponent} from './topic/topic-detail/topic-detail.component';
 import {PostDetailComponent} from './post/post-detail/post-detail.component';
 import {NotFoundComponent} from './common/not-found/not-found.component';
+import {TopicNewComponent} from './topic/topic-new/topic-new.component';
+import {TopicTrendingComponent} from './topic/topic-trending/topic-trending.component';
+import {TopicTopComponent} from './topic/topic-top/topic-top.component';
 
 export const ROUTES: Route[] = [
   {
@@ -36,8 +38,21 @@ export const ROUTES: Route[] = [
   },
   {
     path: 'topics/:id',
-    component: TopicDetailComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuard],
+    children: [
+      {
+        path: 'new',
+        component: TopicNewComponent,
+      },
+      {
+        path: 'trending',
+        component: TopicTrendingComponent
+      },
+      {
+        path: 'top',
+        component: TopicTopComponent
+      }
+    ]
   },
   {
     path: 'oauth/facebook',

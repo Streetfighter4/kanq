@@ -1,5 +1,5 @@
-import {Post} from '../post/post';
 import {Image} from '../image/image';
+import {Post} from '../post/post';
 
 export class Topic {
   name: string;

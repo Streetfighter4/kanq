@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http} from '@angular/http';
+import {Headers, Http, URLSearchParams} from '@angular/http';
 import {Settings} from '../settings';
 
 @Injectable()
@@ -10,9 +10,8 @@ export class HttpClient {
     let token = localStorage.getItem(Settings.LOCAL_STORAGE_TOKEN_KEY);
     let keyword;
 
-    if(token == undefined) {
+    if(!token)
       return;
-    }
 
     if(token.length == Settings.NORMAL_API_TOKEN_LENGTH) {
       keyword = Settings.NORMAL_API_TOKEN_KEYWORD;
@@ -28,12 +27,13 @@ export class HttpClient {
     headers.append('Authorization', keyword + ' ' + token);
   }
 
-  get(url) {
+  get(url: string, params: URLSearchParams = new URLSearchParams()) {
     let headers = new Headers();
     this.createAuthorizationHeader(headers);
 
     return this.http.get(url, {
-      headers: headers
+      headers: headers,
+      search: params
     });
   }
 
