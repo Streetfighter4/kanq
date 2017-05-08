@@ -1,6 +1,8 @@
 <div *ngIf="topic">
   <h2 class="page-header text-center text-capitalize">Topic: {{ topic.name }} (top)</h2>
 
+  <topic-nav></topic-nav>
+
   <div class="paginated-list posts"
        infinite-scroll
        [infiniteScrollDistance]="2"
