@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Topic} from '../topic/topic';
 import {PaginatedListComponent} from '../../paginated-list/paginated-list.component';
 import {Post} from '../../post/post';
 import {PostService} from '../../post/post.service';
-import {TopicService} from '../topic/topic.service';
+import {Topic} from '../topic';
+import {TopicService} from '../topic.service';
 
 @Component({
   selector: 'app-topic-top',
