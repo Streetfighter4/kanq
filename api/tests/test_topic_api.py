@@ -28,7 +28,7 @@ class TopicAPITest(TestCase):
         request = self.factory.get("api/topics/active")
         force_authenticate(request, user=self.user)
         response = self.active_view(request)
-        topics = TopicSerializer(data=response.data, many=True)
+        topics = TopicSerializer(data=response.data['results'], many=True)
         topics.is_valid(raise_exception=True)
         topics = topics.create(topics.validated_data)
 
@@ -41,7 +41,7 @@ class TopicAPITest(TestCase):
         request = self.factory.get("api/topics/inactive")
         force_authenticate(request, user=self.user)
         response = self.inactive_view(request)
-        topics = TopicSerializer(data=response.data, many=True)
+        topics = TopicSerializer(data=response.data['results'], many=True)
         topics.is_valid(raise_exception=True)
         topics = topics.create(topics.validated_data)
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Topic} from './topic';
 import {HttpClient} from '../../common/http-client.service';
 import {Settings} from '../../settings';
+import {Topic} from './topic';
 
 @Injectable()
 export class TopicService {
@@ -18,10 +19,10 @@ export class TopicService {
       .catch(err => Promise.reject('error getting topics'));
   }
 
-  getDetail(id: number) {
+  getDetail(id: number): Promise<Topic> {
     return this.http.get(Settings.API_TOPICS_URL + id)
       .toPromise()
       .then(res => res.json())
-      .catch(err => Promise.reject('Error getting topic detail'))
+      .catch(err => Promise.reject('Error getting topics'));
   }
 }
