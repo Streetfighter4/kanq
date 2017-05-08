@@ -2,6 +2,7 @@ from datetime import datetime
 
 import pytz
 from django.db import models
+from django.db.models import Sum
 
 from .tag import Tag
 
@@ -12,6 +13,7 @@ class Topic(models.Model):
     start = models.DateTimeField(blank=False)
     end = models.DateTimeField(blank=False)
     tags = models.ManyToManyField(Tag, related_name='topics')
+    closed = models.BooleanField(default=False)
 
     def is_active(self):
         return self.start <= datetime.now(pytz.utc) <= self.end
@@ -20,13 +22,17 @@ class Topic(models.Model):
         now = datetime.now(pytz.utc)
         return self.start <= now and self.end <= now
 
-    def get_best_post(self):
+    def get_best_posts(self, post_count=1):
         posts = self.posts.all()
 
-        if posts.count() <= 0:
+        if posts:
+            return posts.annotate(rating=Sum('ratings__value')).order_by('ratings').values('id' 'rating')
+        else:
             return None
 
-        return max(posts, key=lambda p: p.get_rating() or 0)
+    @staticmethod
+    def get_topics_to_close():
+        return Topic.objects.filter(end__lt=datetime.now(pytz.utc), closed=False)
 
     def __str__(self):
         return self.name

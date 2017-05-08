@@ -67,10 +67,10 @@ class TopicSerializer(ModelSerializer):
     active = serializers.SerializerMethodField()
 
     def get_best_post_image(self, topic):
-        best_post = topic.get_best_post()
+        best_posts = topic.get_best_posts()
 
-        if(best_post):
-            image = best_post.image
+        if best_posts:
+            image = best_posts.first().image
             serializer = ImageSerializer(image)
             return serializer.data
 
@@ -143,6 +143,7 @@ class PostDetailSerializer(ModelSerializer):
         return serializer.data
 
     def get_rating(self, post):
+
         ratings = Rating.objects.filter(object_id=post.id)
         serializer = RatingSerializer(instance=ratings, many=True)
         return serializer.data

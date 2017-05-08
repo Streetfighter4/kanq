@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
-    'django_celery_beat',
+    'django_crontab',
 
     'oauth2_provider',
     'social_django',
@@ -211,3 +211,7 @@ LOGGING = {
         },
     },
 }
+
+CRONJOBS = [
+    ('1 * * * *', 'api.tasks.update_topics'),
+]
