@@ -8,6 +8,7 @@ import {Response} from '@angular/http';
 import {FacebookService} from './facebook.service';
 import {UserService} from '../../user/user.service';
 import {Settings} from '../../settings';
+import {isUndefined} from 'util';
 
 @Component({
   template: 'Authenticating...'
@@ -35,8 +36,13 @@ export class FacebookTokenHandlerComponent implements OnInit {
   }
 
   private saveAPIToken(token: string) {
-    console.log('Facebook auth successful!', token);
-    this.userService.handleLogin(token);
-    this.router.navigate(['/']);
+    if(token != undefined) {
+      console.log('Facebook auth successful!', token);
+      this.userService.handleLogin(token);
+      this.router.navigate(['/']);
+    }
+    else {
+      this.router.navigate(['/login']);
+    }
   }
 }

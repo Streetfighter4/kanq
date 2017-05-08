@@ -37,6 +37,15 @@ class UserFactory(DjangoModelFactory):
             for f in extracted:
                 self.following.add(f)
 
+    @factory.post_generation
+    def followers(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for f in extracted:
+                self.followers.add(f)
+
 
 class TopicFactory(DjangoModelFactory):
     class Meta:
@@ -104,13 +113,6 @@ class CommentFactory(DjangoModelFactory):
     content = factory.Faker('text')
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
-
-    # Subfactory needs to be added like that, because otherwise
-    # it can't reference itself
-    parent = factory.SubFactory('api.factories.CommentFactory')
-
-    # Tell the recursion to go only up to 3 levels deep
-    parent__parent__parent = None
 
 
 class MedalFactory(DjangoModelFactory):

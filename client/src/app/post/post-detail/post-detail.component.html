@@ -1,0 +1,26 @@
+<div class="post" *ngIf="post">
+  <h2 class="page-header text-center text-capitalize">Post: {{ post.title }}</h2>
+
+  <div class="post-topic text-center">
+    Topic: {{ post.topic.name }}
+  </div>
+
+  <rating [rating]="post.rating" [user_rating]="post.user_rating" (onRatingChanged)="rate($event)"></rating>
+
+  <div class="center-block text-center">
+    Created by {{ post.creator.username }} on {{ post.created_at | date: 'medium' }}
+  </div>
+
+  <img class="post-image center-block" src="{{ post.image.uri }}">
+
+  <p class="post-description">
+    <label class="center-block text-center">Description</label>
+    {{ post.description }}
+  </p>
+
+  <reply-box [postId]="post.id" [parent]="null" [commentsContainer]="post.comments"></reply-box>
+  <div class="comments">
+    <label class="center-block text-center">Comments</label>
+    <comment *ngFor="let comment of post.comments" [comment]="comment"></comment>
+  </div>
+</div>

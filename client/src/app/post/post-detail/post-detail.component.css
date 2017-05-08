@@ -1,0 +1,13 @@
+.post-image {
+  height: 50vh;
+}
+
+.post-description {
+  display: block;
+  width: 60%;
+  margin: 30px auto;
+}
+
+.comments {
+  margin: 30px auto;
+}

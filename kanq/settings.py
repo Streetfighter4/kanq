@@ -26,6 +26,9 @@ SECRET_KEY = '6k5x=1bv14kh6y8iz3tzx8q14o!y1r1t!jdb*4nps+o-8yx_cw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# SECURITY WARNING: don't run with auth turned off in production!
+AUTH_REQUIRED=True
+
 ALLOWED_HOSTS = []
 
 
@@ -40,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+
+    'django_celery_beat',
 
     'oauth2_provider',
     'social_django',
@@ -105,10 +110,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+}
+
+if AUTH_REQUIRED:
+    REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = (
         'rest_framework.permissions.IsAuthenticated',
     )
-}
 
 AUTHENTICATION_BACKENDS = (
    'rest_framework_social_oauth2.backends.DjangoOAuth2',
@@ -183,3 +192,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Logging not working currently (hopefully not true anymore)
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'info.log',
+        },
+    },
+    'loggers': {
+        'api': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}

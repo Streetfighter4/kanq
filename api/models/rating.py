@@ -6,6 +6,8 @@ from .user import User
 
 
 class Rating(models.Model):
+    NOT_VOTED_VALUE = None
+    DELETE_RATING_VALUE = 0
     DISLIKE_VALUE = -1
     LIKE_VALUE = 1
 
@@ -14,10 +16,10 @@ class Rating(models.Model):
     content_object = GenericForeignKey()
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
-    value = models.SmallIntegerField(default=0, validators=[
+    value = models.SmallIntegerField(default=None, validators=[
         MinValueValidator(DISLIKE_VALUE),
         MaxValueValidator(LIKE_VALUE)
     ])
 
     def __str__(self):
-        return self.user + " " + self.value
+        return "%s %s" % (self.user, self.value)

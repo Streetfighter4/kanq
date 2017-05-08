@@ -1,0 +1,12 @@
+<div class="paginated-list"
+     infinite-scroll
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="300"
+     [immediateCheck]="true"
+     (scrolled)="onScroll()">
+  <div class="posts">
+    <div class="post" *ngFor="let post of elements">
+      {{ post.id }}: {{ post.title }}
+    </div>
+  </div>
+</div>
