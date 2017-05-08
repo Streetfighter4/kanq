@@ -28,9 +28,6 @@ export class PaginatedListComponent<T> implements OnInit {
 
     if(newElements.length == 0)
       this.shouldScroll = false;
-
-    if(this.shouldScroll)
-      this.loadNextPage(this.currentPage, this.perPage);
   }
 
   loadNextPage(currentPage: number, perPage: number) {}
