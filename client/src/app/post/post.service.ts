@@ -10,17 +10,16 @@ export class PostService {
 
   constructor(private http: HttpClient) { }
 
-  getFeed(page: number, perPage: number, topicId: number = null): Promise<Post[]> {
+  getFeed(page: number, topicId: number = null): Promise<Post[]> {
     let params: URLSearchParams = new URLSearchParams();
-    params.set('offset', (String)(page * perPage));
-    params.set('limit', (String)(perPage));
+    params.set('page', (String)(page));
 
     if(topicId)
       params.set('topic_id', (String)(topicId));
 
     return this.http.get(Settings.API_POSTS_URL + 'feed/', params)
       .toPromise()
-      .then(res => res.json().results)
+      .then(res => res.json())
       .catch(err => Promise.reject('error getting feed'));
   }
 
