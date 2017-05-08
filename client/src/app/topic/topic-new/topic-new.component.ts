@@ -8,8 +8,7 @@ import {TopicService} from '../topic.service';
 
 @Component({
   selector: 'app-topic-new',
-  templateUrl: './topic-new.component.html',
-  styleUrls: ['./topic-new.component.css']
+  templateUrl: './topic-new.component.html'
 })
 export class TopicNewComponent extends PaginatedListComponent<Post> {
   id: number;

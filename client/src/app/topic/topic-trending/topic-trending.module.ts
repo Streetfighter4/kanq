@@ -4,13 +4,15 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {RouterModule} from '@angular/router';
 import {TopicTrendingComponent} from './topic-trending.component';
 import {TopicNavModule} from '../topic-nav/topic-nav.module';
+import {PostGlanceModule} from '../../post/post-glance/post-glance.module';
 
 @NgModule({
   imports: [
     CommonModule,
     InfiniteScrollModule,
     RouterModule,
-    TopicNavModule
+    TopicNavModule,
+    PostGlanceModule
   ],
   declarations: [
     TopicTrendingComponent

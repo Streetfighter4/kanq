@@ -5,8 +5,7 @@ import {PaginatedListComponent} from '../paginated-list/paginated-list.component
 
 @Component({
   moduleId: module.id,
-  templateUrl: 'feed.component.html',
-  styleUrls: ['feed.component.css']
+  templateUrl: 'feed.component.html'
 })
 export class FeedComponent extends PaginatedListComponent<Post> {
   constructor(private postService: PostService) {
