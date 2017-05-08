@@ -1,10 +1,12 @@
-.post {
-  height: 30vh;
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
+/*.post {*/
+  /*height: 30vh;*/
+  /*text-align: center;*/
+  /*margin-top: 10px;*/
+  /*margin-bottom: 10px;*/
+/*}*/
+/**/
 .image {
   height: 20vh;
+  margin: 0 auto;
+  display: block;
 }
