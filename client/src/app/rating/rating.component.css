@@ -1,3 +1,9 @@
+.rating {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+
 .rating-button {
   cursor: pointer;
 }
