@@ -30,7 +30,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'is_active', 'password', 'password_confirmation')
+        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'password', 'password_confirmation')
         extra_kwargs = {'password': {'write_only': True}, 'is_active': {'read_only': True}}
 
     def create(self, validated_data):
@@ -130,6 +130,7 @@ class PostSerializer(ModelSerializer):
         model = Post
         fields = ('id', 'title', 'description', 'creator', 'topic', 'image', 'tags', 'created_at', 'rating', 'user_rating')
 
+
 class RatingSerializer(ModelSerializer):
     class Meta:
         model = Rating
@@ -141,6 +142,7 @@ class PostDetailSerializer(ModelSerializer):
     creator = UserSerializer(read_only=True)
     topic = TopicSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
+    image = ImageSerializer(read_only=True)
     rating = serializers.SerializerMethodField()
     user_rating = serializers.SerializerMethodField()
 
@@ -158,7 +160,7 @@ class PostDetailSerializer(ModelSerializer):
 
     def get_comments(self, post):
         comments = Comment.objects.filter(post=post, parent=None)
-        serializer = CommentSerializer(instance=comments, many=True)
+        serializer = CommentSerializer(instance=comments, many=True, context=self.context)
         return serializer.data
 
     class Meta:
@@ -191,6 +193,7 @@ class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
+        read_only_fields = ['user']
         fields = ('id', 'content', 'post', 'user', 'rating', 'user_rating', 'parent', 'children')
 
 

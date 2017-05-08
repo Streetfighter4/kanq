@@ -7,6 +7,7 @@ import {SignupComponent} from './signup/signup.component';
 import {LoggedInGuard} from './common/logged_in_guard';
 import {FeedComponent} from './feed/feed.component';
 import {TopicIndexComponent} from './topic/topic-index/topic-index.component';
+import {PostDetailComponent} from './post/post-detail/post-detail.component';
 import {NotFoundComponent} from './common/not-found/not-found.component';
 import {TopicNewComponent} from './topic/topic-new/topic-new.component';
 import {TopicTrendingComponent} from './topic/topic-trending/topic-trending.component';
@@ -65,6 +66,11 @@ export const ROUTES: Route[] = [
         component: FacebookTokenHandlerComponent
       }
     ]
+  },
+  {
+    path: 'posts/:id',
+    component: PostDetailComponent,
+    canActivate: [LoggedInGuard]
   },
   {
     path: '404',

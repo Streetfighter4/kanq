@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 
-from api.factories import TopicFactory, PostFactory, RatingFactory
-from api.models import Topic, Post
+from api.factories import TopicFactory, PostFactory, RatingFactory, CommentFactory
+from api.models import Topic, Post, User
 
 
 class Command(BaseCommand):
@@ -13,3 +13,10 @@ class Command(BaseCommand):
 
         for post in Post.objects.all():
             RatingFactory.create_batch(5, content_object=post)
+            CommentFactory.create_batch(5, post=post, user=User.objects.first())
+
+            for comment in post.comments.all():
+                CommentFactory.create_batch(5, post=post, user=User.objects.first(), parent=comment)
+
+            for comment in post.comments.all():
+                RatingFactory.create_batch(5, content_object=comment, user=User.objects.first())

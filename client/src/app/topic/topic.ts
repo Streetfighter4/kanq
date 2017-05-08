@@ -1,3 +1,4 @@
+import {Image} from '../image/image';
 import {Post} from '../post/post';
 
 export class Topic {
@@ -5,7 +6,7 @@ export class Topic {
   description: string;
   start: string;
   end: string;
-  best_post_image: any;
+  best_post_image: Image;
   active: boolean;
   posts: Post[];
   // tags: Tag[];

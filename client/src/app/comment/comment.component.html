@@ -1,0 +1,12 @@
+<div class="comment">
+  <p>
+    {{ comment.content }}
+  </p>
+
+  <rating [rating]="comment.rating" [user_rating]="comment.user_rating" (onRatingChanged)="rate($event)"></rating>
+  <reply-box [postId]="comment.post" [parent]="comment" [commentsContainer]="comment.children"></reply-box>
+
+  <div *ngFor="let comment of comment.children">
+    <comment [comment]="comment"></comment>
+  </div>
+</div>

@@ -15,10 +15,12 @@ import {FeedModule} from './feed/feed.module';
 import {TopicIndexModule} from './topic/topic-index/topic-index.module';
 import {HttpClient} from './common/http-client.service';
 import {HttpModule} from '@angular/http';
+import {PostDetailModule} from './post/post-detail/post-detail.module';
 import {NotFoundModule} from './common/not-found/not-found.module';
 import {TopicNewModule} from './topic/topic-new/topic-new.module';
 import {TopicTrendingModule} from './topic/topic-trending/topic-trending.module';
 import {TopicTopModule} from './topic/topic-top/topic-top.module';
+import {TopicDetailModule} from './topic/topic-detail/topic-detail.module';
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import {TopicTopModule} from './topic/topic-top/topic-top.module';
     TopicNewModule,
     TopicTrendingModule,
     TopicTopModule,
+    TopicDetailModule,
+    PostDetailModule,
     NotFoundModule,
     RouterModule.forRoot(ROUTES),
     FacebookModule,

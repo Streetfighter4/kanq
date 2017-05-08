@@ -114,13 +114,6 @@ class CommentFactory(DjangoModelFactory):
     post = factory.SubFactory(PostFactory)
     user = factory.SubFactory(UserFactory)
 
-    # Subfactory needs to be added like that, because otherwise
-    # it can't reference itself
-    parent = factory.SubFactory('api.factories.CommentFactory')
-
-    # Tell the recursion to go only up to 3 levels deep
-    parent__parent__parent = None
-
 
 class MedalFactory(DjangoModelFactory):
     MIN_RANK = 1

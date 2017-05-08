@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Topic} from '../topic';
+import {TopicService} from '../topic.service';
 import {PaginatedListComponent} from '../../paginated-list/paginated-list.component';
-import {Topic} from '../topic/topic';
-import {TopicService} from '../topic/topic.service';
 
 @Component({
   moduleId: module.id,

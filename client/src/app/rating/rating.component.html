@@ -1,0 +1,9 @@
+<div class="rating text-center">
+  Rating: {{ rating }}
+  <div class="rating-button glyphicon glyphicon-arrow-up"
+       (click)="voteClicked(1)"
+       [class.rating-active]="user_rating.value == 1"></div>
+  <div class="rating-button glyphicon glyphicon-arrow-down"
+       (click)="voteClicked(-1)"
+       [class.rating-active]="user_rating.value == -1"></div>
+</div>
