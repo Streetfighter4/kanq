@@ -2,12 +2,13 @@
 
 <div *ngFor="let topic of topics">
   <a routerLink="/topics/{{ topic.id }}">
-    <div class="topic col-md-3" [class.active]="topic.active" [class.inactive]="!topic.active">
-      {{ topic.name }}
-
-      <div *ngIf="topic.best_post_image" class="best-post-image-holder">
-        <img src="{{ topic.best_post_image.uri }}" class="best-post-image">
-      </div>
+    <div class="topic col-md-4" [class.active]="topic.active" [class.inactive]="!topic.active">
+       <a href="#" class="thumbnail">
+          <h4>{{ topic.name }}</h4>
+          <div *ngIf="topic.best_post_image" class="best-post-image-holder">
+            <img src="{{ topic.best_post_image.uri }}" class="best-post-image" style="padding-bottom: 10px">
+          </div>
+       </a>
     </div>
   </a>
 </div>

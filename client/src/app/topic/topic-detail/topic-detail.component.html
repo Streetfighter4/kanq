@@ -1,16 +1,45 @@
 <div *ngIf="topic">
   <h2 class="page-header text-center text-capitalize">Topic: {{ topic.name }}</h2>
 
-  <div *ngFor="let post of topic.posts">
-    <div class="post col-md-3">
-      {{ post.title }}
+    <div class="col-lg-5 col-lg-offset-3">
+        <form class="add-image">
+            <div class="form-group">
+                <h3>Upload image: </h3>
+                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"><hr>
+            </div>
 
-      <div class="image-holder">
-        <img src="{{ post.image.uri }}" class="image">
-      </div>
+            <div class="form-group">
+                <input type="title" class="form-control" id="title" placeholder="Title">
+            </div>
 
-      Upvotes: {{ post.rating }}
+
+            <div class="form-group">
+                <label for="exampleTextarea">Describe your post</label>
+                <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+            </div>
+            <button type="button" class="btn btn-primary">Upload</button> <hr>
+        </form>
     </div>
+
+    <div class="col-lg-5 col-lg-offset-3">
+  <div *ngFor="let post of topic.posts">
+      <div class="row">
+
+            <div class="thumbnail">
+                <div class="User" style="margin-left: 10px">
+                    <h5>Username</h5>
+                </div>
+              <img src="{{ post.image.uri }}" alt="..." style="max-height: 200px" class="img-responsive">
+              <div class="caption">
+                <h4>{{ post.title }}</h4>
+                    <div class="clearfix">
+                        <div style="float: right">
+                            <i class="fa fa-thumbs-o-up" aria-hidden="true"> {{ post.rating }}</i>
+                        </div>
+                    </div>
+              </div>
+            </div>
+        </div>
+      </div>
   </div>
 </div>
-

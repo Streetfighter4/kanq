@@ -5,7 +5,7 @@ import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   moduleId: module.id,
-  selector: 'topic-index',
+  selector: 'app-topic-index',
   templateUrl: 'topic-index.component.html',
   styleUrls: ['topic-index.component.css']
 })
