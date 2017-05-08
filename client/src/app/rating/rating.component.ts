@@ -24,27 +24,13 @@ export class RatingComponent{
   }
 
   private updateRating(clickedValue: number) {
-    // TODO: Technically it's working, but it should probably be refactored... a lot
     if(this.user_rating.value) {
-      if(this.user_rating.value == 1) {
-        if(clickedValue == 1) {
-          this.rating += -1;
-        }
-        if(clickedValue == -1) {
-          this.rating += -2;
-        }
-      }
-      if(this.user_rating.value == -1) {
-        if(clickedValue == 1) {
-          this.rating += 2;
-        }
-        if(clickedValue == -1) {
-          this.rating += 1;
-        }
-      }
+      if(this.user_rating.value == clickedValue)
+        this.rating -= clickedValue;
+      else
+        this.rating += clickedValue - this.user_rating.value;
     }
-    if(!this.user_rating.value) {
+    else
       this.rating += clickedValue;
-    }
   }
 }
