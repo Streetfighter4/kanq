@@ -3,6 +3,26 @@
 
   <topic-nav></topic-nav>
 
+
+ <div class="col-lg-5 col-lg-offset-4">
+     <form class="add-image">
+         <div class="form-group">
+            <h3>Upload image: </h3>
+             <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"><hr>
+         </div>
+
+         <div class="form-group">
+             <input type="title" class="form-control" id="title" placeholder="Title">
+         </div>
+
+         <div class="form-group">
+             <label for="exampleTextarea">Describe your post</label>
+             <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+         </div>
+         <button type="button" class="btn btn-primary">Upload</button> <hr>
+     </form> <br>
+ </div>
+
   <div class="paginated-list posts"
        infinite-scroll
        [infiniteScrollDistance]="2"
