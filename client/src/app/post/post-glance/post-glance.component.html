@@ -1,0 +1,11 @@
+<div class="post">
+  <a routerLink="/posts/{{ post.id }}">
+    {{ post.title }}
+
+    <div class="image-holder">
+      <img src="{{ post.image.uri }}" class="image">
+    </div>
+  </a>
+  
+  <rating [rating]="post.rating" [user_rating]="post.user_rating" (onRatingChanged)="rate($event)"></rating>
+</div>
