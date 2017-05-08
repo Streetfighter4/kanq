@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
     CommonModule,
     BrowserModule,
     FormsModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    RouterModule
   ],
   declarations: [
     FeedComponent
