@@ -7,6 +7,7 @@ from .user import User
 
 class Rating(models.Model):
     NOT_VOTED_VALUE = None
+    DELETE_RATING_VALUE = 0
     DISLIKE_VALUE = -1
     LIKE_VALUE = 1
 

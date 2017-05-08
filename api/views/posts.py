@@ -62,8 +62,8 @@ class PostViewSet(viewsets.ModelViewSet):
         fh.close()
 
         image = Image.objects.create(uri=full_path)
-        post = Post.objects.create(description = data['description'], title=data['title'],
-                                   creator_id = data['creator_id'], topic_id = data['topic_id'], image_id=image.id)
+        post = Post.objects.create(description=data['description'], title=data['title'],
+                                   creator_id=data['creator_id'], topic_id=data['topic_id'], image_id=image.id)
         serializer = PostSerializer(instance=post)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -121,20 +121,26 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         vote = int(vote)
-        if not (vote == Rating.LIKE_VALUE) and not (vote == Rating.DISLIKE_VALUE):
+
+        if not (vote == Rating.LIKE_VALUE) \
+                and not (vote == Rating.DISLIKE_VALUE) \
+                and not (vote == Rating.DELETE_RATING_VALUE):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         post = get_object_or_404(Post, id=pk)
         rating = post.get_current_user_vote(request.user)
 
-        if (rating is None):
-            rating = Rating.objects.create(content_object=post, value=vote, user = request.user)
+        if rating is None:
+            rating = Rating.objects.create(content_object=post, value=vote, user=request.user)
         else:
+            if vote == Rating.DELETE_RATING_VALUE:
+                rating.delete()
+                return Response(status=status.HTTP_200_OK)
+
             rating.value = vote
             rating.save()
         serializer_rating = RatingSerializer(rating)
         return Response(serializer_rating.data, status=status.HTTP_200_OK)
-
 
     @staticmethod
     def filter_by_topic(request):

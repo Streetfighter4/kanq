@@ -25,9 +25,6 @@ export class PostDetailComponent implements OnInit {
   }
 
   rate(value: number) {
-    if(value)
-      this.postService.rate(this.id, value);
-    // else
-    //   this.postService.
+    this.postService.rate(this.id, value);
   }
 }

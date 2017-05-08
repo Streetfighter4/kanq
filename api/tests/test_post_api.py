@@ -85,7 +85,8 @@ class PostApiTest(TestCase):
         data['creator_id'] = self.user.id
 
         data['topic_id'] = topic.id
-        data['image'] = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAABtJREFUCJlj/M/A8J/hBgMDA4Pa//8M/xX/AwA5YgcbF4ARSAAAAABJRU5ErkJggg=='
+        data[
+            'image'] = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAABtJREFUCJlj/M/A8J/hBgMDA4Pa//8M/xX/AwA5YgcbF4ARSAAAAABJRU5ErkJggg=='
         data['extension'] = '.png'
         request = self.factory.post("api/posts/", data, format='json')
         force_authenticate(request, user=self.user)
@@ -99,7 +100,8 @@ class PostApiTest(TestCase):
         data = PostSerializer(newPost).data
         data['creator_id'] = self.user.id
         data['topic_id'] = topic.id
-        data['image'] = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAABtJREFUCJlj/M/A8J/hBgMDA4Pa//8M/xX/AwA5YgcbF4ARSAAAAABJRU5ErkJggg=='
+        data[
+            'image'] = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAABtJREFUCJlj/M/A8J/hBgMDA4Pa//8M/xX/AwA5YgcbF4ARSAAAAABJRU5ErkJggg=='
         data['extension'] = '.png'
         request = self.factory.post("api/posts/", data, format='json')
         force_authenticate(request, user=self.user)
@@ -124,7 +126,7 @@ class PostApiTest(TestCase):
             self.assertGreaterEqual(posts[i]['rating'], posts[i + 1]['rating'])
 
     def test_top_view_sort_right_posts(self):
-        data={}
+        data = {}
         data['topic'] = TopicFactory()
         request = self.factory.get("api/posts", data)
         force_authenticate(request, user=self.user)
@@ -178,7 +180,6 @@ class PostApiTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(1, new_post.get_rating())
 
-
     def test_rate_view_update_correctly(self):
         new_post = PostFactory()
         RatingFactory(content_object=new_post, value=Rating.LIKE_VALUE)
@@ -190,15 +191,30 @@ class PostApiTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(2, new_post.get_rating())
 
+    def test_rate_view_deletes_rating(self):
+        new_post = PostFactory()
+        rating_id = RatingFactory(content_object=new_post, user=self.user).id
+
+        data = {
+            'vote': Rating.DELETE_RATING_VALUE
+        }
+
+        request = self.factory.put("api/posts/{id}/rate", data)
+        force_authenticate(request, user=self.user)
+        response = self.rate_view(request, pk=new_post.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(0, new_post.get_rating())
+        self.assertFalse(Rating.objects.filter(pk=rating_id).exists())
+
     def test_trending_view_returns_highly_rated_new_posts_first(self):
         low_post = PostFactory()
         RatingFactory.create_batch(3, content_object=low_post, value=Rating.LIKE_VALUE)
 
         middle_post = PostFactory()
-        RatingFactory.create_batch(7, content_object=middle_post , value=Rating.LIKE_VALUE)
+        RatingFactory.create_batch(7, content_object=middle_post, value=Rating.LIKE_VALUE)
 
         high_post = PostFactory()
-        RatingFactory.create_batch(50, content_object=high_post , value=Rating.LIKE_VALUE)
+        RatingFactory.create_batch(50, content_object=high_post, value=Rating.LIKE_VALUE)
 
         request = self.factory.get("api/posts/trending/")
         force_authenticate(request, self.user)

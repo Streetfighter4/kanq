@@ -18,12 +18,14 @@ export class RatingComponent{
     // If the user clicked on the upvote button, but the object
     // is already upvoted, remove the upvote instead
     this.user_rating.value = this.user_rating.value == clickedValue ? null : clickedValue;
-    this.onRatingChanged.emit(this.user_rating.value);
+
+    let emittedValue = this.user_rating.value || 0;
+    this.onRatingChanged.emit(emittedValue);
   }
 
   private updateRating(clickedValue: number) {
     // TODO: Technically it's working, but it should probably be refactored... a lot
-    if(this.user_rating.value != null) {
+    if(this.user_rating.value) {
       if(this.user_rating.value == 1) {
         if(clickedValue == 1) {
           this.rating += -1;
@@ -41,7 +43,7 @@ export class RatingComponent{
         }
       }
     }
-    if(this.user_rating.value == null) {
+    if(!this.user_rating.value) {
       this.rating += clickedValue;
     }
   }

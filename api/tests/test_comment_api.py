@@ -23,3 +23,18 @@ class CommentApiTest(TestCase):
         response = self.rate_view(request, pk=new_comment.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(2, new_comment.get_rating())
+
+    def test_rate_view_deletes_rating(self):
+        new_comment = CommentFactory()
+        rating_id = RatingFactory(content_object=new_comment, user=self.user).id
+
+        data = {
+            'vote': Rating.DELETE_RATING_VALUE
+        }
+
+        request = self.factory.put("api/posts/{id}/rate", data)
+        force_authenticate(request, user=self.user)
+        response = self.rate_view(request, pk=new_comment.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(0, new_comment.get_rating())
+        self.assertFalse(Rating.objects.filter(pk=rating_id).exists())

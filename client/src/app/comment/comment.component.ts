@@ -14,8 +14,6 @@ export class CommentComponent {
   constructor(private commentService: CommentService) { }
 
   rate(value: number) {
-    if(value)
-      this.commentService.rate(this.comment.id, value)
-        .then(console.log);
+    this.commentService.rate(this.comment.id, value);
   }
 }
