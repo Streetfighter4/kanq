@@ -1,3 +1,7 @@
+.rating-button {
+  cursor: pointer;
+}
+
 .rating-active {
   background-color: orange;
 }
