@@ -118,7 +118,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
         response = self.top_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
+        posts = response.data['results']
 
         for i in range(len(posts) - 1):
             self.assertGreaterEqual(posts[i]['rating'], posts[i + 1]['rating'])
@@ -130,7 +130,7 @@ class PostApiTest(TestCase):
         force_authenticate(request, user=self.user)
         response = self.top_view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        posts = response.data
+        posts = response.data['results']
         for i in range(len(posts) - 1):
             self.assertEqual(posts[i]['topic'], data['topic'])
 
