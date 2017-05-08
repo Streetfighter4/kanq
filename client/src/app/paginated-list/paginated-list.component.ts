@@ -15,11 +15,11 @@ export class PaginatedListComponent<T> implements OnInit {
 
   onScroll() {
     if(this.shouldScroll)
-        this.loadNextPage(this.perPage, this.currentPage);
+        this.loadNextPage(this.currentPage, this.perPage);
   }
 
   ngOnInit() {
-    this.loadNextPage(this.perPage, this.currentPage);
+    this.loadNextPage(this.currentPage, this.perPage);
   }
 
   addPage(newElements: T[]) {
@@ -30,7 +30,7 @@ export class PaginatedListComponent<T> implements OnInit {
       this.shouldScroll = false;
 
     if(this.shouldScroll)
-      this.loadNextPage(this.perPage, this.currentPage);
+      this.loadNextPage(this.currentPage, this.perPage);
   }
 
   loadNextPage(perPage: number, currentPage: number) {}
