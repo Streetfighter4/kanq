@@ -1,7 +1,7 @@
 <h2 class="page-header text-center">All topics</h2>
 
 <div *ngFor="let topic of topics">
-  <a routerLink="/topics/{{ topic.id }}">
+  <a routerLink="/topics/{{ topic.id }}/trending">
     <div class="topic col-md-3" [class.active]="topic.active" [class.inactive]="!topic.active">
       {{ topic.name }}
 
