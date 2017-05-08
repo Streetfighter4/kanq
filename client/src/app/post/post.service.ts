@@ -19,7 +19,8 @@ export class PostService {
 
     return this.http.get(Settings.API_POSTS_URL + 'feed/', params)
       .toPromise()
-      .then(res => res.json());
+      .then(res => res.json().results)
+      .catch(err => Promise.reject('error getting feed'));
   }
 
   getNew(page: number, perPage: number, topicId: number = null): Promise<Post[]> {
@@ -33,7 +34,8 @@ export class PostService {
 
     return this.http.get(Settings.API_POSTS_URL + 'new/', params)
       .toPromise()
-      .then(res => res.json());
+      .then(res => res.json().results)
+      .catch(err => Promise.reject('error getting new'));
   }
 
   getTrending(page: number, perPage: number, topicId: number = null): Promise<Post[]> {
@@ -47,7 +49,8 @@ export class PostService {
 
     return this.http.get(Settings.API_POSTS_URL + 'trending/', params)
       .toPromise()
-      .then(res => res.json());
+      .then(res => res.json().results)
+      .catch(err => Promise.reject('error getting trending'));
   }
 
   getTop(page: number, perPage: number, topicId: number = null): Promise<Post[]> {
@@ -61,7 +64,7 @@ export class PostService {
 
     return this.http.get(Settings.API_POSTS_URL + 'top/', params)
       .toPromise()
-      .then(res => res.json())
-      .catch(err => Promise.reject('error getting feed'));
+      .then(res => res.json().results)
+      .catch(err => Promise.reject('error getting top'));
   }
 }

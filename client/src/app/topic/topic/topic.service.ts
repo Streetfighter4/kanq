@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {Topic} from './topic';
 import {HttpClient} from '../../common/http-client.service';
 import {Settings} from '../../settings';
 import {Topic} from './topic';
@@ -15,7 +14,7 @@ export class TopicService {
 
     return this.http.get(url)
       .toPromise()
-      .then(res => res.json())
+      .then(res => res.json().results)
       .catch(err => Promise.reject('error getting topics'));
   }
 
