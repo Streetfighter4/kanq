@@ -2,10 +2,10 @@
   height: 50vh;
 }
 
-.post-description {
+.post-description, .post-topic{
   display: block;
   width: 60%;
-  margin: 30px auto;
+  margin: 10px auto;
 }
 
 .comments {
