@@ -1,26 +1,33 @@
 <div class="post" *ngIf="post">
   <h2 class="page-header text-center text-capitalize">Post: {{ post.title }}</h2>
+    <div class="col-sm-6 col-md-offset-3">
+        <div class="thumbnail">
 
-  <div class="post-topic text-center">
-    Topic: {{ post.topic.name }}
-  </div>
+          <div class="center-block text-center" style="padding-top: 10px; padding-bottom: 5px">
+            <b>Created by:</b> {{ post.creator.username }} <b>on</b> {{ post.created_at | date: 'medium' }}
+          </div>
 
-  <rating [rating]="post.rating" [user_rating]="post.user_rating" (onRatingChanged)="rate($event)"></rating>
+          <img class="post-image center-block" src="{{ post.image.uri }}">
 
-  <div class="center-block text-center">
-    Created by {{ post.creator.username }} on {{ post.created_at | date: 'medium' }}
-  </div>
+          <div class="post-topic">
+              <h3> <label class="center-block">Topic: {{ post.topic.name }}</label> </h3>
+          </div>
 
-  <img class="post-image center-block" src="{{ post.image.uri }}">
+          <p class="post-description">
+            <!-- <label class="center-block">Description</label> -->
+            {{ post.description }}
+          </p>
 
-  <p class="post-description">
-    <label class="center-block text-center">Description</label>
-    {{ post.description }}
-  </p>
+          <rating [rating]="post.rating" [user_rating]="post.user_rating" (onRatingChanged)="rate($event)"></rating>
 
-  <reply-box [postId]="post.id" [parent]="null" [commentsContainer]="post.comments"></reply-box>
-  <div class="comments">
-    <label class="center-block text-center">Comments</label>
-    <comment *ngFor="let comment of post.comments" [comment]="comment"></comment>
-  </div>
+          <div class="reply text-center" style="padding-top: 10px">
+              <reply-box [postId]="post.id" [parent]="null" [commentsContainer]="post.comments"></reply-box>
+          </div>
+
+          <div class="comments">
+            <label class="center-block text-center">Comments</label>
+            <comment *ngFor="let comment of post.comments" [comment]="comment"></comment>
+          </div>
+        </div>
+    </div>
 </div>

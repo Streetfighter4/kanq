@@ -5,7 +5,7 @@ import {PaginatedListComponent} from '../../paginated-list/paginated-list.compon
 
 @Component({
   moduleId: module.id,
-  selector: 'topic-index',
+  selector: 'app-topic-index',
   templateUrl: 'topic-index.component.html',
   styleUrls: ['topic-index.component.css']
 })

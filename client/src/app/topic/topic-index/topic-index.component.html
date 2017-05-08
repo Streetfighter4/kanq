@@ -6,15 +6,19 @@
      [infiniteScrollThrottle]="300"
      [immediateCheck]="true"
      (scrolled)="onScroll()">
-  <div class="topic col-md-3"
-       *ngFor="let topic of elements"
-       [class.inactive]="!topic.active">
+  <div *ngFor="let topic of elements">
     <a routerLink="/topics/{{ topic.id }}/trending">
-      {{ topic.name }}
+      <div class="topic col-md-4" [class.inactive]="!topic.active">
+        <a href="#" class="thumbnail">
+          <h4>{{ topic.name }}</h4>
 
-      <div *ngIf="topic.best_post_image" class="best-post-image-holder">
-        <img src="{{ topic.best_post_image.uri }}" class="best-post-image">
+          <div *ngIf="topic.best_post_image" class="best-post-image-holder">
+            <img src="{{ topic.best_post_image.uri }}" class="best-post-image" style="padding-bottom: 10px">
+          </div>
+        </a>
       </div>
     </a>
   </div>
 </div>
+
+
