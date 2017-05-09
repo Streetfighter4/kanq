@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 from api.models import Post, Image, Topic
 from api.serializers import PostSerializer, PostDetailSerializer
 
-MAX_POSTS_ALLOWED = 3
+MAX_POSTS_ALLOWED = 500
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -48,24 +48,26 @@ class PostViewSet(viewsets.ModelViewSet):
         if not topic.is_active():
             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        images_dir = 'http://localhost:8000/static/images/'
+        images_dir = 'api/static/images/'
         image_name = '{}_{}'.format(request.user.id, timezone.now().strftime("%Y_%m_%d_%H_%M_%S"))
         image_extension = request.data['extension']
         if '.' not in image_extension:
             image_extension = '.' + image_extension
 
         full_path = '{}{}{}'.format(images_dir, image_name, image_extension)
+        image_url= 'http://localhost:8000/static/images/' + image_name + image_extension
 
         if not os.path.exists(images_dir):
             os.makedirs(images_dir)
 
         image = data['image']
+        print(image)
         decoded = base64.b64decode(image)
         with open(full_path, "wb") as fh:
             fh.write(decoded)
         fh.close()
 
-        image = Image.objects.create(uri=full_path)
+        image = Image.objects.create(uri=image_url)
         post = Post.objects.create(description=data['description'], title=data['title'],
                                    creator_id=request.user.id, topic_id=data['topic_id'], image_id=image.id)
         serializer = PostSerializer(instance=post)
