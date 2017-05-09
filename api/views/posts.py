@@ -88,7 +88,7 @@ class PostViewSet(viewsets.ModelViewSet):
     @list_route()
     def trending(self, request):  # Filter topic by query param
         # TODO: This should filter posts by topic_id param
-        posts = Post.objects.all()
+        posts = self.filter_by_topic(request)
         trending_posts = sorted(posts, key=lambda p: -p.get_trend_coefficient(TRENDING_POST_FALLOUT))
         page = self.paginate_queryset(trending_posts)
         if page is not None:
