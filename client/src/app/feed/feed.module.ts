@@ -8,6 +8,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {RouterModule} from '@angular/router';
 import {PostGlanceModule} from '../post/post-glance/post-glance.module';
+import {PostCreateModule} from '../post/post-create/post-create.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {PostGlanceModule} from '../post/post-glance/post-glance.module';
     FormsModule,
     InfiniteScrollModule,
     RouterModule,
-    PostGlanceModule
+    PostGlanceModule,
+    PostCreateModule
   ],
   declarations: [
     FeedComponent

@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 import {TopicTrendingComponent} from './topic-trending.component';
 import {TopicNavModule} from '../topic-nav/topic-nav.module';
 import {PostGlanceModule} from '../../post/post-glance/post-glance.module';
+import {PostCreateModule} from '../../post/post-create/post-create.module';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import {PostGlanceModule} from '../../post/post-glance/post-glance.module';
     InfiniteScrollModule,
     RouterModule,
     TopicNavModule,
-    PostGlanceModule
+    PostGlanceModule,
+    PostCreateModule
   ],
   declarations: [
     TopicTrendingComponent
