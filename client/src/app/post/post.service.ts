@@ -85,4 +85,19 @@ export class PostService {
       .then(res => res.json())
       .catch(err => Promise.reject('error voting post'));
   }
+
+  create(topicId: number, imageUrl: string, extension: string, title: string, description: string) {
+    let data = {
+      topic_id: topicId,
+      image: imageUrl,
+      extension: extension,
+      title: title,
+      description: description
+    };
+
+    this.http.post(Settings.API_POSTS_URL, data)
+      .toPromise()
+      .then(res => res.json())
+      .catch(err => Promise.reject('error creating post'));
+  }
 }

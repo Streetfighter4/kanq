@@ -2,7 +2,7 @@
   <h2 class="page-header text-center text-capitalize">Topic: {{ topic.name }} (trending)</h2>
 
   <topic-nav></topic-nav>
-  <post-create></post-create>
+  <post-create [topicId]="topic.id"></post-create>
 
   <div class="paginated-list posts"
        infinite-scroll
