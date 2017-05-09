@@ -25,7 +25,6 @@ export class PostService {
 
   getNew(page: number, perPage: number, topicId: number = null): Promise<Post[]> {
     let params: URLSearchParams = new URLSearchParams();
-    console.log(page*perPage);
     params.set('offset', (String)(page * perPage));
     params.set('limit', (String)(perPage));
 
@@ -95,7 +94,7 @@ export class PostService {
       description: description
     };
 
-    this.http.post(Settings.API_POSTS_URL, data)
+    return this.http.post(Settings.API_POSTS_URL, data)
       .toPromise()
       .then(res => res.json())
       .catch(err => Promise.reject('error creating post'));

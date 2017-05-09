@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Topic} from '../../topic/topic';
 import {PostService} from '../post.service';
+import {Post} from '../post';
 
 @Component({
   selector: 'post-create',
@@ -9,6 +10,7 @@ import {PostService} from '../post.service';
 })
 export class PostCreateComponent {
   @Input() topicId: number;
+  @Input() postContainer: Post[];
   selectedFileName: string = null;
   title: string;
   description: string;
@@ -35,7 +37,11 @@ export class PostCreateComponent {
   }
 
   create() {
-    console.log('create post');
-    this.postService.create(this.topicId, this.fileBase64, this.extension, this.title, this.description);
+    this.postService.create(this.topicId, this.fileBase64, this.extension, this.title, this.description)
+      .then(res => this.addImage(res));
+  }
+
+  addImage(res: Post) {
+    this.postContainer.push(res);
   }
 }
